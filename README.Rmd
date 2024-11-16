@@ -1,0 +1,136 @@
+---
+output: github_document
+always_allow_html: yes
+bibliography: bibliography.bib
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- devtools::build_readme() -->
+
+![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![codecov](https://codecov.io/gh/adrientaudiere/MiscMetabar/graph/badge.svg?token=NXFRSIKYC0)](https://app.codecov.io/gh/adrientaudiere/MiscMetabar)
+[![CodeFactor](https://www.codefactor.io/repository/github/adrientaudiere/miscmetabar/badge/master)](https://www.codefactor.io/repository/github/adrientaudiere/miscmetabar/overview/master)
+
+
+# greenAlgoR
+
+This package computes ecological footprint in R (based on [green-algorithms](https://calculator.green-algorithms.org/, @lannelongue_green_2021). The aim is to facilitate the programmatic used of green-algorithms using the function `ga_footprint()`. Moreover, greenAlgoR made it simple to compute ecological footprint of {[targets](https://github.com/ropensci/targets)} pipelines using function `ga_targets()`.
+  
+It is a beta-version. Please submit issues if you found problems or if you want to contribute.
+
+## Installation
+
+greenAlgoR is not available on CRAN for the moment. You can install the stable development version from GitHub with:
+
+```{r, eval=FALSE}
+if (!require("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+devtools::install_github("adrientaudiere/greenAlgoR")
+```
+
+## Basic use
+
+### In classical workflow
+
+#### Using explicit input
+
+
+```{r}
+# Your model must match exactly a name in TDP_cpu_internal$model
+fp_12h <- ga_footprint(runtime_h = 12, cpu_model = "Core i3-10300")
+fp_12h$carbon_footprint_gCO2
+fp_12h$energy_needed_kWh
+```
+
+```{r}
+ggplot(fp_12h$ref_value, aes(
+  y = reorder(variable, as.numeric(value)),
+  x = as.numeric(value),
+  fill = log10(prop_footprint)
+)) +
+  geom_col() +
+  geom_col(
+    data = data.frame(variable = "Total ", value = fp_12h$carbon_footprint_gCO2),
+    fill = "grey30"
+  ) +
+  geom_col(
+    data = data.frame(
+      variable = "Cores",
+      value = fp_12h$carbon_intensity * fp_12h$power_draw_for_cores_kWh
+    ),
+    fill = "darkred"
+  ) +
+  geom_col(
+    data = data.frame(
+      variable = "Memory",
+      value = fp_12h$carbon_intensity * fp_12h$power_draw_for_memory_kWh
+    ),
+    fill = "orange"
+  ) +
+  scale_x_continuous(trans = "log1p") +
+  geom_vline(
+    xintercept = fp_12h$carbon_footprint_gCO2,
+    col = "grey30",
+    lwd = 1.2
+  ) +
+  geom_label(aes(label = round(prop_footprint, 2)), fill = "grey90") +
+  xlab("Carbon footprint (g CO2) in log10") +
+  ylab("Modality")
+```
+
+#### Based on the R session
+
+```{r}
+fp_session <- ga_footprint(runtime_h = "session")
+fp_session$carbon_footprint_gCO2
+fp_session$energy_needed_kWh
+```
+
+```{r}
+ggplot(fp_session$ref_value, aes(
+  y = reorder(variable, as.numeric(value)),
+  x = as.numeric(value),
+  fill = log10(prop_footprint)
+)) +
+  geom_col() +
+  geom_col(
+    data = data.frame(variable = "Total ", value = fp_session$carbon_footprint_gCO2),
+    fill = "grey30"
+  ) +
+  geom_col(
+    data = data.frame(
+      variable = "Cores",
+      value = fp_session$carbon_intensity * fp_session$power_draw_for_cores_kWh
+    ),
+    fill = "darkred"
+  ) +
+  geom_col(
+    data = data.frame(
+      variable = "Memory",
+      value = fp_session$carbon_intensity * fp_session$power_draw_for_memory_kWh
+    ),
+    fill = "orange"
+  ) +
+  scale_x_continuous(trans = "log1p") +
+  geom_vline(
+    xintercept = fp_session$carbon_footprint_gCO2,
+    col = "grey30",
+    lwd = 1.2
+  ) +
+  geom_label(aes(label = round(prop_footprint, 2)), fill = "grey90") +
+  xlab("Carbon footprint (g CO2) in log10") +
+  ylab("Modality")
+```
+
+### Based on a targets pipeline
+
+```{r}
+ga_targets()
+```
+
+## Roadmap
+
+- [ ] Automatically find cpu model using benchmarkme::get_cpu()
+- [ ] Submit to CRAN?

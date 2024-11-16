@@ -1,0 +1,5 @@
+url: https://adrientaudiere.github.io/greenAlgoR/
+template:
+  light-switch: true
+  bootstrap: 5
+  bootswatch: zephyr
