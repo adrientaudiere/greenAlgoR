@@ -6,8 +6,9 @@
 ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-<!--  [![codecov](https://codecov.io/gh/adrientaudiere/greenAlgoR/graph/badge.svg?token=NXFRSIKYC0)](https://app.codecov.io/gh/adrientaudiere/greenAlgoR) -->
-<!-- [![CodeFactor](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/badge/master)](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/overview/master) -->
+[![DOI](https://zenodo.org/badge/888940618.svg)](https://doi.org/10.5281/zenodo.14184331)
+[![codecov](https://codecov.io/gh/adrientaudiere/greenAlgoR/graph/badge.svg?token=NXFRSIKYC0)](https://app.codecov.io/gh/adrientaudiere/greenAlgoR)
+[![CodeFactor](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/badge/master)](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/overview/master)
 
 # greenAlgoR
 
@@ -150,10 +151,10 @@ ggplot(fp_12h$ref_value, aes(
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
 fp_session$carbon_footprint_total_gCO2
 #>  user.self 
-#> 0.01989738
+#> 0.02016005
 fp_session$energy_needed_kWh
 #>    user.self 
-#> 4.188922e-05
+#> 4.244221e-05
 ```
 
 ### Based on a targets pipeline
