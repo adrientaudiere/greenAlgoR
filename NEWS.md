@@ -1,3 +1,3 @@
-# greenAlgoR (development version)
+# greenAlgoR 0.1
 
 * Initial CRAN submission.
