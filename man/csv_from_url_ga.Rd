@@ -25,7 +25,8 @@ a data.frame
 Mainly for internal use
 }
 \examples{
- carbon_intensity_internal <- csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")
+carbon_intensity_internal <-
+  csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")
 }
 \author{
 Adrien Taudière

@@ -29,12 +29,12 @@ the runtime is compute using the actual R session}
 
 \item{location_code}{(character list of country or region available in  )}
 
-\item{PUE}{(int) Power usage effectiveness of the server.
-See https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv
+\item{PUE}{(int) Power usage effectiveness of the server. See
+https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv
 for example of values. If you are using your personal computer, set PUE to 1.}
 
-\item{TDP_per_core}{(int. in Watt, default 12). Find your cpu TDP and your nb of cpu on
-https://www.techpowerup.com/cpu-specs/ or in
+\item{TDP_per_core}{(int. in Watt, default 12). Find your cpu TDP and your
+nb of cpu on https://www.techpowerup.com/cpu-specs/ or in
 http://calculator.green-algorithms.org/ if available.
 Owerwrite by cpu_model param.}
 
@@ -86,19 +86,22 @@ the \code{base::gc()} function to estimate storage used.}
 A dataframe with \code{location} and \code{carbonIntensity}
 columns. Set to carbon_intensity_internal if NULL.
 carbon_intensity_internal is set using command line
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")}
+csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
+green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")}
 
 \item{TDP_cpu}{(default NULL). Advanced users only.
 A dataframe with \code{model}, \code{n_cores} and \code{TDP_per_core}
 columns. Set to TDP_cpu_internal if NULL.
 TDP_cpu_internal is set using command line
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/TDP_cpu.csv")}
+csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
+green-algorithms-tool/refs/heads/master/data/v2.2/TDP_cpu.csv")}
 
 \item{ref_value}{(default NULL). Advanced users only.
 A dataframe with \code{variable} and \code{value}
 columns. Set to ref_value_internal if NULL.
 ref_value_internal is set using command line
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/referenceValues.csv")}
+csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
+green-algorithms-tool/refs/heads/master/data/v2.2/referenceValues.csv")}
 }
 \value{
 A list of values
@@ -119,7 +122,11 @@ the n_cores for this cpu)
 \item \code{power_draw_for_cores_kWh}: the output power draw for cores in kWh
 \item \code{power_draw_for_memory_kWh}: the output power draw for RAM memory in kWh
 \item \code{energy_needed_kWh}: the output energy needed in kWh
-\item \code{carbon_footprint_gCO2}: the output carbon footprint in grams of CO2
+\item \code{carbon_footprint_cores}: the output carbon footprint in grams of CO2 for
+cores usage
+\item \code{carbon_footprint_memory}: the output carbon footprint in grams of CO2 for
+memory usage
+\item \code{carbon_footprint_total_gCO2}: the total output carbon footprint in grams of CO2
 \item \code{ref_value}: (optionnal, return if add_ref_values is TRUE) : a dataframe
 \item \code{power_draw_storage_kWh}: (optionnal, return if add_storage_estimation is TRUE) the output power draw for mass storage in kWh
 }
@@ -142,7 +149,9 @@ Default value are from https://github.com/GreenAlgorithms/green-algorithms-tool:
 \item power_draw_per_gb: https://onlinelibrary.wiley.com/doi/10.1002/advs.202100707
 }
 
-Text from the \href{https://github.com/GreenAlgorithms/green-algorithms-tool}{green-algorithms} website:
+Description of the algorithm from the
+\href{https://github.com/GreenAlgorithms/green-algorithms-tool}{green-algorithms}
+website:
 
 """
 
@@ -150,11 +159,11 @@ The carbon footprint is calculated by estimating the energy draw of the
 algorithm and the carbon intensity of producing this energy at a
 given location:
 
-$$carbon footprint = energy needed * carbon intensity$$
+\deqn{carbon footprint = energy needed * carbon intensity}
 
 Where the energy needed is:
 
-$$runtime * (power draw for cores * usage + power draw for memory) * PUE * PSF$$
+\deqn{runtime * (power draw for cores * usage + power draw for memory) * PUE * PSF}
 
 The power draw for the computing cores depends on the model and number of cores,
 while the memory power draw only depends on the size of memory available.
@@ -167,24 +176,74 @@ identical runs (e.g. for testing or optimisation).
 
 The Carbon Intensity depends on the location and the technologies used
 to produce electricity. But note that the "energy needed"
-\link{...} is independent of the location.
+[...] is independent of the location.
 
 """
 }
 \examples{
 ga_footprint(
- runtime_h = 12,
- n_cores = 6,
- TDP_per_core = 15.8,
- location_code = "FR",
- PUE=1,
- cpu_model = "Core i5-9600KF"
+  runtime_h = 12,
+  n_cores = 6,
+  TDP_per_core = 15.8,
+  location_code = "FR",
+  PUE = 1,
+  cpu_model = "Core i5-9600KF"
 )
 
 ga_footprint(
   runtime_h = "session",
-  PUE=1
+  PUE = 1,
 )
+
+res_ga <- ga_footprint(
+  runtime_h = 12,
+  n_cores = 6,
+  memory_ram = 64,
+  PUE = 1,
+  add_storage_estimation = TRUE,
+  mass_storage = 1
+)
+
+ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(prop_footprint))) +
+  geom_col() +
+  geom_col(data = data.frame(
+    variable = "Total",
+    value = res_ga$carbon_footprint_total_gCO2
+  ), fill = "grey30") +
+  geom_col(data = data.frame(
+    variable = "Cores",
+    value = res_ga$carbon_footprint_cores
+  ), fill = "darkred") +
+  geom_col(data = data.frame(
+    variable = "Memory",
+    value = res_ga$carbon_footprint_memory
+  ), fill = "orange") +
+  geom_col(data = data.frame(
+    variable = "Mass storage",
+    value = res_ga$carbon_footprint_storage
+  ), fill = "violet") +
+  scale_x_continuous(
+    trans = "log1p",
+    breaks = c(0, 10^c(1:max(log1p(as.numeric(res_ga$ref_value$value)))))
+  ) +
+  geom_vline(
+    xintercept = res_ga$carbon_footprint_total_gCO2,
+    col = "grey30", lwd = 1.2
+  ) +
+  geom_label(aes(label = round_conditionaly(prop_footprint)),
+    fill = "grey90", position = position_stack(vjust = 1.1)
+  ) +
+  labs(
+    title = "Carbon footprint of the analysis",
+    subtitle = paste0(
+      "(", res_ga$carbon_footprint_total_gCO2,
+      " g CO2", ")"
+    ),
+    caption = "Please cite Lannelongue et al. 2021 (10.1002/advs.202100707)"
+  ) +
+  xlab("Carbon footprint (g CO2) in log10") +
+  ylab("Modality") +
+  theme(legend.position = "none")
 }
 \author{
 Adrien Taudière

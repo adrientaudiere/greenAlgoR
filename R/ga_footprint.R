@@ -16,7 +16,9 @@
 #' - TDP_per_core: https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/TDP_cpu.csv
 #' - power_draw_per_gb: https://onlinelibrary.wiley.com/doi/10.1002/advs.202100707
 #'
-#' Text from the [green-algorithms](https://github.com/GreenAlgorithms/green-algorithms-tool) website:
+#' Description of the algorithm from the
+#' [green-algorithms](https://github.com/GreenAlgorithms/green-algorithms-tool)
+#'  website:
 #'
 #' """
 #'
@@ -41,18 +43,18 @@
 #'
 #'  The Carbon Intensity depends on the location and the technologies used
 #'  to produce electricity. But note that the "energy needed"
-#'  [...] is independent of the location.
+#'  \[...\] is independent of the location.
 #'
 #'  """
 #'
 #' @param runtime_h Run time in hours (int). If runtime_h == "session",
 #'   the runtime is compute using the actual R session
 #' @param location_code (character list of country or region available in  )
-#' @param PUE (int) Power usage effectiveness of the server.
-#'   See https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv
-#'   for example of values. If you are using your personal computer, set PUE to 1.
-#' @param TDP_per_core (int. in Watt, default 12). Find your cpu TDP and your nb of cpu on
-#'  https://www.techpowerup.com/cpu-specs/ or in
+#' @param PUE (int) Power usage effectiveness of the server. See
+#'  https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv
+#'  for example of values. If you are using your personal computer, set PUE to 1.
+#' @param TDP_per_core (int. in Watt, default 12). Find your cpu TDP and your
+#'  nb of cpu on https://www.techpowerup.com/cpu-specs/ or in
 #'  http://calculator.green-algorithms.org/ if available.
 #'  Owerwrite by cpu_model param.
 #' @param n_cores (int, default 1) Number of cores.
@@ -94,17 +96,20 @@
 #'   A dataframe with `location` and `carbonIntensity`
 #'   columns. Set to carbon_intensity_internal if NULL.
 #'   carbon_intensity_internal is set using command line
-#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")
+#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
+#'   green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")
 #' @param TDP_cpu (default NULL). Advanced users only.
 #'   A dataframe with `model`, `n_cores` and `TDP_per_core`
 #'   columns. Set to TDP_cpu_internal if NULL.
 #'   TDP_cpu_internal is set using command line
-#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/TDP_cpu.csv")
+#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
+#'   green-algorithms-tool/refs/heads/master/data/v2.2/TDP_cpu.csv")
 #' @param ref_value (default NULL). Advanced users only.
 #'   A dataframe with `variable` and `value`
 #'   columns. Set to ref_value_internal if NULL.
 #'   ref_value_internal is set using command line
-#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/referenceValues.csv")
+#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
+#'   green-algorithms-tool/refs/heads/master/data/v2.2/referenceValues.csv")
 #'
 #' @return A list of values
 #'  - `runtime_h`: the input run time in hours
@@ -158,18 +163,44 @@
 #'
 #' ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(prop_footprint))) +
 #'   geom_col() +
-#'   geom_col(data = data.frame(variable = "Total", value = res_ga$carbon_footprint_total_gCO2), fill = "grey30") +
-#'   geom_col(data = data.frame(variable = "Cores", value = res_ga$carbon_footprint_cores), fill = "darkred") +
-#'   geom_col(data = data.frame(variable = "Memory", value = res_ga$carbon_footprint_memory), fill = "orange") +
-#'   geom_col(data = data.frame(variable = "Mass storage", value = res_ga$carbon_footprint_storage), fill = "violet") +
-#'   scale_x_continuous(trans = "log1p") +
-#'   geom_vline(xintercept = res_ga$carbon_footprint_total_gCO2, col = "grey30", lwd = 1.2) +
-#'   geom_label(aes(label = round_conditionaly(prop_footprint)), fill = "grey90",position = position_stack(vjust = 1.1)) +
-#'   labs(title="Carbon footprint of the analysis",
-#'   subtitle = paste0("(", res_ga$carbon_footprint_total_gCO2, " g CO2",")"),
-#'   caption = "Please cite Lannelongue et al. 2021 (10.1002/advs.202100707)") +
+#'   geom_col(data = data.frame(
+#'     variable = "Total",
+#'     value = res_ga$carbon_footprint_total_gCO2
+#'   ), fill = "grey30") +
+#'   geom_col(data = data.frame(
+#'     variable = "Cores",
+#'     value = res_ga$carbon_footprint_cores
+#'   ), fill = "darkred") +
+#'   geom_col(data = data.frame(
+#'     variable = "Memory",
+#'     value = res_ga$carbon_footprint_memory
+#'   ), fill = "orange") +
+#'   geom_col(data = data.frame(
+#'     variable = "Mass storage",
+#'     value = res_ga$carbon_footprint_storage
+#'   ), fill = "violet") +
+#'   scale_x_continuous(
+#'     trans = "log1p",
+#'     breaks = c(0, 10^c(1:max(log1p(as.numeric(res_ga$ref_value$value)))))
+#'   ) +
+#'   geom_vline(
+#'     xintercept = res_ga$carbon_footprint_total_gCO2,
+#'     col = "grey30", lwd = 1.2
+#'   ) +
+#'   geom_label(aes(label = round_conditionaly(prop_footprint)),
+#'     fill = "grey90", position = position_stack(vjust = 1.1)
+#'   ) +
+#'   labs(
+#'     title = "Carbon footprint of the analysis",
+#'     subtitle = paste0(
+#'       "(", res_ga$carbon_footprint_total_gCO2,
+#'       " g CO2", ")"
+#'     ),
+#'     caption = "Please cite Lannelongue et al. 2021 (10.1002/advs.202100707)"
+#'   ) +
 #'   xlab("Carbon footprint (g CO2) in log10") +
-#'   ylab("Modality")
+#'   ylab("Modality") +
+#'   theme(legend.position = "none")
 ga_footprint <- function(runtime_h = NULL,
                          location_code = "WORLD",
                          PUE = 1.67,
@@ -269,7 +300,7 @@ ga_footprint <- function(runtime_h = NULL,
 
   if (add_ref_values) {
     if (is.null(ref_value)) {
-      ref_value <- ref_value_internal[order(as.numeric(ref_value_internal$value)),]
+      ref_value <- ref_value_internal[order(as.numeric(ref_value_internal$value)), ]
       rownames(ref_value) <- NULL
     }
     res[["ref_value"]] <- rbind(
@@ -291,7 +322,7 @@ ga_footprint <- function(runtime_h = NULL,
     res[["energy_needed_kWh"]] <- res[["energy_needed_kWh"]] + res[["power_draw_storage_kWh"]]
     res[["carbon_footprint_total_gCO2"]] <- res[["carbon_footprint_cores"]] + res[["carbon_footprint_memory"]] + res[["carbon_footprint_storage"]]
 
-     if (add_ref_values) {
+    if (add_ref_values) {
       res[["ref_value"]] <- rbind(
         c("Total", res$carbon_footprint_total_gCO2, NA),
         c("Cores", res$carbon_footprint_cores, NA),
@@ -308,9 +339,9 @@ ga_footprint <- function(runtime_h = NULL,
 
     # to force ggplot to keep row order
     res[["ref_value"]]$variable <- factor(res[["ref_value"]]$variable,
-                                          levels = res[["ref_value"]]$variable )
-
-}
+      levels = res[["ref_value"]]$variable
+    )
+  }
 
   return(res)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/ga_targets.R
 \name{ga_targets}
 \alias{ga_targets}
-\title{Compute footprint in grams of CO2 for {targets} pipelines}
+\title{Compute footprint in grams of CO2 for \{targets\} pipelines}
 \usage{
 ga_targets(
   names = NULL,
@@ -49,40 +49,81 @@ mass_storage (only used if add_storage_estimation = TRUE) using
 \code{targets::tar_meta()}.
 }
 \examples{
-ga_targets(
- nb_cores = 6,
- TDP_per_core = 15.8,
- location_code = "FR",
- PUE=1
-)
 
-ga_targets(
- nb_cores = 6,
- TDP_per_core = 15.8,
- location_code = "FR",
- PUE=1,
- add_storage_estimation = TRUE
-)
+# In a targets folder, just run function ga_targets()
+# with the options you want
 
-res_gat <- ga_targets(
- nb_cores = 6,
- TDP_per_core = 15.8,
- location_code = "FR",
- PUE=2,
- add_storage_estimation = TRUE
-)
+# The next exemple emulate a mini-targets before to ask for tar_meta
+tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
+  tar_script(
+    {
+      list(
+        tar_target(
+          name = waiting,
+          command = Sys.sleep(2),
+          description = "Sleep 2 seconds"
+        ),
+        tar_target(x, writeLines(
+          targets::tar_option_get("error"),
+          "error.txt"
+        ))
+      )
+    },
+    ask = FALSE
+  )
 
-ggplot(res_gat$ref_value, aes(y = reorder(variable, as.numeric(value)), x = as.numeric(value), fill = log10(prop_footprint))) +
- geom_col() +
- geom_col(data = data.frame(variable = "Total ", value = res_gat$`carbon_footprint (g CO2)`), fill = "grey30") +
- geom_col(data = data.frame(variable = "Cores", value = res_gat$`carbon intensity` * res_gat$`power_draw_for_cores (kWh)`), fill = "darkred") +
- geom_col(data = data.frame(variable = "Memory", value = res_gat$`carbon intensity` * res_gat$`power_draw_for_memory (kWh)`), fill = "orange") +
- geom_col(data = data.frame(variable = "Storage", value = res_gat$`carbon intensity` * res_gat$`power_draw_storage (kWh)`), fill = "violet") +
- scale_x_continuous(trans = "log1p") +
- geom_vline(xintercept = res_gat$`carbon_footprint (g CO2)`, col = "grey30", lwd = 1.2) +
- geom_label(aes(label = round(prop_footprint, 1)), fill="grey90") +
- xlab("g CO^2") +
- ylab("Modality")
+  tar_make()
+  tm <- tar_meta()
+
+  res_gat <-
+    ga_targets(
+      tar_meta_raw = tm,
+      n_cores = 6,
+      TDP_per_core = 15.8,
+      location_code = "FR",
+      PUE = 2,
+      add_storage_estimation = TRUE
+    )
+
+  ggplot(res_gat$ref_value, aes(
+    y = reorder(variable, as.numeric(value)),
+    x = as.numeric(value), fill = log10(prop_footprint)
+  )) +
+    geom_col() +
+    geom_col(data = data.frame(
+      variable = "Total ",
+      value = res_gat$carbon_footprint_total_gCO2
+    ), fill = "grey30") +
+    geom_col(
+      data = data.frame(
+        variable = "Cores",
+        value = res_gat$carbon_intensity * res_gat$power_draw_for_cores_kWh
+      ),
+      fill = "darkred"
+    ) +
+    geom_col(
+      data = data.frame(
+        variable = "Memory",
+        value = res_gat$carbon_intensity * res_gat$power_draw_for_memory_kWh
+      ),
+      fill = "orange"
+    ) +
+    geom_col(
+      data = data.frame(
+        variable = "Storage",
+        value = res_gat$carbon_intensity * res_gat$power_draw_per_gb
+      ),
+      fill = "violet"
+    ) +
+    scale_x_continuous(trans = "log1p") +
+    geom_vline(
+      xintercept = res_gat$carbon_footprint_total_gCO2,
+      col = "grey30", lwd = 1.2
+    ) +
+    geom_label(aes(label = round(prop_footprint, 1)), fill = "grey90") +
+    xlab("g CO^2") +
+    ylab("Modality")
+})
 
 }
 \author{

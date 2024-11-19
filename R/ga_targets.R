@@ -1,4 +1,4 @@
-#' Compute footprint in grams of CO2 for {targets} pipelines
+#' Compute footprint in grams of CO2 for \{targets\} pipelines
 #'
 #' @description
 #'
@@ -40,7 +40,10 @@
 #'           command = Sys.sleep(2),
 #'           description = "Sleep 2 seconds"
 #'         ),
-#'         tar_target(x, writeLines(targets::tar_option_get("error"), "error.txt"))
+#'         tar_target(x, writeLines(
+#'           targets::tar_option_get("error"),
+#'           "error.txt"
+#'         ))
 #'       )
 #'     },
 #'     ask = FALSE
@@ -59,14 +62,41 @@
 #'       add_storage_estimation = TRUE
 #'     )
 #'
-#'   ggplot(res_gat$ref_value, aes(y = reorder(variable, as.numeric(value)), x = as.numeric(value), fill = log10(prop_footprint))) +
+#'   ggplot(res_gat$ref_value, aes(
+#'     y = reorder(variable, as.numeric(value)),
+#'     x = as.numeric(value), fill = log10(prop_footprint)
+#'   )) +
 #'     geom_col() +
-#'     geom_col(data = data.frame(variable = "Total ", value = res_gat$carbon_footprint_gCO2), fill = "grey30") +
-#'     geom_col(data = data.frame(variable = "Cores", value = res_gat$carbon_intensity * res_gat$power_draw_for_cores_kWh), fill = "darkred") +
-#'     geom_col(data = data.frame(variable = "Memory", value = res_gat$carbon_intensity * res_gat$power_draw_for_memory_kWh), fill = "orange") +
-#'     geom_col(data = data.frame(variable = "Storage", value = res_gat$carbon_intensity * res_gat$power_draw_per_gb), fill = "violet") +
+#'     geom_col(data = data.frame(
+#'       variable = "Total ",
+#'       value = res_gat$carbon_footprint_total_gCO2
+#'     ), fill = "grey30") +
+#'     geom_col(
+#'       data = data.frame(
+#'         variable = "Cores",
+#'         value = res_gat$carbon_intensity * res_gat$power_draw_for_cores_kWh
+#'       ),
+#'       fill = "darkred"
+#'     ) +
+#'     geom_col(
+#'       data = data.frame(
+#'         variable = "Memory",
+#'         value = res_gat$carbon_intensity * res_gat$power_draw_for_memory_kWh
+#'       ),
+#'       fill = "orange"
+#'     ) +
+#'     geom_col(
+#'       data = data.frame(
+#'         variable = "Storage",
+#'         value = res_gat$carbon_intensity * res_gat$power_draw_per_gb
+#'       ),
+#'       fill = "violet"
+#'     ) +
 #'     scale_x_continuous(trans = "log1p") +
-#'     geom_vline(xintercept = res_gat$carbon_footprint_gCO2, col = "grey30", lwd = 1.2) +
+#'     geom_vline(
+#'       xintercept = res_gat$carbon_footprint_total_gCO2,
+#'       col = "grey30", lwd = 1.2
+#'     ) +
 #'     geom_label(aes(label = round(prop_footprint, 1)), fill = "grey90") +
 #'     xlab("g CO^2") +
 #'     ylab("Modality")
@@ -121,8 +151,8 @@ ga_targets <- function(names = NULL,
     df_meta <- tar_meta_raw
   }
 
-  runtime_targets <- sum(df_meta$seconds, na.rm = TRUE) / 3600
-  power_draw_stocks <- sum(df_meta$bytes, na.rm = TRUE) / 10^9
+  runtime_targets <- sum(as.numeric(df_meta$seconds), na.rm = TRUE) / 3600
+  power_draw_stocks <- sum(as.numeric(df_meta$bytes), na.rm = TRUE) / 10^9
 
   res <- ga_footprint(
     runtime_h = as.numeric(runtime_targets),

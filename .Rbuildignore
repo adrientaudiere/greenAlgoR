@@ -5,3 +5,14 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^README\.Rmd$
+^LICENSE\.md$
+^doc$
+^Meta$
+^CODE_OF_CONDUCT\.md$
+^CONTRIBUTING\.md$
+^paper$
+^.vscode$
+^citation.cff$
+^vignettes/articles$
+^cran-comments\.md$
