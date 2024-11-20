@@ -5,8 +5,7 @@
 \title{Compute footprint in grams of CO2 for \{targets\} pipelines}
 \usage{
 ga_targets(
-  names = NULL,
-  fields = NULL,
+  names_targets = NULL,
   targets_only = TRUE,
   complete_only = FALSE,
   store = targets::tar_config_get("store"),
@@ -15,10 +14,7 @@ ga_targets(
 )
 }
 \arguments{
-\item{names}{Optional, names of the targets. See ?targets::tar_meta()}
-
-\item{fields}{Optional, names of columns/fields to select.
-See ?targets::tar_meta()}
+\item{names_targets}{Optional, names of the targets. See ?targets::tar_meta()}
 
 \item{targets_only}{Logical, whether to just show information about targets
 or also return metadata on functions and other global objects.}

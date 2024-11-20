@@ -17,7 +17,7 @@ tar_test("ga_targets works", {
   testthat::expect_equal(length(ga_targets(tar_meta_raw = tm)), 18)
 })
 
-tar_test("ga_targets works with names and fields", {
+tar_test("ga_targets works with names_targets", {
   tar_script({
     list(
       tar_target(
@@ -33,9 +33,6 @@ tar_test("ga_targets works with names and fields", {
   testthat::expect_equal(length(ga_targets()), 18)
   tm <- tar_meta(targets_only = FALSE)
 
-  testthat::expect_equal(length(ga_targets(tar_meta_raw = tm, name = "waiting")),
-                         18)
-  testthat::expect_equal(length(ga_targets(tar_meta_raw = tm, fields = "stem")),
-                         18)
+  testthat::expect_equal(length(ga_targets(names_targets = "waiting")), 18)
 })
 

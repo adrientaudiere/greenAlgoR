@@ -9,9 +9,7 @@
 #' mass_storage (only used if add_storage_estimation = TRUE) using
 #' `targets::tar_meta()`.
 #'
-#' @param names Optional, names of the targets. See ?targets::tar_meta()
-#' @param fields Optional, names of columns/fields to select.
-#'   See ?targets::tar_meta()
+#' @param names_targets Optional, names of the targets. See ?targets::tar_meta()
 #' @param targets_only Logical, whether to just show information about targets
 #'   or also return metadata on functions and other global objects.
 #' @param complete_only Logical,
@@ -102,63 +100,39 @@
 #'     ylab("Modality")
 #' })
 #'
-ga_targets <- function(names = NULL,
-                       fields = NULL,
+ga_targets <- function(names_targets = NULL,
                        targets_only = TRUE,
                        complete_only = FALSE,
                        store = targets::tar_config_get("store"),
                        tar_meta_raw = NULL,
                        ...) {
   if (is.null(tar_meta_raw)) {
-    if (is.null(names)) {
-      if (is.null(fields)) {
-        df_meta <- targets::tar_meta(
-          targets_only = targets_only,
-          names = NULL,
-          fields = NULL,
-          complete_only = complete_only,
-          store = here::here(store)
-        )
-      } else {
-        df_meta <- targets::tar_meta(
-          targets_only = targets_only,
-          names = NULL,
-          fields = fields,
-          complete_only = complete_only,
-          store = here::here(store)
-        )
-      }
+    if (is.null(names_targets)) {
+      df_meta <- targets::tar_meta(
+        targets_only = targets_only,
+        names = NULL,
+        complete_only = complete_only,
+        store = store
+      )
     } else {
-      if (is.null(fields)) {
-        df_meta <- targets::tar_meta(
-          targets_only = targets_only,
-          names = names,
-          fields = NULL,
-          complete_only = complete_only,
-          store = here::here(store)
-        )
-      } else {
-        df_meta <- targets::tar_meta(
-          targets_only = targets_only,
-          names = names,
-          fields = fields,
-          complete_only = complete_only,
-          store = here::here(store)
-        )
-      }
+      df_meta <- targets::tar_meta(
+        targets_only = targets_only,
+        names = names_targets,
+        complete_only = complete_only,
+        store = store
+      )
     }
-  } else {
+  }
+  else {
     df_meta <- tar_meta_raw
   }
 
   runtime_targets <- sum(as.numeric(df_meta$seconds), na.rm = TRUE) / 3600
   power_draw_stocks <- sum(as.numeric(df_meta$bytes), na.rm = TRUE) / 10^9
 
-  res <- ga_footprint(
-    runtime_h = as.numeric(runtime_targets),
-    mass_storage = power_draw_stocks,
-    ...
-  )
+  res <- ga_footprint(runtime_h = as.numeric(runtime_targets),
+                      mass_storage = power_draw_stocks,
+                      ...)
 
   return(res)
 }

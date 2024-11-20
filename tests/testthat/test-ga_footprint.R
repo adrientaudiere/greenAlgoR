@@ -1,8 +1,6 @@
-test_that("12h of my config works", {
+test_that("12h of my config works and cpu model overwrite n_cores and TDP_per_core", {
   res_12_my_config <- ga_footprint(
     runtime_h = 12,
-    n_cores = 6,
-    TDP_per_core = 15.8,
     location_code = "FR",
     PUE = 1,
     cpu_model = "Core i5-9600KF",
@@ -11,6 +9,22 @@ test_that("12h of my config works", {
   expect_equal(length(res_12_my_config), 18)
   expect_equal(res_12_my_config$carbon_footprint_total_gCO2, 73.776386, tolerance = 1e-3)
   expect_equal(res_12_my_config$energy_needed_kWh, 1.438697, tolerance = 1e-3)
+
+  res_12_my_config_bis <- ga_footprint(
+    runtime_h = 12,
+    n_cores = 66,
+    TDP_per_core = 15.8,
+    location_code = "FR",
+    PUE = 1,
+    cpu_model = "Core i5-9600KF",
+    memory_ram = 67.4
+  )
+
+  expect_equal(res_12_my_config_bis$carbon_footprint_total_gCO2,
+               res_12_my_config$carbon_footprint_total_gCO2)
+
+  expect_equal(res_12_my_config_bis$energy_needed_kWh,
+               res_12_my_config$energy_needed_kWh)
 })
 
 test_that("12h of my config whitout cpu_model works", {
