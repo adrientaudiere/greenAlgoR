@@ -17,7 +17,7 @@ targets::tar_meta()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">greenAlgoR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,8 +55,7 @@ mass_storage (only used if add_storage_estimation = TRUE) using
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ga_targets</span><span class="op">(</span></span>
-<span>  names <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  fields <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  names_targets <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  targets_only <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  complete_only <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  store <span class="op">=</span> <span class="fu">targets</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_config_get.html" class="external-link">tar_config_get</a></span><span class="op">(</span><span class="st">"store"</span><span class="op">)</span>,</span>
@@ -69,13 +68,8 @@ mass_storage (only used if add_storage_estimation = TRUE) using
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-names">names<a class="anchor" aria-label="anchor" href="#arg-names"></a></dt>
+<dl><dt id="arg-names-targets">names_targets<a class="anchor" aria-label="anchor" href="#arg-names-targets"></a></dt>
 <dd><p>Optional, names of the targets. See ?targets::tar_meta()</p></dd>
-
-
-<dt id="arg-fields">fields<a class="anchor" aria-label="anchor" href="#arg-fields"></a></dt>
-<dd><p>Optional, names of columns/fields to select.
-See ?targets::tar_meta()</p></dd>
 
 
 <dt id="arg-targets-only">targets_only<a class="anchor" aria-label="anchor" href="#arg-targets-only"></a></dt>
@@ -191,8 +185,8 @@ See ?targets::tar_meta()</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">▶ dispatched target x</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">● completed target x [0 seconds, 44 bytes]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">▶ dispatched target waiting</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">● completed target waiting [2.002 seconds, 44 bytes]</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">▶ ended pipeline [2.069 seconds]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">● completed target waiting [2.003 seconds, 44 bytes]</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">▶ ended pipeline [2.071 seconds]</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-plt img"><img src="ga_targets-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
