@@ -167,6 +167,7 @@ ga_targets()
 
 - [ ] Automatically find cpu model using benchmarkme::get_cpu()
 - [ ] Submit to CRAN?
+- [ ] Allow to ovewrite carbone intensity (e.g. with values from https://app.electricitymaps.com/)
 
 <div id="refs" class="references csl-bib-body hanging-indent"
 entry-spacing="0">
