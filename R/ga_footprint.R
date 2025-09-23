@@ -47,37 +47,32 @@
 #'
 #'  """
 #'
-#' @param runtime_h Run time in hours (int). If runtime_h == "session",
-#'   the runtime is compute using the actual R session
-#' @param location_code (character list of country or region available in  )
-#' @param PUE (int) Power usage effectiveness of the server. See
-#'  https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv
-#'  for example of values. If you are using your personal computer, set PUE to 1.
-#' @param TDP_per_core (int. in Watt, default 12). Find your cpu TDP and your
-#'  nb of cpu on https://www.techpowerup.com/cpu-specs/ or in
-#'  http://calculator.green-algorithms.org/ if available.
-#'  Owerwrite by cpu_model param.
-#' @param n_cores (int, default 1) Number of cores.
-#'   Owerwrite by cpu_model param.
-#' @param cpu_model Must be present in the list of
-#'    http://calculator.green-algorithms.org/. If CPU is set, the parameter
-#'    TPD_per_core and n_cores are overwriting by info from the cpu_model.
-#'    "auto" modality (find the cpu using `benchmarkme::get_cpu()$model_name`)
-#'    is not running for the moment.
-#' @param memory_ram (int. in GB) The memory RAM. If memory_ram is NULL,
-#'   use benchmarkme::get_ram() to get the RAM.
-#' @param power_draw_per_gb (int. in Watt, default 0.3725) The power draw for
-#'   each GB of RAM
-#' @param PSF (int, default 1) Pragmatic Scaling Factor. Citation from
-#'  [Lannelongue et al. 2021](https://doi.org/10.1002/advs.202100707):
-#'  "Many analyses are presented as a single run of a particular algorithm or
-#'   software tool; however, computations are rarely performed only once.
-#'   Algorithms are run multiple times, sometimes hundreds, systematically or
-#'   manually, with different parameterizations. Statistical models may include
-#'   any number of combinations of covariates, fitting procedures, etc.
-#'   It is important to include these repeats in the carbon footprint.
-#'   To take into account the number of times a computation is performed in
-#'   practice, the PSF was defined, a scaling factor by which the estimated
+#' @param runtime_h Runtime in hours (numeric). Use a positive number for 
+#'   explicit runtime, or "session" to automatically calculate based on 
+#'   current R session time using \code{proc.time()}.
+#' @param location_code Character string specifying geographical location for 
+#'   carbon intensity. Available options include country codes (e.g., "FR", "US", "CN") 
+#'   or "WORLD" for global average. See the Green Algorithms database for 
+#'   complete list of supported locations.
+#' @param PUE Power Usage Effectiveness (numeric, default 1.67). Measures data center 
+#'   efficiency - how much extra energy is needed for cooling, lighting, etc. 
+#'   Use 1.0 for personal computers, 1.2-2.0 for data centers. See 
+#'   \url{https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv}
+#' @param TDP_per_core Thermal Design Power per core in Watts (numeric, default 12). 
+#'   CPU power consumption per core. Find values at \url{https://www.techpowerup.com/cpu-specs/} 
+#'   or \url{http://calculator.green-algorithms.org/}. Overridden by \code{cpu_model} parameter.
+#' @param n_cores Number of CPU cores (integer, default 1). 
+#'   Overridden by \code{cpu_model} parameter.
+#' @param cpu_model Character string specifying exact CPU model. Must match entries 
+#'   in the Green Algorithms database. When specified, automatically sets 
+#'   \code{TDP_per_core} and \code{n_cores}. Use "Any" for generic calculation.
+#' @param memory_ram RAM memory in GB (numeric). If NULL, attempts to detect 
+#'   automatically using \code{benchmarkme::get_ram()}.
+#' @param power_draw_per_gb Power consumption per GB of RAM in Watts (numeric, default 0.3725).
+#' @param PSF Pragmatic Scaling Factor (numeric, default 1). Accounts for multiple 
+#'   runs of the same computation. As noted by Lannelongue et al. (2021): 
+#'   "computations are rarely performed only once" - use values > 1 to account 
+#'   for repeated runs, parameter sweeps, or iterative development.
 #'   GHG emissions are multiplied."
 #' @param usage_core (int, default 1).
 #'   The usage factor corrects for the real core usage
@@ -138,69 +133,52 @@
 #' @export
 #' @author Adrien Taudière
 #' @examples
+#' # Basic usage with explicit parameters
+#' result <- ga_footprint(
+#'   runtime_h = 2,
+#'   n_cores = 4, 
+#'   TDP_per_core = 15,
+#'   memory_ram = 16,
+#'   location_code = "WORLD"
+#' )
+#' result$carbon_footprint_total_gCO2
+#'
+#' # Using specific CPU model (automatically sets cores and TDP)
 #' ga_footprint(
-#'   runtime_h = 12,
-#'   n_cores = 6,
-#'   TDP_per_core = 15.8,
-#'   location_code = "FR",
-#'   PUE = 1,
-#'   cpu_model = "Core i5-9600KF"
+#'   runtime_h = 1,
+#'   cpu_model = "Core i5-9600KF",
+#'   location_code = "FR"
 #' )
 #'
-#' ga_footprint(
-#'   runtime_h = "session",
-#'   PUE = 1,
-#' )
+#' # Calculate footprint for current R session
+#' ga_footprint(runtime_h = "session")
 #'
-#' res_ga <- ga_footprint(
-#'   runtime_h = 12,
-#'   n_cores = 6,
-#'   memory_ram = 64,
-#'   PUE = 1,
+#' # Compare different locations
+#' locations <- c("WORLD", "FR", "US", "NO")
+#' sapply(locations, function(loc) {
+#'   ga_footprint(runtime_h = 1, location_code = loc)$carbon_footprint_total_gCO2
+#' })
+#'
+#' # Advanced usage with storage estimation and reference values
+#' \dontrun{
+#' detailed_result <- ga_footprint(
+#'   runtime_h = 4,
+#'   n_cores = 8,
+#'   memory_ram = 32,
 #'   add_storage_estimation = TRUE,
-#'   mass_storage = 1
+#'   add_ref_values = TRUE
 #' )
-#'
-#' ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(prop_footprint))) +
-#'   geom_col() +
-#'   geom_col(data = data.frame(
-#'     variable = "Total",
-#'     value = res_ga$carbon_footprint_total_gCO2
-#'   ), fill = "grey30") +
-#'   geom_col(data = data.frame(
-#'     variable = "Cores",
-#'     value = res_ga$carbon_footprint_cores
-#'   ), fill = "darkred") +
-#'   geom_col(data = data.frame(
-#'     variable = "Memory",
-#'     value = res_ga$carbon_footprint_memory
-#'   ), fill = "orange") +
-#'   geom_col(data = data.frame(
-#'     variable = "Mass storage",
-#'     value = res_ga$carbon_footprint_storage
-#'   ), fill = "violet") +
-#'   scale_x_continuous(
-#'     trans = "log1p",
-#'     breaks = c(0, 10^c(1:max(log1p(as.numeric(res_ga$ref_value$value)))))
-#'   ) +
-#'   geom_vline(
-#'     xintercept = res_ga$carbon_footprint_total_gCO2,
-#'     col = "grey30", lwd = 1.2
-#'   ) +
-#'   geom_label(aes(label = round_conditionaly(prop_footprint)),
-#'     fill = "grey90", position = position_stack(vjust = 1.1)
-#'   ) +
-#'   labs(
-#'     title = "Carbon footprint of the analysis",
-#'     subtitle = paste0(
-#'       "(", res_ga$carbon_footprint_total_gCO2,
-#'       " g CO2", ")"
-#'     ),
-#'     caption = "Please cite Lannelongue et al. 2021 (10.1002/advs.202100707)"
-#'   ) +
-#'   xlab("Carbon footprint (g CO2) in log10") +
-#'   ylab("Modality") +
-#'   theme(legend.position = "none")
+#' 
+#' # View breakdown
+#' cat("Total CO2:", detailed_result$carbon_footprint_total_gCO2, "g\n")
+#' cat("CPU contribution:", detailed_result$carbon_footprint_cores, "g\n") 
+#' cat("Memory contribution:", detailed_result$carbon_footprint_memory, "g\n")
+#' 
+#' # Simple visualization
+#' plot_data <- detailed_result$ref_value[1:5, ]
+#' barplot(as.numeric(plot_data$value), names.arg = plot_data$variable,
+#'         main = "Carbon Footprint Comparison", ylab = "CO2 (g)")
+#' }
 ga_footprint <- function(runtime_h = NULL,
                          location_code = "WORLD",
                          PUE = 1.67,

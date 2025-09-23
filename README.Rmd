@@ -24,143 +24,237 @@ knitr::opts_chunk$set(
 ```
 
 
-# greenAlgoR
+# greenAlgoR: Carbon Footprint Estimation for R Computations
 
-This package computes ecological footprint in R (based on [green-algorithms](https://calculator.green-algorithms.org/), @lannelongue_green_2021). The aim is to facilitate the programmatic used of green-algorithms using the function `ga_footprint()`. Moreover, greenAlgoR made it simple to compute ecological footprint of {[targets](https://github.com/ropensci/targets)} pipelines using function `ga_targets()`.
-  
-It is a beta-version. Please submit issues if you found problems or if you want to contribute.
+**Calculate the environmental impact of your R computations** 🌱
+
+The `greenAlgoR` package provides tools to estimate the carbon footprint and energy consumption of computational tasks in R. Based on the Green Algorithms framework (@lannelongue_green_2021), this package helps researchers and data scientists understand and minimize the environmental impact of their computational work.
+
+## ✨ Key Features
+
+- 🔍 **Calculate CO2 emissions** from R computations based on runtime, CPU, and memory usage
+- 🌍 **Location-aware estimates** using regional carbon intensity data
+- 🎯 **Targets integration** for complete pipeline carbon footprint analysis  
+- 📊 **Visualization tools** to compare and contextualize your footprint
+- ⚙️ **Flexible configuration** for different hardware specifications
+
+## 🚀 Quick Start
+
+```{r, eval=FALSE}
+library(greenAlgoR)
+
+# Calculate footprint for a 2-hour computation
+result <- ga_footprint(runtime_h = 2, location_code = "WORLD")
+result$carbon_footprint_total_gCO2  # CO2 emissions in grams
+
+# For your current R session
+session_footprint <- ga_footprint(runtime_h = "session")
+
+# For targets pipelines (in a targets project)
+targets_footprint <- ga_targets()
+```
 
 ## Installation
 
-greenAlgoR is not available on CRAN for the moment. You can install the stable development version from GitHub with:
-
 ```{r, eval=FALSE}
+# Install from GitHub (development version)
 if (!require("devtools", quietly = TRUE)) {
   install.packages("devtools")
 }
 devtools::install_github("adrientaudiere/greenAlgoR")
 ```
 
-## Scientific foundation
+## Scientific Foundation
 
-### The algorithm from @lannelongue_green_2021
+### The Green Algorithms Framework
 
-You can refer to [green-algorithms](https://calculator.green-algorithms.org/) and
-@lannelongue_green_2021 to understand the algorithm. Here is the short description
-from [green-algorithms](https://calculator.green-algorithms.org/) 
+This package implements the methodology from @lannelongue_green_2021, which provides a standardized approach to quantifying the carbon footprint of computational research. The framework considers:
 
-The carbon footprint is calculated by estimating the energy draw of the
-algorithm and the carbon intensity of producing this energy at a
-given location:
+- **Energy consumption**: Based on CPU usage, memory requirements, and runtime
+- **Carbon intensity**: Varies by geographical location and energy sources  
+- **Hardware efficiency**: Different processors and systems have varying power draws
+- **Infrastructure**: Data center efficiency (PUE - Power Usage Effectiveness) 
 
-$$carbon footprint = energy needed * carbon intensity$$
+### The Algorithm
+
+The carbon footprint is calculated by estimating the energy draw of the algorithm and the carbon intensity of producing this energy at a given location:
+
+$$\text{carbon footprint} = \text{energy needed} \times \text{carbon intensity}$$
 
 Where the energy needed is:
 
-$$runtime * (power draw for cores * usage + power draw for memory) * PUE * PSF$$
+$$\text{runtime} \times (\text{power draw for cores} \times \text{usage} + \text{power draw for memory}) \times \text{PUE} \times \text{PSF}$$
 
-The power draw for the computing cores depends on the model and number of cores,
-while the memory power draw only depends on the size of memory available.
-The usage factor corrects for the real core usage (default is 1, i.e. full usage).
-The PUE (Power Usage Effectiveness) measures how much extra energy is needed
-to operate the data centre (cooling, lighting etc.).
+The key factors are:
+- **Power draw for cores**: Depends on CPU model and number of cores
+- **Memory power draw**: Based on available RAM memory
+- **Usage factor**: Corrects for actual core utilization (default: 100%)
+- **PUE**: Power Usage Effectiveness for data center efficiency
+- **PSF**: Pragmatic Scaling Factor for multiple runs
+- **Carbon intensity**: Location-dependent based on energy sources
 
-The PSF (Pragmatic Scaling Factor) is used to take into account multiple
-identical runs (e.g. for testing or optimisation). The Carbon Intensity depends 
-on the location and the technologies used to produce electricity. 
-
-## Basic use
+## 📖 Examples
 
 ```{r}
 devtools::load_all()
 library("greenAlgoR")
 ```
 
+### Basic Usage
 
-### In classical workflow
-
-#### Using explicit input
-
+#### Simple Calculation
 
 ```{r}
-# Your model must match exactly a name in TDP_cpu_internal$model
-fp_12h <- ga_footprint(runtime_h = 12, cpu_model = "Core i3-10300")
-fp_12h$carbon_footprint_total_gCO2
-fp_12h$energy_needed_kWh
+# Calculate footprint for a 2-hour computation
+result <- ga_footprint(
+  runtime_h = 2,
+  location_code = "WORLD",  # Global average
+  n_cores = 4,
+  memory_ram = 16
+)
+
+cat("Carbon footprint:", result$carbon_footprint_total_gCO2, "g CO2\n")
+cat("Energy consumption:", result$energy_needed_kWh, "kWh\n")
 ```
 
+#### Using CPU Model
+
 ```{r}
+# Specify exact CPU model (automatically sets cores and TDP)
+fp_specific <- ga_footprint(
+  runtime_h = 1, 
+  cpu_model = "Core i3-10300",
+  location_code = "FR"  # France (lower carbon intensity)
+)
+
+fp_specific$carbon_footprint_total_gCO2
+```
+
+#### Location Comparison
+
+```{r}
+# Compare carbon footprint across different locations
+locations <- c("WORLD", "FR", "US", "NO", "CN")
+footprints <- sapply(locations, function(loc) {
+  ga_footprint(runtime_h = 1, location_code = loc)$carbon_footprint_total_gCO2
+})
+
+comparison <- data.frame(Location = locations, CO2_grams = footprints)
+print(comparison)
+```
+
+### Visualization
+
+```{r plot-basic}
 #| fig.alt: >
-#|   Barplot of the total footprint of the analysis, the footprint of 
-#|   memory and the footprint of cpu. Other footprint such as flight 
-#|   Paris-London or one-hour of netflix streaming are also plot.
-ggplot(fp_12h$ref_value, aes(
-  y = variable,
-  x = as.numeric(value),
-  fill = log10(prop_footprint)
-)) +
-  geom_col() +
-  geom_col(
-    data = data.frame(
-      variable = "Total",
-      value = fp_12h$carbon_footprint_total_gCO2
-    ),
-    fill = "grey30"
-  ) +
-  geom_col(
-    data = data.frame(
-      variable = "Cores",
-      value = fp_12h$carbon_footprint_cores
-    ),
-    fill = "darkred"
-  ) +
-  geom_col(
-    data = data.frame(
-      variable = "Memory",
-      value = fp_12h$carbon_footprint_memory
-    ),
-    fill = "orange"
-  ) +
-  scale_x_continuous(
-    trans = "log1p",
-    breaks = c(0, 10^c(1:max(log1p(as.numeric(fp_12h$ref_value$value)))))
-  ) +
-  geom_vline(
-    xintercept = fp_12h$carbon_footprint_total_gCO2,
-    col = "grey30",
-    lwd = 1.2
-  ) +
-  geom_label(
-    aes(label = round_conditionaly(prop_footprint)),
-    fill = "grey90",
-    position = position_stack(vjust = 1.1)
-  ) +
+#|   Barplot comparing carbon footprint of computation with reference activities
+#|   like flights, streaming, and other everyday activities
+
+# Create a simple comparison plot
+fp_example <- ga_footprint(runtime_h = 4, n_cores = 4, memory_ram = 16)
+
+# Simple reference comparison
+ref_subset <- fp_example$ref_value[1:5, ]  # Top 5 reference activities
+ref_subset$type <- "Reference"
+
+# Add our computation
+our_computation <- data.frame(
+  variable = "Our Computation",
+  value = fp_example$carbon_footprint_total_gCO2,
+  prop_footprint = NA,
+  type = "Computation"
+)
+
+plot_data <- rbind(ref_subset[, c("variable", "value", "type")], 
+                   our_computation[, c("variable", "value", "type")])
+plot_data$value <- as.numeric(plot_data$value)
+
+ggplot(plot_data, aes(x = reorder(variable, value), y = value, fill = type)) +
+  geom_col(alpha = 0.8) +
+  scale_fill_manual(values = c("Reference" = "lightblue", 
+                              "Computation" = "darkred")) +
+  coord_flip() +
   labs(
-    title = "Carbon footprint of the analysis",
-    subtitle = paste0("(", fp_12h$carbon_footprint_total_gCO2, " g CO2", ")"),
-    caption = "Please cite Lannelongue et al. 2021 (10.1002/advs.202100707)"
+    title = "Carbon Footprint Comparison", 
+    x = "Activity", 
+    y = "CO2 Emissions (g)",
+    fill = "Type"
   ) +
-  xlab("Carbon footprint (g CO2) in log10") +
-  ylab("Modality") +
-  theme(legend.position = "none")
+  theme_minimal()
 ```
 
-#### Based on the R session
+### Current R Session
+
+Calculate the carbon footprint of your current R session:
 
 ```{r}
+# Analyze current R session
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
-fp_session$carbon_footprint_total_gCO2
-fp_session$energy_needed_kWh
+cat("Session footprint:", fp_session$carbon_footprint_total_gCO2, "g CO2\n")
+cat("Session runtime:", fp_session$runtime_h, "hours\n")
 ```
 
+### Targets Pipeline Integration
 
-### Based on a targets pipeline
+For `targets` workflows, calculate the complete pipeline footprint:
 
 ```{r, eval=FALSE}
-ga_targets()
+# In a targets project directory
+pipeline_footprint <- ga_targets(
+  location_code = "FR",
+  n_cores = 4,
+  memory_ram = 16
+)
+pipeline_footprint$carbon_footprint_total_gCO2
 ```
 
-## Roadmap
+## 📚 Documentation
 
-- [ ] Automatically find cpu model using benchmarkme::get_cpu()
-- [ ] Submit to CRAN?
+- **Getting Started**: See `vignette("greenAlgoR-intro")` for comprehensive examples
+- **Targets Integration**: See `vignette("targets-integration")` for pipeline analysis
+- **Function Reference**: Use `?ga_footprint` and `?ga_targets` for detailed documentation
+
+## 🤝 Contributing
+
+We welcome contributions! Please:
+
+1. Check existing [issues](https://github.com/adrientaudiere/greenAlgoR/issues) 
+2. Submit bug reports or feature requests
+3. Fork the repository and submit pull requests
+4. Follow the existing code style and add tests for new features
+
+## 💡 Best Practices
+
+- **Optimize your code**: Reduce runtime to minimize carbon footprint
+- **Choose efficient hardware**: Match computational resources to your needs  
+- **Consider location**: Run computations in regions with cleaner energy
+- **Monitor regularly**: Track your carbon footprint across projects
+- **Share awareness**: Include carbon footprint in research reporting
+
+## 🔄 Roadmap
+
+- [ ] Automatically find CPU model using `benchmarkme::get_cpu()`
+- [ ] Submit to CRAN
+- [ ] Allow custom carbon intensity values (e.g., from [Electricity Maps](https://app.electricitymaps.com/))
+- [ ] Add more visualization options
+- [ ] Support for GPU computations
+- [ ] Integration with more workflow systems
+
+## 📄 Citation
+
+If you use `greenAlgoR` in your research, please cite both the package and the underlying methodology:
+
+```
+# For greenAlgoR package
+Taudière, A. (2024). greenAlgoR: Carbon Footprint Estimation for R Computations. 
+R package version 0.1.1. https://github.com/adrientaudiere/greenAlgoR
+
+# For the Green Algorithms methodology  
+Lannelongue, L., Grealey, J., Inouye, M. (2021). Green Algorithms: 
+Quantifying the Carbon Footprint of Computation. Advanced Science, 8(12), 2100707.
+https://doi.org/10.1002/advs.202100707
+```
+
+## ⚖️ License
+
+GPL (>= 3) - see [LICENSE.md](LICENSE.md) for details.

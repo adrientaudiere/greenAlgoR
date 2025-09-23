@@ -6,3 +6,34 @@ template:
     fg: "#003f5f"
     primary: "#b96821"
     secondary: "#c8a734"
+
+navbar:
+  components:
+    articles:
+      text: Articles
+      menu:
+      - text: Getting Started
+        href: articles/greenAlgoR-intro.html
+      - text: Targets Integration  
+        href: articles/targets-integration.html
+
+reference:
+- title: Main Functions
+  desc: Core functions for carbon footprint estimation
+  contents:
+  - ga_footprint
+  - ga_targets
+  
+- title: Utility Functions
+  desc: Helper functions and data processing
+  contents:
+  - session_runtime
+  - csv_from_url_ga
+  - round_conditionaly
+
+articles:
+- title: User Guides
+  navbar: Articles
+  contents:
+  - greenAlgoR-intro
+  - targets-integration

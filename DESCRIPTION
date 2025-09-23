@@ -1,10 +1,16 @@
 Package: greenAlgoR
-Title: Compute ecological footprint in R 
+Title: Carbon Footprint Estimation for R Computations 
 Version: 0.1.1
 Authors@R: person("Adrien", "Taudière", email = "adrien.taudiere@zaclys.net",
   role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0003-1088-1182"))
-Description: This package computes ecological footprint in R (based on [green-algorithms](https://calculator.green-algorithms.org/). 
-  greenAlgoR also made it simple to compute ecological footprint of \{[targets](https://github.com/ropensci/targets)\} pipelines.
+Author: Adrien Taudière [aut, cre, cph]
+Maintainer: Adrien Taudière <adrien.taudiere@zaclys.net>
+Description: Computes the carbon footprint and ecological impact of computational tasks in R. 
+  Based on the Green Algorithms framework (Lannelongue et al. 2021, <https://calculator.green-algorithms.org/>), 
+  this package provides functions to estimate energy consumption and CO2 emissions from R computations. 
+  It includes specialized support for targets pipelines and provides visualization tools for 
+  carbon footprint analysis. The package helps researchers and data scientists understand and 
+  reduce the environmental impact of their computational work.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -19,5 +25,8 @@ Depends:
 Suggests:
     here,
     RCurl,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
+VignetteBuilder: knitr
