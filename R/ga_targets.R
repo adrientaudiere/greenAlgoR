@@ -1,32 +1,65 @@
-#' Compute footprint in grams of CO2 for \{targets\} pipelines
+#' Calculate carbon footprint for targets pipelines
 #'
 #' @description
 #'
 #' <a href="https://adrientaudiere.github.io/greenAlgoR/articles/Rules.html#lifecycle">
 #' <img src="https://img.shields.io/badge/lifecycle-experimental-orange" alt="lifecycle-experimental"></a>
 #'
-#' It is mainly a wrapper of function `ga_footprint()` that compute run time and
-#' mass_storage (only used if add_storage_estimation = TRUE) using
-#' `targets::tar_meta()`.
+#' Calculates the total carbon footprint of a \code{targets} pipeline by analyzing
+#' the metadata from completed targets. This function is a wrapper around 
+#' \code{ga_footprint()} that automatically extracts runtime and storage information
+#' from the targets metadata and computes the cumulative environmental impact.
 #'
-#' @param names_targets Optional, names of the targets. See ?targets::tar_meta()
-#' @param targets_only Logical, whether to just show information about targets
-#'   or also return metadata on functions and other global objects.
-#' @param complete_only Logical,
-#' whether to return only complete rows (no NA values).
-#' @param store Character of length 1, path to the targets data store.
-#'   See ?targets::tar_meta()
-#' @param tar_meta_raw Optional, if not NULL, other listed options above
-#'  (params for `targets::tar_meta()` are not used.
-#' @param ... Other args to be passed on `ga_footprint()`
+#' The function aggregates:
+#' \itemize{
+#'   \item Total runtime across all targets
+#'   \item Memory usage patterns (when storage estimation is enabled)
+#'   \item Hardware specifications you provide
+#' }
 #'
-#' @return A list of value. See ?ga_footprint for the details.
+#' @param names_targets Character vector of target names to include in analysis.
+#'   If NULL (default), analyzes all available targets. See \code{?targets::tar_meta()}
+#' @param targets_only Logical (default TRUE). Whether to analyze only actual targets
+#'   or also include metadata on functions and other global objects.
+#' @param complete_only Logical (default FALSE). Whether to return only targets
+#'   with complete metadata (no NA values in critical fields).
+#' @param store Character string, path to the targets data store. 
+#'   See \code{?targets::tar_meta()} for details.
+#' @param tar_meta_raw Optional data.frame. If provided, uses this metadata directly
+#'   instead of calling \code{targets::tar_meta()}. Useful for custom analyses
+#'   or when working with pre-loaded metadata.
+#' @param ... Additional arguments passed to \code{ga_footprint()}, such as:
+#'   \itemize{
+#'     \item \code{location_code}: geographical location for carbon intensity
+#'     \item \code{n_cores}: number of CPU cores used
+#'     \item \code{TDP_per_core}: thermal design power per core
+#'     \item \code{memory_ram}: RAM memory in GB
+#'     \item \code{PUE}: power usage effectiveness
+#'   }
+#'
+#' @return A list with the same structure as \code{ga_footprint()}. 
+#'   See \code{?ga_footprint} for complete details on return values.
 #' @export
 #' @author Adrien Taudière
 #' @examples
-#'
-#' # In a targets folder, just run function ga_targets()
-#' # with the options you want
+#' \dontrun{
+#' # Basic usage in a targets project directory
+#' pipeline_footprint <- ga_targets()
+#' 
+#' # With specific hardware configuration
+#' pipeline_footprint <- ga_targets(
+#'   location_code = "FR",
+#'   n_cores = 4,
+#'   memory_ram = 16,
+#'   PUE = 1.2
+#' )
+#' 
+#' # Analyze specific targets only
+#' pipeline_footprint <- ga_targets(
+#'   names_targets = c("data_prep", "model_fit", "results"),
+#'   add_storage_estimation = TRUE
+#' )
+#' }
 #'
 #' # The next exemple emulate a mini-targets before to ask for tar_meta
 #' tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
