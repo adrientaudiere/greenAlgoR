@@ -56,6 +56,8 @@ targets_footprint <- ga_targets()
 
 ## Installation
 
+greenAlgoR is not available on CRAN for the moment. You can install the stable development version from GitHub with:
+
 ```{r, eval=FALSE}
 # Install from GitHub (development version)
 if (!require("devtools", quietly = TRUE)) {
@@ -96,7 +98,6 @@ The key factors are:
 ## 📖 Examples
 
 ```{r}
-devtools::load_all()
 library("greenAlgoR")
 ```
 
@@ -124,7 +125,7 @@ cat("Energy consumption:", result$energy_needed_kWh, "kWh\n")
 fp_specific <- ga_footprint(
   runtime_h = 1, 
   cpu_model = "Core i3-10300",
-  location_code = "FR"  # France (lower carbon intensity)
+  location_code = "FR"  # France (low carbon intensity)
 )
 
 fp_specific$carbon_footprint_total_gCO2
@@ -142,6 +143,7 @@ footprints <- sapply(locations, function(loc) {
 comparison <- data.frame(Location = locations, CO2_grams = footprints)
 print(comparison)
 ```
+
 
 ### Visualization
 
@@ -233,12 +235,9 @@ We welcome contributions! Please:
 
 ## 🔄 Roadmap
 
-- [ ] Automatically find CPU model using `benchmarkme::get_cpu()`
 - [ ] Submit to CRAN
 - [ ] Allow custom carbon intensity values (e.g., from [Electricity Maps](https://app.electricitymaps.com/))
 - [ ] Add more visualization options
-- [ ] Support for GPU computations
-- [ ] Integration with more workflow systems
 
 ## 📄 Citation
 

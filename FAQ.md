@@ -4,7 +4,7 @@
 
 ### What is greenAlgoR?
 
-`greenAlgoR` is an R package that estimates the carbon footprint and energy consumption of computational tasks. It's based on the Green Algorithms framework by Lannelongue et al. (2021) and helps researchers understand the environmental impact of their computational work.
+`greenAlgoR` is an R package that estimates the carbon footprint and energy consumption of computational tasks. It's based on the Green Algorithms framework by Lannelongue et al. (2021) and helps researchers understand the environmental impact of their computational work in R.
 
 ### How accurate are the estimates?
 
@@ -19,12 +19,11 @@ However, actual consumption may vary based on specific hardware configurations, 
 
 The package supports carbon intensity data for many countries and regions. Common location codes include:
 - `"WORLD"` - Global average
-- `"FR"` - France 
 - `"US"` - United States
 - `"GB"` - United Kingdom
 - `"DE"` - Germany
 - `"CN"` - China
-- `"NO"` - Norway
+- `"FR"` - France 
 
 See the Green Algorithms database for the complete list.
 
@@ -39,13 +38,6 @@ See the Green Algorithms database for the complete list.
 2. Check that your CPU model name exactly matches the Green Algorithms database
 3. Manually specify `TDP_per_core` and `n_cores` instead of using `cpu_model`
 
-```r
-# Instead of:
-# ga_footprint(cpu_model = "my-cpu-name")
-
-# Use:
-ga_footprint(TDP_per_core = 15, n_cores = 4)
-```
 
 ### Memory detection issues
 
@@ -97,7 +89,7 @@ targets::tar_make()
 **Hardware Configuration**:
 - Use actual hardware specs when possible
 - For cloud computing, check provider documentation
-- Personal laptops typically have PUE = 1.0
+- Personal laptops typically have PUE close to 1.0 
 - Data centers typically have PUE = 1.2-2.0
 
 **Location Selection**:
@@ -116,6 +108,7 @@ targets::tar_make()
 ### Integration with workflows
 
 **For research projects**:
+
 ```r
 # Include in your analysis scripts
 footprint <- ga_footprint(runtime_h = "session")
@@ -154,10 +147,10 @@ The `ga_footprint()` function returns a list with detailed breakdown:
 ### Customizing calculations
 
 **Custom carbon intensity**:
-Currently, the package uses predefined carbon intensity values. For custom values, you would need to modify the calculation manually.
+Currently, the package uses predefined carbon intensity values per country. If you are interested in custom values, please post an issue.
 
 **Custom hardware parameters**:
-You can specify exact hardware configurations:
+You can specify hardware configurations:
 
 ```r
 ga_footprint(
@@ -175,7 +168,6 @@ ga_footprint(
 1. **Check the documentation**: Use `?ga_footprint` and `?ga_targets`
 2. **Read the vignettes**: `vignette("greenAlgoR-intro")` and `vignette("targets-integration")`
 3. **Report issues**: Submit bug reports at https://github.com/adrientaudiere/greenAlgoR/issues
-4. **Ask questions**: Use GitHub Discussions for usage questions
 
 ## Contributing
 

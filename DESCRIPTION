@@ -9,8 +9,7 @@ Description: Computes the carbon footprint and ecological impact of computationa
   Based on the Green Algorithms framework (Lannelongue et al. 2021, <https://calculator.green-algorithms.org/>), 
   this package provides functions to estimate energy consumption and CO2 emissions from R computations. 
   It includes specialized support for targets pipelines and provides visualization tools for 
-  carbon footprint analysis. The package helps researchers and data scientists understand and 
-  reduce the environmental impact of their computational work.
+  carbon footprint analysis. The package helps researchers and data scientists to measure the environmental impact of their computational work.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
