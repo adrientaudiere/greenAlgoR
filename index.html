@@ -5,20 +5,15 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Compute ecological footprint in R • greenAlgoR</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
-<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" sizes="any" href="favicon.ico">
-<link rel="manifest" href="site.webmanifest">
+<title>Carbon Footprint Estimation for R Computations • greenAlgoR</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
-<meta property="og:title" content="Compute ecological footprint in R">
-<meta name="description" content="This package computes ecological footprint in R (based on [green-algorithms](https://calculator.green-algorithms.org/). greenAlgoR also made it simple to compute ecological footprint of \{[targets](https://github.com/ropensci/targets)\} pipelines.">
-<meta property="og:description" content="This package computes ecological footprint in R (based on [green-algorithms](https://calculator.green-algorithms.org/). greenAlgoR also made it simple to compute ecological footprint of \{[targets](https://github.com/ropensci/targets)\} pipelines.">
+<meta property="og:title" content="Carbon Footprint Estimation for R Computations">
+<meta name="description" content="Computes the carbon footprint and ecological impact of computational tasks in R. Based on the Green Algorithms framework (Lannelongue et al. 2021, &lt;https://calculator.green-algorithms.org/&gt;), this package provides functions to estimate energy consumption and CO2 emissions from R computations. It includes specialized support for targets pipelines and provides visualization tools for carbon footprint analysis. The package helps researchers and data scientists to measure the environmental impact of their computational work.">
+<meta property="og:description" content="Computes the carbon footprint and ecological impact of computational tasks in R. Based on the Green Algorithms framework (Lannelongue et al. 2021, &lt;https://calculator.green-algorithms.org/&gt;), this package provides functions to estimate energy consumption and CO2 emissions from R computations. It includes specialized support for targets pipelines and provides visualization tools for carbon footprint analysis. The package helps researchers and data scientists to measure the environmental impact of their computational work.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -28,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="index.html">greenAlgoR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,6 +33,13 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="articles/greenAlgoR-intro.html">Getting Started</a></li>
+    <li><a class="dropdown-item" href="articles/targets-integration.html">Targets Integration</a></li>
+  </ul>
+</li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -54,133 +56,450 @@
 <div class="row">
   <main id="main" class="col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="greenalgor">greenAlgoR<a class="anchor" aria-label="anchor" href="#greenalgor"></a>
+<div class="page-header"><h1 id="greenalgor-carbon-footprint-estimation-for-r-computations">greenAlgoR: Carbon Footprint Estimation for R Computations<a class="anchor" aria-label="anchor" href="#greenalgor-carbon-footprint-estimation-for-r-computations"></a>
 </h1></div>
-<p>This package computes ecological footprint in R (based on <a href="https://calculator.green-algorithms.org/" class="external-link">green-algorithms</a>, Lannelongue, Grealey, and Inouye (2021)). The aim is to facilitate the programmatic used of green-algorithms using the function <code><a href="reference/ga_footprint.html">ga_footprint()</a></code>. Moreover, greenAlgoR made it simple to compute ecological footprint of {<a href="https://github.com/ropensci/targets" class="external-link">targets</a>} pipelines using function <code><a href="reference/ga_targets.html">ga_targets()</a></code>.</p>
-<p>It is a beta-version. Please submit issues if you found problems or if you want to contribute.</p>
+<p><strong>Calculate the environmental impact of your R computations</strong> 🌱</p>
+<p>The <code>greenAlgoR</code> package provides tools to estimate the carbon footprint and energy consumption of computational tasks in R. Based on the Green Algorithms framework (Lannelongue, Grealey, and Inouye (2021)), this package helps researchers and data scientists understand and minimize the environmental impact of their computational work.</p>
+<div class="section level2">
+<h2 id="id_-key-features">✨ Key Features<a class="anchor" aria-label="anchor" href="#id_-key-features"></a>
+</h2>
+<ul>
+<li>🔍 <strong>Calculate CO2 emissions</strong> from R computations based on runtime, CPU, and memory usage</li>
+<li>🌍 <strong>Location-aware estimates</strong> using regional carbon intensity data</li>
+<li>🎯 <strong>Targets integration</strong> for complete pipeline carbon footprint analysis<br>
+</li>
+<li>📊 <strong>Visualization tools</strong> to compare and contextualize your footprint</li>
+<li>⚙️ <strong>Flexible configuration</strong> for different hardware specifications</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="id_-quick-start">🚀 Quick Start<a class="anchor" aria-label="anchor" href="#id_-quick-start"></a>
+</h2>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/adrientaudiere/greenAlgoR" class="external-link">greenAlgoR</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Calculate footprint for a 2-hour computation</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="fl">2</span>, location_code <span class="op">=</span> <span class="st">"WORLD"</span><span class="op">)</span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>  <span class="co"># CO2 emissions in grams</span></span>
+<span></span>
+<span><span class="co"># For your current R session</span></span>
+<span><span class="va">session_footprint</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="st">"session"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># For targets pipelines (in a targets project)</span></span>
+<span><span class="va">targets_footprint</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_targets.html">ga_targets</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>greenAlgoR is not available on CRAN for the moment. You can install the stable development version from GitHub with:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Install from GitHub (development version)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://devtools.r-lib.org/" class="external-link">"devtools"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"adrientaudiere/greenAlgoR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="scientific-foundation">Scientific foundation<a class="anchor" aria-label="anchor" href="#scientific-foundation"></a>
+<h2 id="scientific-foundation">Scientific Foundation<a class="anchor" aria-label="anchor" href="#scientific-foundation"></a>
 </h2>
 <div class="section level3">
-<h3 id="the-algorithm-from-lannelongue-grealey-and-inouye-2021">The algorithm from Lannelongue, Grealey, and Inouye (2021)<a class="anchor" aria-label="anchor" href="#the-algorithm-from-lannelongue-grealey-and-inouye-2021"></a>
+<h3 id="the-green-algorithms-framework">The Green Algorithms Framework<a class="anchor" aria-label="anchor" href="#the-green-algorithms-framework"></a>
 </h3>
-<p>You can refer to <a href="https://calculator.green-algorithms.org/" class="external-link">green-algorithms</a> and Lannelongue, Grealey, and Inouye (2021) to understand the algorithm. Here is the short description from <a href="https://calculator.green-algorithms.org/" class="external-link">green-algorithms</a></p>
+<p>This package implements the methodology from Lannelongue, Grealey, and Inouye (2021), which provides a standardized approach to quantifying the carbon footprint of computational research. The framework considers:</p>
+<ul>
+<li>
+<strong>Energy consumption</strong>: Based on CPU usage, memory requirements, and runtime</li>
+<li>
+<strong>Carbon intensity</strong>: Varies by geographical location and energy sources<br>
+</li>
+<li>
+<strong>Hardware efficiency</strong>: Different processors and systems have varying power draws</li>
+<li>
+<strong>Infrastructure</strong>: Data center efficiency (PUE - Power Usage Effectiveness)</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="the-algorithm">The Algorithm<a class="anchor" aria-label="anchor" href="#the-algorithm"></a>
+</h3>
 <p>The carbon footprint is calculated by estimating the energy draw of the algorithm and the carbon intensity of producing this energy at a given location:</p>
-<pre class="math"><code>carbon footprint = energy needed * carbon intensity</code></pre>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">carbon footprint</mtext><mo>=</mo><mtext mathvariant="normal">energy needed</mtext><mo>×</mo><mtext mathvariant="normal">carbon intensity</mtext></mrow><annotation encoding="application/x-tex">\text{carbon footprint} = \text{energy needed} \times \text{carbon intensity}</annotation></semantics></math></p>
 <p>Where the energy needed is:</p>
-<pre class="math"><code>runtime * (power draw for cores * usage + power draw for memory) * PUE * PSF</code></pre>
-<p>The power draw for the computing cores depends on the model and number of cores, while the memory power draw only depends on the size of memory available. The usage factor corrects for the real core usage (default is 1, i.e. full usage). The PUE (Power Usage Effectiveness) measures how much extra energy is needed to operate the data centre (cooling, lighting etc.).</p>
-<p>The PSF (Pragmatic Scaling Factor) is used to take into account multiple identical runs (e.g. for testing or optimisation). The Carbon Intensity depends on the location and the technologies used to produce electricity.</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">runtime</mtext><mo>×</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtext mathvariant="normal">power draw for cores</mtext><mo>×</mo><mtext mathvariant="normal">usage</mtext><mo>+</mo><mtext mathvariant="normal">power draw for memory</mtext><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mtext mathvariant="normal">PUE</mtext><mo>×</mo><mtext mathvariant="normal">PSF</mtext></mrow><annotation encoding="application/x-tex">\text{runtime} \times (\text{power draw for cores} \times \text{usage} + \text{power draw for memory}) \times \text{PUE} \times \text{PSF}</annotation></semantics></math></p>
+<p>The key factors are: - <strong>Power draw for cores</strong>: Depends on CPU model and number of cores - <strong>Memory power draw</strong>: Based on available RAM memory - <strong>Usage factor</strong>: Corrects for actual core utilization (default: 100%) - <strong>PUE</strong>: Power Usage Effectiveness for data center efficiency - <strong>PSF</strong>: Pragmatic Scaling Factor for multiple runs - <strong>Carbon intensity</strong>: Location-dependent based on energy sources</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="basic-use">Basic use<a class="anchor" aria-label="anchor" href="#basic-use"></a>
+<h2 id="id_-examples">📖 Examples<a class="anchor" aria-label="anchor" href="#id_-examples"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">load_all</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/adrientaudiere/greenAlgoR" class="external-link">"greenAlgoR"</a></span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/adrientaudiere/greenAlgoR" class="external-link">"greenAlgoR"</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
-<h3 id="in-classical-workflow">In classical workflow<a class="anchor" aria-label="anchor" href="#in-classical-workflow"></a>
+<h3 id="basic-usage">Basic Usage<a class="anchor" aria-label="anchor" href="#basic-usage"></a>
 </h3>
 <div class="section level4">
-<h4 id="using-explicit-input">Using explicit input<a class="anchor" aria-label="anchor" href="#using-explicit-input"></a>
+<h4 id="simple-calculation">Simple Calculation<a class="anchor" aria-label="anchor" href="#simple-calculation"></a>
+</h4>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Calculate footprint for a 2-hour computation</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span></span>
+<span>  runtime_h <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  location_code <span class="op">=</span> <span class="st">"WORLD"</span>,  <span class="co"># Global average</span></span>
+<span>  n_cores <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  memory_ram <span class="op">=</span> <span class="fl">16</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Carbon footprint:"</span>, <span class="va">result</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>, <span class="st">"g CO2\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Carbon footprint: 85.60754 g CO2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Energy consumption:"</span>, <span class="va">result</span><span class="op">$</span><span class="va">energy_needed_kWh</span>, <span class="st">"kWh\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Energy consumption: 0.1802264 kWh</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="using-cpu-model">Using CPU Model<a class="anchor" aria-label="anchor" href="#using-cpu-model"></a>
 </h4>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Your model must match exactly a name in TDP_cpu_internal$model</span></span>
-<span><span class="va">fp_12h</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="fl">12</span>, cpu_model <span class="op">=</span> <span class="st">"Core i3-10300"</span><span class="op">)</span></span>
-<span><span class="va">fp_12h</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span></span>
-<span><span class="co">#&gt; [1] 829.0232</span></span>
-<span><span class="va">fp_12h</span><span class="op">$</span><span class="va">energy_needed_kWh</span></span>
-<span><span class="co">#&gt; [1] 1.745312</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">fp_12h</span><span class="op">$</span><span class="va">ref_value</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span></span>
-<span>  y <span class="op">=</span> <span class="va">variable</span>,</span>
-<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span>,</span>
-<span>  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log10</a></span><span class="op">(</span><span class="va">prop_footprint</span><span class="op">)</span></span>
-<span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>      variable <span class="op">=</span> <span class="st">"Total"</span>,</span>
-<span>      value <span class="op">=</span> <span class="va">fp_12h</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"grey30"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>      variable <span class="op">=</span> <span class="st">"Cores"</span>,</span>
-<span>      value <span class="op">=</span> <span class="va">fp_12h</span><span class="op">$</span><span class="va">carbon_footprint_cores</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"darkred"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span></span>
-<span>    data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>      variable <span class="op">=</span> <span class="st">"Memory"</span>,</span>
-<span>      value <span class="op">=</span> <span class="va">fp_12h</span><span class="op">$</span><span class="va">carbon_footprint_memory</span></span>
-<span>    <span class="op">)</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"orange"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span></span>
-<span>    trans <span class="op">=</span> <span class="st">"log1p"</span>,</span>
-<span>    breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">10</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log1p</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">fp_12h</span><span class="op">$</span><span class="va">ref_value</span><span class="op">$</span><span class="va">value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_vline</a></span><span class="op">(</span></span>
-<span>    xintercept <span class="op">=</span> <span class="va">fp_12h</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>,</span>
-<span>    col <span class="op">=</span> <span class="st">"grey30"</span>,</span>
-<span>    lwd <span class="op">=</span> <span class="fl">1.2</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_label</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="fu"><a href="reference/round_conditionaly.html">round_conditionaly</a></span><span class="op">(</span><span class="va">prop_footprint</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>    fill <span class="op">=</span> <span class="st">"grey90"</span>,</span>
-<span>    position <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/position_stack.html" class="external-link">position_stack</a></span><span class="op">(</span>vjust <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Carbon footprint of the analysis"</span>,</span>
-<span>    subtitle <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"("</span>, <span class="va">fp_12h</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>, <span class="st">" g CO2"</span>, <span class="st">")"</span><span class="op">)</span>,</span>
-<span>    caption <span class="op">=</span> <span class="st">"Please cite Lannelongue et al. 2021 (10.1002/advs.202100707)"</span></span>
-<span>  <span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Carbon footprint (g CO2) in log10"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Modality"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-5-1.png" alt="Barplot of the total footprint of the analysis, the footprint of memory and the footprint of cpu. Other footprint such as flight Paris-London or one-hour of netflix streaming are also plot." width="100%"></p>
+<code class="sourceCode R"><span><span class="co"># Specify exact CPU model (automatically sets cores and TDP)</span></span>
+<span><span class="va">fp_specific</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span></span>
+<span>  runtime_h <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>  cpu_model <span class="op">=</span> <span class="st">"Core i3-10300"</span>,</span>
+<span>  location_code <span class="op">=</span> <span class="st">"FR"</span>  <span class="co"># France (low carbon intensity)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fp_specific</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span></span>
+<span><span class="co">#&gt; [1] 7.458519</span></span></code></pre></div>
 </div>
 <div class="section level4">
-<h4 id="based-on-the-r-session">Based on the R session<a class="anchor" aria-label="anchor" href="#based-on-the-r-session"></a>
+<h4 id="location-comparison">Location Comparison<a class="anchor" aria-label="anchor" href="#location-comparison"></a>
 </h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fp_session</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="st">"session"</span>, add_storage_estimation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">fp_session</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span></span>
-<span><span class="co">#&gt;  user.self </span></span>
-<span><span class="co">#&gt; 0.02016005</span></span>
-<span><span class="va">fp_session</span><span class="op">$</span><span class="va">energy_needed_kWh</span></span>
-<span><span class="co">#&gt;    user.self </span></span>
-<span><span class="co">#&gt; 4.244221e-05</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Compare carbon footprint across different locations</span></span>
+<span><span class="va">locations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"WORLD"</span>, <span class="st">"FR"</span>, <span class="st">"US"</span>, <span class="st">"NO"</span>, <span class="st">"CN"</span><span class="op">)</span></span>
+<span><span class="va">footprints</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">locations</span>, <span class="kw">function</span><span class="op">(</span><span class="va">loc</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="fl">1</span>, location_code <span class="op">=</span> <span class="va">loc</span><span class="op">)</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>Location <span class="op">=</span> <span class="va">locations</span>, CO2_grams <span class="op">=</span> <span class="va">footprints</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">comparison</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       Location  CO2_grams</span></span>
+<span><span class="co">#&gt; WORLD    WORLD 29.4247968</span></span>
+<span><span class="co">#&gt; FR          FR  3.1766391</span></span>
+<span><span class="co">#&gt; US          US 26.2617860</span></span>
+<span><span class="co">#&gt; NO          NO  0.4720357</span></span>
+<span><span class="co">#&gt; CN          CN 33.2902858</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
-<h3 id="based-on-a-targets-pipeline">Based on a targets pipeline<a class="anchor" aria-label="anchor" href="#based-on-a-targets-pipeline"></a>
+<h3 id="visualization">Visualization<a class="anchor" aria-label="anchor" href="#visualization"></a>
 </h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Create a simple comparison plot</span></span>
+<span><span class="va">fp_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="fl">4</span>, n_cores <span class="op">=</span> <span class="fl">4</span>, memory_ram <span class="op">=</span> <span class="fl">16</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Simple reference comparison</span></span>
+<span><span class="va">ref_subset</span> <span class="op">&lt;-</span> <span class="va">fp_example</span><span class="op">$</span><span class="va">ref_value</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>  <span class="co"># Top 5 reference activities</span></span>
+<span><span class="va">ref_subset</span><span class="op">$</span><span class="va">type</span> <span class="op">&lt;-</span> <span class="st">"Reference"</span></span>
+<span></span>
+<span><span class="co"># Add our computation</span></span>
+<span><span class="va">our_computation</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  variable <span class="op">=</span> <span class="st">"Our Computation"</span>,</span>
+<span>  value <span class="op">=</span> <span class="va">fp_example</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>,</span>
+<span>  prop_footprint <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"Computation"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">ref_subset</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"variable"</span>, <span class="st">"value"</span>, <span class="st">"type"</span><span class="op">)</span><span class="op">]</span>, </span>
+<span>                   <span class="va">our_computation</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"variable"</span>, <span class="st">"value"</span>, <span class="st">"type"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">plot_data</span><span class="op">$</span><span class="va">value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">plot_data</span><span class="op">$</span><span class="va">value</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">plot_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">variable</span>, <span class="va">value</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html" class="external-link">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Reference"</span> <span class="op">=</span> <span class="st">"lightblue"</span>, </span>
+<span>                              <span class="st">"Computation"</span> <span class="op">=</span> <span class="st">"darkred"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Carbon Footprint Comparison"</span>, </span>
+<span>    x <span class="op">=</span> <span class="st">"Activity"</span>, </span>
+<span>    y <span class="op">=</span> <span class="st">"CO2 Emissions (g)"</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"Type"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-plot-basic-1.png" alt="Barplot comparing carbon footprint of computation with reference activities like flights, streaming, and other everyday activities" width="100%"></p>
+</div>
+<div class="section level3">
+<h3 id="current-r-session">Current R Session<a class="anchor" aria-label="anchor" href="#current-r-session"></a>
+</h3>
+<p>Calculate the carbon footprint of your current R session:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="reference/ga_targets.html">ga_targets</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Analyze current R session</span></span>
+<span><span class="va">fp_session</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="st">"session"</span>, add_storage_estimation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Session footprint:"</span>, <span class="va">fp_session</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>, <span class="st">"g CO2\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Session footprint: 0.01999902 g CO2</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Session runtime:"</span>, <span class="va">fp_session</span><span class="op">$</span><span class="va">runtime_h</span>, <span class="st">"hours\n"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Session runtime: 0.0006766667 hours</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="targets-pipeline-integration">Targets Pipeline Integration<a class="anchor" aria-label="anchor" href="#targets-pipeline-integration"></a>
+</h3>
+<p>For <code>targets</code> workflows, calculate the complete pipeline footprint:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># In a targets project directory</span></span>
+<span><span class="va">pipeline_footprint</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_targets.html">ga_targets</a></span><span class="op">(</span></span>
+<span>  location_code <span class="op">=</span> <span class="st">"FR"</span>,</span>
+<span>  n_cores <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  memory_ram <span class="op">=</span> <span class="fl">16</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">pipeline_footprint</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="roadmap">Roadmap<a class="anchor" aria-label="anchor" href="#roadmap"></a>
+<h2 id="id_-documentation">📚 Documentation<a class="anchor" aria-label="anchor" href="#id_-documentation"></a>
+</h2>
+<ul>
+<li>
+<strong>Getting Started</strong>: See <code><a href="articles/greenAlgoR-intro.html">vignette("greenAlgoR-intro")</a></code> for comprehensive examples</li>
+<li>
+<strong>Targets Integration</strong>: See <code><a href="articles/targets-integration.html">vignette("targets-integration")</a></code> for pipeline analysis</li>
+<li>
+<strong>Function Reference</strong>: Use <code><a href="reference/ga_footprint.html">?ga_footprint</a></code> and <code><a href="reference/ga_targets.html">?ga_targets</a></code> for detailed documentation</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="id_-contributing">🤝 Contributing<a class="anchor" aria-label="anchor" href="#id_-contributing"></a>
+</h2>
+<p>We welcome contributions! Please:</p>
+<ol style="list-style-type: decimal">
+<li>Check existing <a href="https://github.com/adrientaudiere/greenAlgoR/issues" class="external-link">issues</a>
+</li>
+<li>Submit bug reports or feature requests</li>
+<li>Fork the repository and submit pull requests</li>
+<li>Follow the existing code style and add tests for new features</li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="id_-best-practices">💡 Best Practices<a class="anchor" aria-label="anchor" href="#id_-best-practices"></a>
+</h2>
+<ul>
+<li>
+<strong>Optimize your code</strong>: Reduce runtime to minimize carbon footprint</li>
+<li>
+<strong>Choose efficient hardware</strong>: Match computational resources to your needs<br>
+</li>
+<li>
+<strong>Consider location</strong>: Run computations in regions with cleaner energy</li>
+<li>
+<strong>Monitor regularly</strong>: Track your carbon footprint across projects</li>
+<li>
+<strong>Share awareness</strong>: Include carbon footprint in research reporting</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="id_-roadmap">🔄 Roadmap<a class="anchor" aria-label="anchor" href="#id_-roadmap"></a>
 </h2>
 <ul class="task-list">
-<li><label><input type="checkbox">Automatically find cpu model using benchmarkme::get_cpu()</label></li>
-<li><label><input type="checkbox">Submit to CRAN?</label></li>
-<li><label><input type="checkbox">Allow to ovewrite carbone intensity (e.g. with values from <a href="https://app.electricitymaps.com/" class="external-link uri">https://app.electricitymaps.com/</a>)</label></li>
+<li><label><input type="checkbox">Submit to CRAN</label></li>
+<li><label><input type="checkbox">Allow custom carbon intensity values (e.g., from <a href="https://app.electricitymaps.com/" class="external-link">Electricity Maps</a>)</label></li>
+<li><label><input type="checkbox">Add more visualization options</label></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="id_-citation">📄 Citation<a class="anchor" aria-label="anchor" href="#id_-citation"></a>
+</h2>
+<p>If you use <code>greenAlgoR</code> in your research, please cite both the package and the underlying methodology:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># For greenAlgoR package</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>Taudière, <span class="fu">A.</span> (<span class="dv">2024</span>). greenAlgoR<span class="sc">:</span> Carbon Footprint Estimation <span class="cf">for</span> R Computations. </span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>R package version <span class="dv">0</span>.<span class="dv">1</span>.<span class="fl">1.</span> https<span class="sc">:</span><span class="er">//</span>github.com<span class="sc">/</span>adrientaudiere<span class="sc">/</span>greenAlgoR</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># For the Green Algorithms methodology  </span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>Lannelongue, L., Grealey, J., Inouye, <span class="fu">M.</span> (<span class="dv">2021</span>). Green Algorithms<span class="sc">:</span> </span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>Quantifying the Carbon Footprint of Computation. Advanced Science, <span class="dv">8</span>(<span class="dv">12</span>), <span class="fl">2100707.</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>doi.org<span class="sc">/</span><span class="fl">10.1002</span><span class="sc">/</span>advs<span class="fl">.202100707</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="frequently-asked-questions-and-troubleshooting">Frequently Asked Questions and Troubleshooting<a class="anchor" aria-label="anchor" href="#frequently-asked-questions-and-troubleshooting"></a>
+</h1>
+<div class="section level2">
+<h2 id="general-questions">General Questions<a class="anchor" aria-label="anchor" href="#general-questions"></a>
+</h2>
+<div class="section level3">
+<h3 id="what-is-greenalgor">What is greenAlgoR?<a class="anchor" aria-label="anchor" href="#what-is-greenalgor"></a>
+</h3>
+<p><code>greenAlgoR</code> is an R package that estimates the carbon footprint and energy consumption of computational tasks. It’s based on the Green Algorithms framework by Lannelongue et al. (2021) and helps researchers understand the environmental impact of their computational work in R.</p>
+</div>
+<div class="section level3">
+<h3 id="how-accurate-are-the-estimates">How accurate are the estimates?<a class="anchor" aria-label="anchor" href="#how-accurate-are-the-estimates"></a>
+</h3>
+<p>The estimates are based on the peer-reviewed Green Algorithms methodology and use real-world data for: - CPU power consumption from hardware specifications - Regional carbon intensity from energy grid data - Memory power consumption from published research</p>
+<p>However, actual consumption may vary based on specific hardware configurations, software optimization, and other factors.</p>
+</div>
+<div class="section level3">
+<h3 id="which-locations-are-supported">Which locations are supported?<a class="anchor" aria-label="anchor" href="#which-locations-are-supported"></a>
+</h3>
+<p>The package supports carbon intensity data for many countries and regions. Common location codes include: - <code>"WORLD"</code> - Global average - <code>"US"</code> - United States - <code>"GB"</code> - United Kingdom - <code>"DE"</code> - Germany - <code>"CN"</code> - China - <code>"FR"</code> - France</p>
+<p>See the Green Algorithms database for the complete list.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="common-issues">Common Issues<a class="anchor" aria-label="anchor" href="#common-issues"></a>
+</h2>
+<div class="section level3">
+<h3 id="cpu-model-not-found-error">“CPU model not found” error<a class="anchor" aria-label="anchor" href="#cpu-model-not-found-error"></a>
+</h3>
+<p><strong>Problem</strong>: You get an error when specifying a <code>cpu_model</code>.</p>
+<p><strong>Solution</strong>: 1. Use <code>"Any"</code> to use generic TDP values instead of a specific model 2. Check that your CPU model name exactly matches the Green Algorithms database 3. Manually specify <code>TDP_per_core</code> and <code>n_cores</code> instead of using <code>cpu_model</code></p>
+</div>
+<div class="section level3">
+<h3 id="memory-detection-issues">Memory detection issues<a class="anchor" aria-label="anchor" href="#memory-detection-issues"></a>
+</h3>
+<p><strong>Problem</strong>: Memory RAM is not detected automatically.</p>
+<p><strong>Solution</strong>: Manually specify the <code>memory_ram</code> parameter:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="fl">1</span>, memory_ram <span class="op">=</span> <span class="fl">16</span><span class="op">)</span>  <span class="co"># 16 GB</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="session-runtime-calculation">Session runtime calculation<a class="anchor" aria-label="anchor" href="#session-runtime-calculation"></a>
+</h3>
+<p><strong>Problem</strong>: <code>runtime_h = "session"</code> gives unexpected results.</p>
+<p><strong>Explanation</strong>: Session runtime is calculated from when R started, not when your analysis began. For specific computations, use explicit runtime:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Time a specific operation</span></span>
+<span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># ... your computation ...</span></span>
+<span><span class="va">end_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">runtime_hours</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/difftime.html" class="external-link">difftime</a></span><span class="op">(</span><span class="va">end_time</span>, <span class="va">start_time</span>, units <span class="op">=</span> <span class="st">"hours"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="va">runtime_hours</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="targets-pipeline-issues">Targets pipeline issues<a class="anchor" aria-label="anchor" href="#targets-pipeline-issues"></a>
+</h3>
+<p><strong>Problem</strong>: <code><a href="reference/ga_targets.html">ga_targets()</a></code> fails or gives zero footprint.</p>
+<p><strong>Solutions</strong>: 1. Ensure you’re in a directory with a targets project 2. Check that targets have been run with <code><a href="https://docs.ropensci.org/targets/reference/tar_make.html" class="external-link">tar_make()</a></code> 3. Verify targets metadata exists:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Check if targets data exists</span></span>
+<span><span class="fu">targets</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_meta.html" class="external-link">tar_meta</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># If no data, run the pipeline first</span></span>
+<span><span class="fu">targets</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_make.html" class="external-link">tar_make</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="best-practices">Best Practices<a class="anchor" aria-label="anchor" href="#best-practices"></a>
+</h2>
+<div class="section level3">
+<h3 id="choosing-appropriate-parameters">Choosing appropriate parameters<a class="anchor" aria-label="anchor" href="#choosing-appropriate-parameters"></a>
+</h3>
+<p><strong>Hardware Configuration</strong>: - Use actual hardware specs when possible - For cloud computing, check provider documentation - Personal laptops typically have PUE close to 1.0 - Data centers typically have PUE = 1.2-2.0</p>
+<p><strong>Location Selection</strong>: - Use your actual geographical location - For cloud computing, use the data center location - Consider running computations in regions with cleaner energy (lower carbon intensity)</p>
+</div>
+<div class="section level3">
+<h3 id="optimizing-for-lower-carbon-footprint">Optimizing for lower carbon footprint<a class="anchor" aria-label="anchor" href="#optimizing-for-lower-carbon-footprint"></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Reduce runtime</strong>: Optimize your code for efficiency</li>
+<li>
+<strong>Choose efficient hardware</strong>: Match resources to your needs</li>
+<li>
+<strong>Select clean energy regions</strong>: Run computations where renewable energy is prevalent</li>
+<li>
+<strong>Cache results</strong>: Avoid re-running expensive computations</li>
+<li>
+<strong>Profile your code</strong>: Identify and optimize bottlenecks</li>
+</ol>
+</div>
+<div class="section level3">
+<h3 id="integration-with-workflows">Integration with workflows<a class="anchor" aria-label="anchor" href="#integration-with-workflows"></a>
+</h3>
+<p><strong>For research projects</strong>:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Include in your analysis scripts</span></span>
+<span><span class="va">footprint</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="st">"session"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Analysis carbon footprint:"</span>, <span class="va">footprint</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>, <span class="st">"g CO2\n"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save for reporting</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">footprint</span>, <span class="st">"results/carbon_footprint.rds"</span><span class="op">)</span></span></code></pre></div>
+<p><strong>For targets pipelines</strong>:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Add to your _targets.R file</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  <span class="co"># ... your other targets ...</span></span>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/targets/reference/tar_target.html" class="external-link">tar_target</a></span><span class="op">(</span></span>
+<span>    <span class="va">carbon_footprint</span>,</span>
+<span>    <span class="fu"><a href="reference/ga_targets.html">ga_targets</a></span><span class="op">(</span>location_code <span class="op">=</span> <span class="st">"FR"</span><span class="op">)</span>,</span>
+<span>    description <span class="op">=</span> <span class="st">"Calculate pipeline carbon footprint"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="technical-details">Technical Details<a class="anchor" aria-label="anchor" href="#technical-details"></a>
+</h2>
+<div class="section level3">
+<h3 id="understanding-the-output">Understanding the output<a class="anchor" aria-label="anchor" href="#understanding-the-output"></a>
+</h3>
+<p>The <code><a href="reference/ga_footprint.html">ga_footprint()</a></code> function returns a list with detailed breakdown:</p>
+<ul>
+<li>
+<code>carbon_footprint_total_gCO2</code>: Total CO2 emissions in grams</li>
+<li>
+<code>carbon_footprint_cores</code>: CPU contribution to emissions</li>
+<li>
+<code>carbon_footprint_memory</code>: Memory contribution to emissions<br>
+</li>
+<li>
+<code>energy_needed_kWh</code>: Total energy consumption in kilowatt-hours</li>
+<li>
+<code>runtime_h</code>: Actual runtime used in calculation</li>
+<li>
+<code>ref_value</code>: Reference activities for comparison (if requested)</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="customizing-calculations">Customizing calculations<a class="anchor" aria-label="anchor" href="#customizing-calculations"></a>
+</h3>
+<p><strong>Custom carbon intensity</strong>: Currently, the package uses predefined carbon intensity values per country. If you are interested in custom values, please post an issue.</p>
+<p><strong>Custom hardware parameters</strong>: You can specify hardware configurations:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span></span>
+<span>  runtime_h <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  TDP_per_core <span class="op">=</span> <span class="fl">25</span>,    <span class="co"># High-performance CPU</span></span>
+<span>  n_cores <span class="op">=</span> <span class="fl">16</span>,         <span class="co"># Many cores</span></span>
+<span>  memory_ram <span class="op">=</span> <span class="fl">128</span>,     <span class="co"># Large memory</span></span>
+<span>  PUE <span class="op">=</span> <span class="fl">1.4</span>,           <span class="co"># Data center efficiency</span></span>
+<span>  PSF <span class="op">=</span> <span class="fl">3</span>              <span class="co"># Account for 3 repeated runs</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="getting-help">Getting Help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Check the documentation</strong>: Use <code><a href="reference/ga_footprint.html">?ga_footprint</a></code> and <code><a href="reference/ga_targets.html">?ga_targets</a></code>
+</li>
+<li>
+<strong>Read the vignettes</strong>: <code><a href="articles/greenAlgoR-intro.html">vignette("greenAlgoR-intro")</a></code> and <code><a href="articles/targets-integration.html">vignette("targets-integration")</a></code>
+</li>
+<li>
+<strong>Report issues</strong>: Submit bug reports at <a href="https://github.com/adrientaudiere/greenAlgoR/issues" class="external-link uri">https://github.com/adrientaudiere/greenAlgoR/issues</a>
+</li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
+<p>We welcome contributions! See the repository README for guidelines on: - Reporting bugs - Suggesting features<br>
+- Submitting code improvements - Improving documentation</p>
+</div>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<ul>
+<li>Lannelongue, L., Grealey, J., Inouye, M. (2021). Green Algorithms: Quantifying the Carbon Footprint of Computation. Advanced Science, 8(12), 2100707.</li>
+<li>Green Algorithms website: <a href="https://calculator.green-algorithms.org/" class="external-link uri">https://calculator.green-algorithms.org/</a>
+</li>
+<li>Package repository: <a href="https://github.com/adrientaudiere/greenAlgoR" class="external-link uri">https://github.com/adrientaudiere/greenAlgoR</a>
+</li>
 </ul>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-lannelongue_green_2021" class="csl-entry">
