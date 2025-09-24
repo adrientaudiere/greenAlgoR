@@ -2,18 +2,18 @@
 % Please edit documentation in R/utils.R
 \name{csv_from_url_ga}
 \alias{csv_from_url_ga}
-\title{Load csv files from green algo github repositories}
+\title{Load CSV files from Green Algorithms GitHub repositories}
 \usage{
 csv_from_url_ga(url, remove_first_line = TRUE)
 }
 \arguments{
-\item{url}{url to a raw csv file}
+\item{url}{Character string with URL to a raw CSV file from Green Algorithms repository}
 
-\item{remove_first_line}{(logical, default TRUE): Do we remove the first line
-from the csv file.}
+\item{remove_first_line}{Logical (default TRUE). Whether to remove the first line
+from the CSV file (often contains metadata rather than column headers).}
 }
 \value{
-a data.frame
+A data.frame with properly formatted column names and data
 }
 \description{
 \if{html}{\out{
@@ -22,11 +22,21 @@ a data.frame
 }}
 
 
-Mainly for internal use
+Helper function to download and parse CSV data from the Green Algorithms
+project repositories. This function handles the specific format used by
+Green Algorithms data files, which often have headers in specific rows.
 }
 \examples{
-carbon_intensity_internal <-
-  csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")
+\dontrun{
+# Download carbon intensity data
+carbon_intensity <- csv_from_url_ga(
+  paste0(
+    "https://raw.githubusercontent.com/GreenAlgorithms/GA-data",
+    "/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CI_aggregated.csv"
+  )
+)
+head(carbon_intensity)
+}
 }
 \author{
 Adrien Taudière

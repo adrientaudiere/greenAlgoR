@@ -2,7 +2,7 @@
 % Please edit documentation in R/ga_targets.R
 \name{ga_targets}
 \alias{ga_targets}
-\title{Compute footprint in grams of CO2 for \{targets\} pipelines}
+\title{Calculate carbon footprint for targets pipelines}
 \usage{
 ga_targets(
   names_targets = NULL,
@@ -14,24 +14,34 @@ ga_targets(
 )
 }
 \arguments{
-\item{names_targets}{Optional, names of the targets. See ?targets::tar_meta()}
+\item{names_targets}{Character vector of target names to include in analysis.
+If NULL (default), analyzes all available targets. See \code{?targets::tar_meta()}}
 
-\item{targets_only}{Logical, whether to just show information about targets
-or also return metadata on functions and other global objects.}
+\item{targets_only}{Logical (default TRUE). Whether to analyze only actual targets
+or also include metadata on functions and other global objects.}
 
-\item{complete_only}{Logical,
-whether to return only complete rows (no NA values).}
+\item{complete_only}{Logical (default FALSE). Whether to return only targets
+with complete metadata (no NA values in critical fields).}
 
-\item{store}{Character of length 1, path to the targets data store.
-See ?targets::tar_meta()}
+\item{store}{Character string, path to the targets data store.
+See \code{?targets::tar_meta()} for details.}
 
-\item{tar_meta_raw}{Optional, if not NULL, other listed options above
-(params for \code{targets::tar_meta()} are not used.}
+\item{tar_meta_raw}{Optional data.frame. If provided, uses this metadata directly
+instead of calling \code{targets::tar_meta()}. Useful for custom analyses
+or when working with pre-loaded metadata.}
 
-\item{...}{Other args to be passed on \code{ga_footprint()}}
+\item{...}{Additional arguments passed to \code{ga_footprint()}, such as:
+\itemize{
+\item \code{location_code}: geographical location for carbon intensity
+\item \code{n_cores}: number of CPU cores used
+\item \code{TDP_per_core}: thermal design power per core
+\item \code{memory_ram}: RAM memory in GB
+\item \code{PUE}: power usage effectiveness
+}}
 }
 \value{
-A list of value. See ?ga_footprint for the details.
+A list with the same structure as \code{ga_footprint()}.
+See \code{?ga_footprint} for complete details on return values.
 }
 \description{
 \if{html}{\out{
@@ -40,14 +50,37 @@ A list of value. See ?ga_footprint for the details.
 }}
 
 
-It is mainly a wrapper of function \code{ga_footprint()} that compute run time and
-mass_storage (only used if add_storage_estimation = TRUE) using
-\code{targets::tar_meta()}.
+Calculates the total carbon footprint of a \code{targets} pipeline by analyzing
+the metadata from completed targets. This function is a wrapper around
+\code{ga_footprint()} that automatically extracts runtime and storage information
+from the targets metadata and computes the cumulative environmental impact.
+
+The function aggregates:
+\itemize{
+\item Total runtime across all targets
+\item Memory usage patterns (when storage estimation is enabled)
+\item Hardware specifications you provide
+}
 }
 \examples{
+\dontrun{
+# Basic usage in a targets project directory
+pipeline_footprint <- ga_targets()
 
-# In a targets folder, just run function ga_targets()
-# with the options you want
+# With specific hardware configuration
+pipeline_footprint <- ga_targets(
+  location_code = "FR",
+  n_cores = 4,
+  memory_ram = 16,
+  PUE = 1.2
+)
+
+# Analyze specific targets only
+pipeline_footprint <- ga_targets(
+  names_targets = c("data_prep", "model_fit", "results"),
+  add_storage_estimation = TRUE
+)
+}
 
 # The next exemple emulate a mini-targets before to ask for tar_meta
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN.

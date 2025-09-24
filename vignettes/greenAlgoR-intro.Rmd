@@ -57,10 +57,10 @@ The main function `ga_footprint()` calculates the carbon footprint based on seve
 # Calculate footprint for a 2-hour computation
 result <- ga_footprint(
   runtime_h = 2,
-  location_code = "WORLD",  # Global average carbon intensity
+  location_code = "WORLD", # Global average carbon intensity
   n_cores = 4,
-  TDP_per_core = 15,        # Thermal Design Power per core in Watts
-  memory_ram = 16           # RAM in GB
+  TDP_per_core = 15, # Thermal Design Power per core in Watts
+  memory_ram = 16 # RAM in GB
 )
 
 # View key results
@@ -102,7 +102,7 @@ comparison_df <- data.frame(
 print(comparison_df)
 ```
 
-```{r location-plot}
+```{r location-plot, fig.alt="Bar plot comparing carbon footprint across different locations for a 1-hour computation with 2 cores."}
 # Visualize the comparison
 ggplot(comparison_df, aes(x = reorder(Location, CO2_emissions), y = CO2_emissions)) +
   geom_col(fill = "steelblue", alpha = 0.7) +
@@ -159,7 +159,7 @@ cat("Session runtime:", session_fp$runtime_h, "hours\n")
 
 The package includes reference values to put your footprint in context:
 
-```{r reference-visualization, fig.width=8, fig.height=6}
+```{r reference-visualization, fig.alt="Footprint value compared to references values such as 1 hour of Netflix streaming and a fly from London to Paris." , fig.width=8, fig.height=6}
 # Calculate footprint with reference values
 result_with_ref <- ga_footprint(
   runtime_h = 2,
@@ -181,16 +181,22 @@ computation_data <- data.frame(
   is_computation = TRUE
 )
 
-plot_data <- rbind(ref_data[, c("variable", "value", "is_computation")], 
-                   computation_data[, c("variable", "value", "is_computation")])
+plot_data <- rbind(
+  ref_data[, c("variable", "value", "is_computation")],
+  computation_data[, c("variable", "value", "is_computation")]
+)
 plot_data$value <- as.numeric(plot_data$value)
 
-ggplot(plot_data, aes(x = reorder(variable, value), y = value, 
-                      fill = is_computation)) +
+ggplot(plot_data, aes(
+  x = reorder(variable, value), y = value,
+  fill = is_computation
+)) +
   geom_col(alpha = 0.8) +
-  scale_fill_manual(values = c("FALSE" = "lightblue", "TRUE" = "darkred"), 
-                    name = "Type",
-                    labels = c("Reference", "Your Computation")) +
+  scale_fill_manual(
+    values = c("FALSE" = "lightblue", "TRUE" = "darkred"),
+    name = "Type",
+    labels = c("Reference", "Your Computation")
+  ) +
   scale_y_log10() +
   coord_flip() +
   labs(

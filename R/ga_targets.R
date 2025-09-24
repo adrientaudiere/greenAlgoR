@@ -6,7 +6,7 @@
 #' <img src="https://img.shields.io/badge/lifecycle-experimental-orange" alt="lifecycle-experimental"></a>
 #'
 #' Calculates the total carbon footprint of a \code{targets} pipeline by analyzing
-#' the metadata from completed targets. This function is a wrapper around 
+#' the metadata from completed targets. This function is a wrapper around
 #' \code{ga_footprint()} that automatically extracts runtime and storage information
 #' from the targets metadata and computes the cumulative environmental impact.
 #'
@@ -23,7 +23,7 @@
 #'   or also include metadata on functions and other global objects.
 #' @param complete_only Logical (default FALSE). Whether to return only targets
 #'   with complete metadata (no NA values in critical fields).
-#' @param store Character string, path to the targets data store. 
+#' @param store Character string, path to the targets data store.
 #'   See \code{?targets::tar_meta()} for details.
 #' @param tar_meta_raw Optional data.frame. If provided, uses this metadata directly
 #'   instead of calling \code{targets::tar_meta()}. Useful for custom analyses
@@ -37,7 +37,7 @@
 #'     \item \code{PUE}: power usage effectiveness
 #'   }
 #'
-#' @return A list with the same structure as \code{ga_footprint()}. 
+#' @return A list with the same structure as \code{ga_footprint()}.
 #'   See \code{?ga_footprint} for complete details on return values.
 #' @export
 #' @author Adrien Taudière
@@ -45,7 +45,7 @@
 #' \dontrun{
 #' # Basic usage in a targets project directory
 #' pipeline_footprint <- ga_targets()
-#' 
+#'
 #' # With specific hardware configuration
 #' pipeline_footprint <- ga_targets(
 #'   location_code = "FR",
@@ -53,7 +53,7 @@
 #'   memory_ram = 16,
 #'   PUE = 1.2
 #' )
-#' 
+#'
 #' # Analyze specific targets only
 #' pipeline_footprint <- ga_targets(
 #'   names_targets = c("data_prep", "model_fit", "results"),
@@ -155,17 +155,18 @@ ga_targets <- function(names_targets = NULL,
         store = store
       )
     }
-  }
-  else {
+  } else {
     df_meta <- tar_meta_raw
   }
 
   runtime_targets <- sum(as.numeric(df_meta$seconds), na.rm = TRUE) / 3600
   power_draw_stocks <- sum(as.numeric(df_meta$bytes), na.rm = TRUE) / 10^9
 
-  res <- ga_footprint(runtime_h = as.numeric(runtime_targets),
-                      mass_storage = power_draw_stocks,
-                      ...)
+  res <- ga_footprint(
+    runtime_h = as.numeric(runtime_targets),
+    mass_storage = power_draw_stocks,
+    ...
+  )
 
   return(res)
 }

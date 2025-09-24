@@ -20,11 +20,15 @@ test_that("12h of my config works and cpu model overwrite n_cores and TDP_per_co
     memory_ram = 67.4
   )
 
-  expect_equal(res_12_my_config_bis$carbon_footprint_total_gCO2,
-               res_12_my_config$carbon_footprint_total_gCO2)
+  expect_equal(
+    res_12_my_config_bis$carbon_footprint_total_gCO2,
+    res_12_my_config$carbon_footprint_total_gCO2
+  )
 
-  expect_equal(res_12_my_config_bis$energy_needed_kWh,
-               res_12_my_config$energy_needed_kWh)
+  expect_equal(
+    res_12_my_config_bis$energy_needed_kWh,
+    res_12_my_config$energy_needed_kWh
+  )
 })
 
 test_that("12h of my config whitout cpu_model works", {

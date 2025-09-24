@@ -30,6 +30,7 @@ reference:
   - session_runtime
   - csv_from_url_ga
   - round_conditionaly
+  - greenAlgoR-package
 
 articles:
 - title: User Guides

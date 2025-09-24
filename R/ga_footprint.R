@@ -12,8 +12,8 @@
 #'
 #' Default value are from https://github.com/GreenAlgorithms/green-algorithms-tool:
 #'
-#' - PUE: https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv
-#' - TDP_per_core: https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/TDP_cpu.csv
+#' - PUE: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv
+#' - TDP_per_core: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv
 #' - power_draw_per_gb: https://onlinelibrary.wiley.com/doi/10.1002/advs.202100707
 #'
 #' Description of the algorithm from the
@@ -47,31 +47,31 @@
 #'
 #'  """
 #'
-#' @param runtime_h Runtime in hours (numeric). Use a positive number for 
-#'   explicit runtime, or "session" to automatically calculate based on 
+#' @param runtime_h Runtime in hours (numeric). Use a positive number for
+#'   explicit runtime, or "session" to automatically calculate based on
 #'   current R session time using \code{proc.time()}.
-#' @param location_code Character string specifying geographical location for 
-#'   carbon intensity. Available options include country codes (e.g., "FR", "US", "CN") 
-#'   or "WORLD" for global average. See the Green Algorithms database for 
+#' @param location_code Character string specifying geographical location for
+#'   carbon intensity. Available options include country codes (e.g., "FR", "US", "CN")
+#'   or "WORLD" for global average. See the Green Algorithms database for
 #'   complete list of supported locations.
-#' @param PUE Power Usage Effectiveness (numeric, default 1.67). Measures data center 
-#'   efficiency - how much extra energy is needed for cooling, lighting, etc. 
-#'   Use 1.05 for personal computers, 1.2-1.7 for data centers. See 
-#'   \url{https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv}
-#' @param TDP_per_core Thermal Design Power per core in Watts (numeric, default 12). 
-#'   CPU power consumption per core. Find values at \url{https://www.techpowerup.com/cpu-specs/} 
+#' @param PUE Power Usage Effectiveness (numeric, default 1.67). Measures data center
+#'   efficiency - how much extra energy is needed for cooling, lighting, etc.
+#'   Use 1.05 for personal computers, 1.2-1.7 for data centers. See
+#'   \url{https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv}
+#' @param TDP_per_core Thermal Design Power per core in Watts (numeric, default 12).
+#'   CPU power consumption per core. Find values at \url{https://www.techpowerup.com/cpu-specs/}
 #'   or \url{http://calculator.green-algorithms.org/}. Overridden by \code{cpu_model} parameter.
-#' @param n_cores Number of CPU cores (integer, default 1). 
+#' @param n_cores Number of CPU cores (integer, default 1).
 #'   Overridden by \code{cpu_model} parameter.
-#' @param cpu_model Character string specifying exact CPU model. Must match entries 
-#'   in the Green Algorithms database. When specified, automatically sets 
+#' @param cpu_model Character string specifying exact CPU model. Must match entries
+#'   in the Green Algorithms database. When specified, automatically sets
 #'   \code{TDP_per_core} and \code{n_cores}. Use "Any" for generic calculation.
-#' @param memory_ram RAM memory in GB (numeric). If NULL, attempts to detect 
+#' @param memory_ram RAM memory in GB (numeric). If NULL, attempts to detect
 #'   automatically using \code{benchmarkme::get_ram()}.
 #' @param power_draw_per_gb Power consumption per GB of RAM in Watts (numeric, default 0.3725).
-#' @param PSF Pragmatic Scaling Factor (numeric, default 1). Accounts for multiple 
-#'   runs of the same computation. As noted by Lannelongue et al. (2021): 
-#'   "computations are rarely performed only once" - use values > 1 to account 
+#' @param PSF Pragmatic Scaling Factor (numeric, default 1). Accounts for multiple
+#'   runs of the same computation. As noted by Lannelongue et al. (2021):
+#'   "computations are rarely performed only once" - use values > 1 to account
 #'   for repeated runs, parameter sweeps, or iterative development.
 #'   GHG emissions are multiplied."
 #' @param usage_core (int, default 1).
@@ -82,8 +82,8 @@
 #' @param add_storage_estimation (logical, default FALSE) Do we compute the
 #'   footprint of mass storage ? By default FALSE because it is far less
 #'   important than cpu and memory usage. Note that
-#'   [green-algorithms](https://github.com/GreenAlgorithms/green-algorithms-tool)
-#'   website do not compute mass storage usage.
+#'   [green-algorithms](https://github.com/GreenAlgorithms/)
+#'   original tool do not compute mass storage usage.
 #' @param mass_storage (int. in GB, default NULL) The size of the mass_storage.
 #'   Only used if add_storage_estimation is set to TRUE. If set to NULL, use
 #'   the `base::gc()` function to estimate storage used.
@@ -91,20 +91,17 @@
 #'   A dataframe with `location` and `carbonIntensity`
 #'   columns. Set to carbon_intensity_internal if NULL.
 #'   carbon_intensity_internal is set using command line
-#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
-#'   green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")
+#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CI_aggregated.csv")
 #' @param TDP_cpu (default NULL). Advanced users only.
 #'   A dataframe with `model`, `n_cores` and `TDP_per_core`
 #'   columns. Set to TDP_cpu_internal if NULL.
 #'   TDP_cpu_internal is set using command line
-#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
-#'   green-algorithms-tool/refs/heads/master/data/v2.2/TDP_cpu.csv")
+#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv")
 #' @param ref_value (default NULL). Advanced users only.
 #'   A dataframe with `variable` and `value`
 #'   columns. Set to ref_value_internal if NULL.
 #'   ref_value_internal is set using command line
-#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
-#'   green-algorithms-tool/refs/heads/master/data/v2.2/referenceValues.csv")
+#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/referenceValues.csv")
 #'
 #' @return A list of values
 #'  - `runtime_h`: the input run time in hours
@@ -129,14 +126,15 @@
 #'    memory usage
 #'  - `carbon_footprint_total_gCO2`: the total output carbon footprint in grams of CO2
 #'  - `ref_value`: (optionnal, return if add_ref_values is TRUE) : a dataframe
-#'  - `power_draw_storage_kWh`: (optionnal, return if add_storage_estimation is TRUE) the output power draw for mass storage in kWh
+#'  - `power_draw_storage_kWh`: (optionnal, return if add_storage_estimation is TRUE)
+#'    the output power draw for mass storage in kWh
 #' @export
 #' @author Adrien Taudière
 #' @examples
 #' # Basic usage with explicit parameters
 #' result <- ga_footprint(
 #'   runtime_h = 2,
-#'   n_cores = 4, 
+#'   n_cores = 4,
 #'   TDP_per_core = 15,
 #'   memory_ram = 16,
 #'   location_code = "WORLD"
@@ -160,15 +158,14 @@
 #' })
 #'
 #' # Advanced usage with storage estimation and reference values
-#' \dontrun{
-#' detailed_result <- ga_footprint(
+#' res_ga <- ga_footprint(
 #'   runtime_h = 4,
 #'   n_cores = 8,
 #'   memory_ram = 32,
 #'   add_storage_estimation = TRUE,
 #'   add_ref_values = TRUE
 #' )
-#' 
+#'
 #' ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(prop_footprint))) +
 #'   geom_col() +
 #'   geom_col(data = data.frame(

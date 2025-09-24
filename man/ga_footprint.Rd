@@ -24,45 +24,40 @@ ga_footprint(
 )
 }
 \arguments{
-\item{runtime_h}{Run time in hours (int). If runtime_h == "session",
-the runtime is compute using the actual R session}
+\item{runtime_h}{Runtime in hours (numeric). Use a positive number for
+explicit runtime, or "session" to automatically calculate based on
+current R session time using \code{proc.time()}.}
 
-\item{location_code}{(character list of country or region available in  )}
+\item{location_code}{Character string specifying geographical location for
+carbon intensity. Available options include country codes (e.g., "FR", "US", "CN")
+or "WORLD" for global average. See the Green Algorithms database for
+complete list of supported locations.}
 
-\item{PUE}{(int) Power usage effectiveness of the server. See
-https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv
-for example of values. If you are using your personal computer, set PUE to 1.}
+\item{PUE}{Power Usage Effectiveness (numeric, default 1.67). Measures data center
+efficiency - how much extra energy is needed for cooling, lighting, etc.
+Use 1.05 for personal computers, 1.2-1.7 for data centers. See
+\url{https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv}}
 
-\item{TDP_per_core}{(int. in Watt, default 12). Find your cpu TDP and your
-nb of cpu on https://www.techpowerup.com/cpu-specs/ or in
-http://calculator.green-algorithms.org/ if available.
-Owerwrite by cpu_model param.}
+\item{TDP_per_core}{Thermal Design Power per core in Watts (numeric, default 12).
+CPU power consumption per core. Find values at \url{https://www.techpowerup.com/cpu-specs/}
+or \url{http://calculator.green-algorithms.org/}. Overridden by \code{cpu_model} parameter.}
 
-\item{n_cores}{(int, default 1) Number of cores.
-Owerwrite by cpu_model param.}
+\item{n_cores}{Number of CPU cores (integer, default 1).
+Overridden by \code{cpu_model} parameter.}
 
-\item{cpu_model}{Must be present in the list of
-http://calculator.green-algorithms.org/. If CPU is set, the parameter
-TPD_per_core and n_cores are overwriting by info from the cpu_model.
-"auto" modality (find the cpu using \code{benchmarkme::get_cpu()$model_name})
-is not running for the moment.}
+\item{cpu_model}{Character string specifying exact CPU model. Must match entries
+in the Green Algorithms database. When specified, automatically sets
+\code{TDP_per_core} and \code{n_cores}. Use "Any" for generic calculation.}
 
-\item{memory_ram}{(int. in GB) The memory RAM. If memory_ram is NULL,
-use benchmarkme::get_ram() to get the RAM.}
+\item{memory_ram}{RAM memory in GB (numeric). If NULL, attempts to detect
+automatically using \code{benchmarkme::get_ram()}.}
 
-\item{power_draw_per_gb}{(int. in Watt, default 0.3725) The power draw for
-each GB of RAM}
+\item{power_draw_per_gb}{Power consumption per GB of RAM in Watts (numeric, default 0.3725).}
 
-\item{PSF}{(int, default 1) Pragmatic Scaling Factor. Citation from
-\href{https://doi.org/10.1002/advs.202100707}{Lannelongue et al. 2021}:
-"Many analyses are presented as a single run of a particular algorithm or
-software tool; however, computations are rarely performed only once.
-Algorithms are run multiple times, sometimes hundreds, systematically or
-manually, with different parameterizations. Statistical models may include
-any number of combinations of covariates, fitting procedures, etc.
-It is important to include these repeats in the carbon footprint.
-To take into account the number of times a computation is performed in
-practice, the PSF was defined, a scaling factor by which the estimated
+\item{PSF}{Pragmatic Scaling Factor (numeric, default 1). Accounts for multiple
+runs of the same computation. As noted by Lannelongue et al. (2021):
+"computations are rarely performed only once" - use values > 1 to account
+for repeated runs, parameter sweeps, or iterative development.
 GHG emissions are multiplied."}
 
 \item{usage_core}{(int, default 1).
@@ -75,8 +70,8 @@ reference values to compare to your footprint ?}
 \item{add_storage_estimation}{(logical, default FALSE) Do we compute the
 footprint of mass storage ? By default FALSE because it is far less
 important than cpu and memory usage. Note that
-\href{https://github.com/GreenAlgorithms/green-algorithms-tool}{green-algorithms}
-website do not compute mass storage usage.}
+\href{https://github.com/GreenAlgorithms/}{green-algorithms}
+original tool do not compute mass storage usage.}
 
 \item{mass_storage}{(int. in GB, default NULL) The size of the mass_storage.
 Only used if add_storage_estimation is set to TRUE. If set to NULL, use
@@ -86,22 +81,19 @@ the \code{base::gc()} function to estimate storage used.}
 A dataframe with \code{location} and \code{carbonIntensity}
 columns. Set to carbon_intensity_internal if NULL.
 carbon_intensity_internal is set using command line
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
-green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")}
+csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CI_aggregated.csv")}
 
 \item{TDP_cpu}{(default NULL). Advanced users only.
 A dataframe with \code{model}, \code{n_cores} and \code{TDP_per_core}
 columns. Set to TDP_cpu_internal if NULL.
 TDP_cpu_internal is set using command line
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
-green-algorithms-tool/refs/heads/master/data/v2.2/TDP_cpu.csv")}
+csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv")}
 
 \item{ref_value}{(default NULL). Advanced users only.
 A dataframe with \code{variable} and \code{value}
 columns. Set to ref_value_internal if NULL.
 ref_value_internal is set using command line
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/
-green-algorithms-tool/refs/heads/master/data/v2.2/referenceValues.csv")}
+csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/referenceValues.csv")}
 }
 \value{
 A list of values
@@ -128,7 +120,8 @@ cores usage
 memory usage
 \item \code{carbon_footprint_total_gCO2}: the total output carbon footprint in grams of CO2
 \item \code{ref_value}: (optionnal, return if add_ref_values is TRUE) : a dataframe
-\item \code{power_draw_storage_kWh}: (optionnal, return if add_storage_estimation is TRUE) the output power draw for mass storage in kWh
+\item \code{power_draw_storage_kWh}: (optionnal, return if add_storage_estimation is TRUE)
+the output power draw for mass storage in kWh
 }
 }
 \description{
@@ -144,8 +137,8 @@ https://doi.org/10.1002/advs.202100707
 
 Default value are from https://github.com/GreenAlgorithms/green-algorithms-tool:
 \itemize{
-\item PUE: https://github.com/GreenAlgorithms/green-algorithms-tool/blob/master/data/v2.2/defaults_PUE.csv
-\item TDP_per_core: https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/TDP_cpu.csv
+\item PUE: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv
+\item TDP_per_core: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv
 \item power_draw_per_gb: https://onlinelibrary.wiley.com/doi/10.1002/advs.202100707
 }
 
@@ -181,27 +174,39 @@ to produce electricity. But note that the "energy needed"
 """
 }
 \examples{
+# Basic usage with explicit parameters
+result <- ga_footprint(
+  runtime_h = 2,
+  n_cores = 4,
+  TDP_per_core = 15,
+  memory_ram = 16,
+  location_code = "WORLD"
+)
+result$carbon_footprint_total_gCO2
+
+# Using specific CPU model (automatically sets cores and TDP)
 ga_footprint(
-  runtime_h = 12,
-  n_cores = 6,
-  TDP_per_core = 15.8,
-  location_code = "FR",
-  PUE = 1,
-  cpu_model = "Core i5-9600KF"
+  runtime_h = 1,
+  cpu_model = "Core i5-9600KF",
+  location_code = "FR"
 )
 
-ga_footprint(
-  runtime_h = "session",
-  PUE = 1,
-)
+# Calculate footprint for current R session
+ga_footprint(runtime_h = "session")
 
+# Compare different locations
+locations <- c("WORLD", "FR", "US", "NO")
+sapply(locations, function(loc) {
+  ga_footprint(runtime_h = 1, location_code = loc)$carbon_footprint_total_gCO2
+})
+
+# Advanced usage with storage estimation and reference values
 res_ga <- ga_footprint(
-  runtime_h = 12,
-  n_cores = 6,
-  memory_ram = 64,
-  PUE = 1,
+  runtime_h = 4,
+  n_cores = 8,
+  memory_ram = 32,
   add_storage_estimation = TRUE,
-  mass_storage = 1
+  add_ref_values = TRUE
 )
 
 ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(prop_footprint))) +

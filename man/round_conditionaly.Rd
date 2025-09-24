@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{round_conditionaly}
 \alias{round_conditionaly}
-\title{Round numeric vector conditionaly}
+\title{Conditionally round numeric values based on magnitude}
 \usage{
 round_conditionaly(
   vec,
@@ -10,25 +10,38 @@ round_conditionaly(
 )
 }
 \arguments{
-\item{vec}{a numeric vector}
+\item{vec}{A numeric vector to be rounded}
 
-\item{cond}{: a matrix of 2 row an n column with the first row defining the
-condition and the second row defining the number to round. cond is order
-in decreasing order of the 1 row internally. Thus the order in cond rows
-is not important}
+\item{cond}{A matrix with 2 rows and n columns where:
+\itemize{
+\item First row: threshold values for applying rounding rules
+\item Second row: number of decimal places to round to
+}
+The function automatically sorts conditions in decreasing order of thresholds.
+Default provides reasonable rounding for most carbon footprint values.}
 }
 \value{
-a numeric vector of the same length as vec
+A numeric vector of the same length as \code{vec} with values rounded
+according to the conditional rules
 }
 \description{
-Round numeric vector conditionaly
+Applies different rounding rules based on the magnitude of values.
+Larger values are rounded to fewer decimal places, while smaller values
+retain more precision. This is useful for presenting results with
+appropriate precision across different scales.
 }
 \examples{
-round_conditionaly(vec = c(1000.27890, 10.87988, 1.769869, 0.99796, 0.000179))
-round_conditionaly(
-  vec = c(1000.27890, 0.000179, 10e-11),
-  cond = cbind(c(10e-5, 5), c(10, 2))
-)
+# Default rounding behavior
+values <- c(1000.27890, 10.87988, 1.769869, 0.99796, 0.000179)
+round_conditionaly(values)
+
+# Custom rounding rules
+custom_rules <- cbind(c(10e-5, 5), c(10, 2)) # 5 decimals for tiny values, 2 for others
+round_conditionaly(c(1000.27890, 0.000179, 10e-11), cond = custom_rules)
+
+# Useful for carbon footprint reporting
+footprint_values <- c(0.001234, 1.23456, 123.456, 12345.6)
+round_conditionaly(footprint_values)
 }
 \author{
 Adrien Taudière

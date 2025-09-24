@@ -2,16 +2,25 @@
 % Please edit documentation in R/utils.R
 \name{session_runtime}
 \alias{session_runtime}
-\title{Compute session run time and mass storage use (based on \code{gc()})}
+\title{Compute session runtime and memory usage statistics}
 \usage{
 session_runtime(compute_mass_storage = TRUE)
 }
 \arguments{
-\item{compute_mass_storage}{(logical, default TRUE) Do the mass storage is
-computed from \code{base::gc()} function}
+\item{compute_mass_storage}{Logical (default TRUE). Whether to compute
+memory usage statistics using the \code{base::gc()} function. Set to
+FALSE if you only need timing information.}
 }
 \value{
-A list of values
+A list containing:
+\itemize{
+\item \code{cpu_times_users}: User CPU time in seconds
+\item \code{cpu_times_system}: System CPU time in seconds
+\item \code{time_elapsed}: Total elapsed time in seconds
+\item \code{cpu_times}: Combined user and system CPU time
+\item \code{mass_storage_used}: Memory currently used (if requested)
+\item \code{mass_storage_max}: Maximum memory used (if requested)
+}
 }
 \description{
 \if{html}{\out{
@@ -20,12 +29,21 @@ A list of values
 }}
 
 
-Compute cpu times using \code{base::proc.time()} and mass storage using
-\code{base::gc()}
+Analyzes the current R session to extract timing and memory usage information.
+This function is particularly useful for understanding resource consumption
+patterns and can be used with \code{ga_footprint(runtime_h = "session")}.
+
+The function uses \code{base::proc.time()} to get CPU timing information
+and \code{base::gc()} to estimate memory usage when requested.
 }
 \examples{
-session_runtime()
-session_runtime(compute_mass_storage = FALSE)
+# Get complete session information
+session_info <- session_runtime()
+print(session_info)
+
+# Get only timing information (faster)
+timing_only <- session_runtime(compute_mass_storage = FALSE)
+cat("Session has been running for", timing_only$time_elapsed, "seconds\n")
 }
 \author{
 Adrien Taudière
