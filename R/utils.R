@@ -1,23 +1,30 @@
-#' Load csv files from green algo github repositories
+#' Load CSV files from Green Algorithms GitHub repositories
 #'
 #' @description
 #'
 #' <a href="https://adrientaudiere.github.io/greenAlgoR/articles/Rules.html#lifecycle">
 #' <img src="https://img.shields.io/badge/lifecycle-experimental-orange" alt="lifecycle-experimental"></a>
 #'
-#' Mainly for internal use
+#' Helper function to download and parse CSV data from the Green Algorithms 
+#' project repositories. This function handles the specific format used by 
+#' Green Algorithms data files, which often have headers in specific rows.
 #'
-#' @param url url to a raw csv file
-#' @param remove_first_line (logical, default TRUE): Do we remove the first line
-#'   from the csv file.
+#' @param url Character string with URL to a raw CSV file from Green Algorithms repository
+#' @param remove_first_line Logical (default TRUE). Whether to remove the first line
+#'   from the CSV file (often contains metadata rather than column headers).
 #'
-#' @return a data.frame
+#' @return A data.frame with properly formatted column names and data
 #' @export
 #' @importFrom utils read.csv
 #' @author Adrien Taudière
 #' @examples
-#' carbon_intensity_internal <-
-#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv")
+#' \dontrun{
+#' # Download carbon intensity data
+#' carbon_intensity <- csv_from_url_ga(
+#'   "https://raw.githubusercontent.com/GreenAlgorithms/green-algorithms-tool/refs/heads/master/data/v2.2/CI_aggregated.csv"
+#' )
+#' head(carbon_intensity)
+#' }
 csv_from_url_ga <- function(url, remove_first_line = TRUE) {
   url <- RCurl::getURL(url)
   df <- read.csv(text = url, header = FALSE)
@@ -30,25 +37,44 @@ csv_from_url_ga <- function(url, remove_first_line = TRUE) {
 }
 
 
-#' Compute session run time and mass storage use (based on `gc()`)
+#' Compute session runtime and memory usage statistics
 #'
 #' @description
 #'
 #' <a href="https://adrientaudiere.github.io/greenAlgoR/articles/Rules.html#lifecycle">
 #' <img src="https://img.shields.io/badge/lifecycle-experimental-orange" alt="lifecycle-experimental"></a>
 #'
-#' Compute cpu times using `base::proc.time()` and mass storage using
-#' `base::gc()`
+#' Analyzes the current R session to extract timing and memory usage information.
+#' This function is particularly useful for understanding resource consumption
+#' patterns and can be used with \code{ga_footprint(runtime_h = "session")}.
 #'
-#' @param compute_mass_storage (logical, default TRUE) Do the mass storage is
-#'   computed from `base::gc()` function
-#' @return A list of values
+#' The function uses \code{base::proc.time()} to get CPU timing information
+#' and \code{base::gc()} to estimate memory usage when requested.
+#'
+#' @param compute_mass_storage Logical (default TRUE). Whether to compute 
+#'   memory usage statistics using the \code{base::gc()} function. Set to 
+#'   FALSE if you only need timing information.
+#'   
+#' @return A list containing:
+#'   \itemize{
+#'     \item \code{cpu_times_users}: User CPU time in seconds
+#'     \item \code{cpu_times_system}: System CPU time in seconds  
+#'     \item \code{time_elapsed}: Total elapsed time in seconds
+#'     \item \code{cpu_times}: Combined user and system CPU time
+#'     \item \code{mass_storage_used}: Memory currently used (if requested)
+#'     \item \code{mass_storage_max}: Maximum memory used (if requested)
+#'   }
 #' @export
 #'
 #' @author Adrien Taudière
 #' @examples
-#' session_runtime()
-#' session_runtime(compute_mass_storage = FALSE)
+#' # Get complete session information
+#' session_info <- session_runtime()
+#' print(session_info)
+#' 
+#' # Get only timing information (faster)
+#' timing_only <- session_runtime(compute_mass_storage = FALSE)
+#' cat("Session has been running for", timing_only$time_elapsed, "seconds\n")
 session_runtime <- function(compute_mass_storage = TRUE) {
   cpu_times_all <- proc.time()
   cpu_times_users <- cpu_times_all[1] + cpu_times_all[2]
@@ -74,22 +100,39 @@ session_runtime <- function(compute_mass_storage = TRUE) {
 
 
 
-#' Round numeric vector conditionaly
+#' Conditionally round numeric values based on magnitude
 #'
-#' @param vec a numeric vector
-#' @param cond : a matrix of 2 row an n column with the first row defining the
-#'   condition and the second row defining the number to round. cond is order
-#'   in decreasing order of the 1 row internally. Thus the order in cond rows
-#'   is not important
-#' @return a numeric vector of the same length as vec
+#' @description
+#' Applies different rounding rules based on the magnitude of values.
+#' Larger values are rounded to fewer decimal places, while smaller values
+#' retain more precision. This is useful for presenting results with 
+#' appropriate precision across different scales.
+#'
+#' @param vec A numeric vector to be rounded
+#' @param cond A matrix with 2 rows and n columns where:
+#'   \itemize{
+#'     \item First row: threshold values for applying rounding rules
+#'     \item Second row: number of decimal places to round to
+#'   }
+#'   The function automatically sorts conditions in decreasing order of thresholds.
+#'   Default provides reasonable rounding for most carbon footprint values.
+#'   
+#' @return A numeric vector of the same length as \code{vec} with values rounded 
+#'   according to the conditional rules
 #' @export
 #' @author Adrien Taudière
 #' @examples
-#' round_conditionaly(vec = c(1000.27890, 10.87988, 1.769869, 0.99796, 0.000179))
-#' round_conditionaly(
-#'   vec = c(1000.27890, 0.000179, 10e-11),
-#'   cond = cbind(c(10e-5, 5), c(10, 2))
-#' )
+#' # Default rounding behavior
+#' values <- c(1000.27890, 10.87988, 1.769869, 0.99796, 0.000179)
+#' round_conditionaly(values)
+#' 
+#' # Custom rounding rules
+#' custom_rules <- cbind(c(10e-5, 5), c(10, 2))  # 5 decimals for tiny values, 2 for others
+#' round_conditionaly(c(1000.27890, 0.000179, 10e-11), cond = custom_rules)
+#' 
+#' # Useful for carbon footprint reporting
+#' footprint_values <- c(0.001234, 1.23456, 123.456, 12345.6)
+#' round_conditionaly(footprint_values)
 round_conditionaly <- function(vec, cond = cbind(c(1.e-5, 5), c(0.001, 3), c(0.01, 3), c(1, 2), c(10, 1), c(100, 0))) {
   cond <- cond[, order(cond[1, ], decreasing = TRUE)]
 
