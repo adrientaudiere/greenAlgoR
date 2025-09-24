@@ -226,13 +226,13 @@ ga_footprint <- function(runtime_h = NULL,
                          TDP_cpu = NULL,
                          ref_value = NULL) {
   if (is.null(runtime_h)) {
-    stop("You must specify a runtime in hours in the parameter runtime_h")
+    stop("You must specify a runtime in hours in the parameter runtime_h or
+         the special character 'session' or 'session_runtime'")
   }
 
   if (runtime_h == "session") {
     runtime_h <- session_runtime()$cpu_times / 3600
-  }
-  if (runtime_h == "session_time_elapsed") {
+  } else if (runtime_h == "session_time_elapsed") {
     runtime_h <- session_runtime()$time_elapsed / 3600
   }
 
