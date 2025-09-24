@@ -5,8 +5,7 @@ template:
     bg: "#faefd1"
     fg: "#003f5f"
     primary: "#b96821"
-    secondary: "#c8a734"
-
+    secondary: "#B2CD2D"
 navbar:
   components:
     articles:
