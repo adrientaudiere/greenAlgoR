@@ -60,7 +60,7 @@
 #'   \url{https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv}
 #' @param TDP_per_core Thermal Design Power per core in Watts (numeric, default 12).
 #'   CPU power consumption per core. Find values at \url{https://www.techpowerup.com/cpu-specs/}
-#'   or \url{http://calculator.green-algorithms.org/}. Overridden by \code{cpu_model} parameter.
+#'   or \url{https://calculator.green-algorithms.org/}. Overridden by \code{cpu_model} parameter.
 #' @param n_cores Number of CPU cores (integer, default 1).
 #'   Overridden by \code{cpu_model} parameter.
 #' @param cpu_model Character string specifying exact CPU model. Must match entries
