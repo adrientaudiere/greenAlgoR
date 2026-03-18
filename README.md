@@ -48,7 +48,7 @@ targets_footprint <- ga_targets()
 
 ## Installation
 
-greenAlgoR is not available on CRAN for the moment. You can install the
+**greenAlgoR** is not available on CRAN yet. You can install the
 stable development version from GitHub with:
 
 ``` r
@@ -57,6 +57,16 @@ if (!require("devtools", quietly = TRUE)) {
   install.packages("devtools")
 }
 devtools::install_github("adrientaudiere/greenAlgoR")
+```
+
+You can install the unstable development version from
+[GitHub](https://github.com/) with:
+
+``` r
+if (!require("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+devtools::install_github("adrientaudiere/greenAlgoR", ref = "dev")
 ```
 
 ## Scientific Foundation

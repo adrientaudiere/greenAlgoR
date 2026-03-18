@@ -144,7 +144,7 @@ round_conditionaly <- function(
   res <- vec
 
   for (j in 1:ncol(cond)) {
-    cond_local <- vec > cond[1, j]
+    cond_local <- !is.na(vec) & vec > cond[1, j]
     res[cond_local] <- round(vec[cond_local], cond[2, j])
   }
 

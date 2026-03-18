@@ -273,6 +273,12 @@ ga_footprint <- function(runtime_h = NULL,
     carbon_intensity <- carbon_intensity_internal
   }
   CI <- as.numeric(carbon_intensity$carbonIntensity[carbon_intensity$location == location_code])
+  if (length(CI) == 0) {
+    stop(
+      "location_code '", location_code,
+      "' not found in the carbon intensity database."
+    )
+  }
 
   power_draw_for_cores <- n_cores * TDP_per_core * usage_core * 0.001 * runtime_h * PUE * PSF
   power_draw_for_memory <- power_draw_per_gb * memory_ram * 0.001 * runtime_h * PUE * PSF

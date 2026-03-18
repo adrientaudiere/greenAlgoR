@@ -160,6 +160,12 @@ ga_targets <- function(names_targets = NULL,
   }
 
   runtime_targets <- sum(as.numeric(df_meta$seconds), na.rm = TRUE) / 3600
+  if (runtime_targets == 0) {
+    message(
+      "No targets runtime data found (all seconds are NA or zero). ",
+      "Did you run tar_make()?"
+    )
+  }
   power_draw_stocks <- sum(as.numeric(df_meta$bytes), na.rm = TRUE) / 10^9
 
   res <- ga_footprint(
