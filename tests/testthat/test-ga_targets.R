@@ -33,7 +33,10 @@ tar_test("ga_targets works with names_targets", {
   testthat::expect_equal(length(ga_targets()), 18)
   tm <- tar_meta(targets_only = FALSE)
 
-  testthat::expect_equal(length(suppressWarnings(ga_targets(names_targets = "waiting"))), 18)
+  testthat::expect_equal(
+    length(suppressWarnings(ga_targets(names_targets = "waiting"))),
+    18
+  )
 })
 
 unlink("error.txt")

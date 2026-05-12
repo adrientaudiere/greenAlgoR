@@ -7,7 +7,11 @@ test_that("12h of my config works and cpu model overwrite n_cores and TDP_per_co
     memory_ram = 67.4
   )
   expect_equal(length(res_12_my_config), 18)
-  expect_equal(res_12_my_config$carbon_footprint_total_gCO2, 73.776386, tolerance = 1e-3)
+  expect_equal(
+    res_12_my_config$carbon_footprint_total_gCO2,
+    73.776386,
+    tolerance = 1e-3
+  )
   expect_equal(res_12_my_config$energy_needed_kWh, 1.438697, tolerance = 1e-3)
 
   res_12_my_config_bis <- ga_footprint(
@@ -41,7 +45,11 @@ test_that("12h of my config whitout cpu_model works", {
     memory_ram = 67.4
   )
   expect_equal(length(res_12_my_config2), 18)
-  expect_equal(res_12_my_config2$carbon_footprint_total_gCO2, 73.776386, tolerance = 1e-3)
+  expect_equal(
+    res_12_my_config2$carbon_footprint_total_gCO2,
+    73.776386,
+    tolerance = 1e-3
+  )
   expect_equal(res_12_my_config2$energy_needed_kWh, 1.438697, tolerance = 1e-3)
 })
 
@@ -54,7 +62,11 @@ test_that("12h of my config in WORLD", {
     memory_ram = 67.4
   )
   expect_equal(length(res_12_my_config3), 18)
-  expect_equal(res_12_my_config3$carbon_footprint_total_gCO2, 683.3811, tolerance = 1e-3)
+  expect_equal(
+    res_12_my_config3$carbon_footprint_total_gCO2,
+    683.3811,
+    tolerance = 1e-3
+  )
   expect_equal(res_12_my_config3$energy_needed_kWh, 1.438697, tolerance = 1e-3)
 })
 
@@ -67,7 +79,11 @@ test_that("12h of my config works PUE 0.5", {
     memory_ram = 67.4
   )
   expect_equal(length(res_12_my_config_pue0.5), 18)
-  expect_equal(res_12_my_config_pue0.5$carbon_footprint_total_gCO2, 36.88819, tolerance = 1e-3)
+  expect_equal(
+    res_12_my_config_pue0.5$carbon_footprint_total_gCO2,
+    36.88819,
+    tolerance = 1e-3
+  )
 })
 
 test_that("12h of my config works PSF 22", {
@@ -79,7 +95,11 @@ test_that("12h of my config works PSF 22", {
     memory_ram = 67.4
   )
   expect_equal(length(res_12_my_config_psf22), 18)
-  expect_equal(res_12_my_config_psf22$carbon_footprint_total_gCO2, 2710.544, tolerance = 1e-3)
+  expect_equal(
+    res_12_my_config_psf22$carbon_footprint_total_gCO2,
+    2710.544,
+    tolerance = 1e-3
+  )
 })
 
 test_that("2h of a custom weird config", {
@@ -95,8 +115,16 @@ test_that("2h of a custom weird config", {
     memory_ram = 67.4
   )
   expect_equal(length(res_12_weird_config), 19)
-  expect_equal(res_12_weird_config$carbon_footprint_total_gCO2, 135.5764, tolerance = 1)
-  expect_equal(res_12_weird_config$energy_needed_kWh, 2.643846, tolerance = 1e-2)
+  expect_equal(
+    res_12_weird_config$carbon_footprint_total_gCO2,
+    135.5764,
+    tolerance = 1
+  )
+  expect_equal(
+    res_12_weird_config$energy_needed_kWh,
+    2.643846,
+    tolerance = 1e-2
+  )
 })
 
 test_that("2h of a custom weird config 2", {
@@ -113,8 +141,16 @@ test_that("2h of a custom weird config 2", {
     memory_ram = 67.4
   )
   expect_equal(length(res_12_weird_config2), 20)
-  expect_equal(res_12_weird_config2$carbon_footprint_total_gCO2, 34.46074, tolerance = 1e-3)
-  expect_equal(res_12_weird_config2$energy_needed_kWh, 0.6720113, tolerance = 1e-3)
+  expect_equal(
+    res_12_weird_config2$carbon_footprint_total_gCO2,
+    34.46074,
+    tolerance = 1e-3
+  )
+  expect_equal(
+    res_12_weird_config2$energy_needed_kWh,
+    0.6720113,
+    tolerance = 1e-3
+  )
 })
 
 
@@ -126,4 +162,39 @@ test_that("12h of my config works", {
     n_cores = 2
   )
   expect_equal(length(res_12h), 18)
+})
+
+test_that("Single numeric carbon_intensity is used directly", {
+  res <- ga_footprint(runtime_h = 2, carbon_intensity = 42)
+  expect_equal(res$carbon_intensity, 42)
+})
+
+test_that("Named numeric vector overrides bundled CI for a location", {
+  res <- ga_footprint(
+    runtime_h = 2,
+    location_code = "FR",
+    carbon_intensity = c("FR" = 56)
+  )
+  expect_equal(res$carbon_intensity, 56)
+})
+
+test_that("Named numeric vector adds a new location not in bundled DB", {
+  res <- ga_footprint(
+    runtime_h = 2,
+    location_code = "CUSTOM_DC",
+    carbon_intensity = c("CUSTOM_DC" = 450)
+  )
+  expect_equal(res$carbon_intensity, 450)
+})
+
+test_that("Backward compatibility: no carbon_intensity still works", {
+  res <- ga_footprint(runtime_h = 2, location_code = "FR")
+  expect_true(is.numeric(res$carbon_intensity))
+  expect_true(res$carbon_intensity > 0)
+})
+
+test_that("Single numeric carbon_intensity yields correct footprint formula", {
+  res <- ga_footprint(runtime_h = 2, carbon_intensity = 42)
+  expected <- res$energy_needed_kWh * 42
+  expect_equal(res$carbon_footprint_total_gCO2, expected)
 })

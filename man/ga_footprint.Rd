@@ -2,7 +2,7 @@
 % Please edit documentation in R/ga_footprint.R
 \name{ga_footprint}
 \alias{ga_footprint}
-\title{Compute footprint in grams of CO2 using \href{https://doi.org/10.1002/advs.202100707}{Lannelongue et al. 2021} algorithm}
+\title{Compute footprint in grams of CO2 using \href{\doi{10.1002/advs.202100707}}{Lannelongue et al. 2021} algorithm}
 \usage{
 ga_footprint(
   runtime_h = NULL,
@@ -40,7 +40,7 @@ Use 1.05 for personal computers, 1.2-1.7 for data centers. See
 
 \item{TDP_per_core}{Thermal Design Power per core in Watts (numeric, default 12).
 CPU power consumption per core. Find values at \url{https://www.techpowerup.com/cpu-specs/}
-or \url{http://calculator.green-algorithms.org/}. Overridden by \code{cpu_model} parameter.}
+or \url{https://calculator.green-algorithms.org/}. Overridden by \code{cpu_model} parameter.}
 
 \item{n_cores}{Number of CPU cores (integer, default 1).
 Overridden by \code{cpu_model} parameter.}
@@ -77,11 +77,21 @@ original tool do not compute mass storage usage.}
 Only used if add_storage_estimation is set to TRUE. If set to NULL, use
 the \code{base::gc()} function to estimate storage used.}
 
-\item{carbon_intensity}{(default NULL). Advanced users only.
-A dataframe with \code{location} and \code{carbonIntensity}
-columns. Set to carbon_intensity_internal if NULL.
-carbon_intensity_internal is set using command line
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CI_aggregated.csv")}
+\item{carbon_intensity}{(default NULL). Custom carbon intensity values.
+Accepts three formats:
+\itemize{
+\item \code{NULL} (default): use the bundled Green Algorithms database
+(\code{carbon_intensity_internal}).
+\item A single numeric value: carbon intensity in gCO2e/kWh, used
+directly regardless of \code{location_code}. Useful when you know your
+local CI from sources like the Electricity Maps API.
+\item A named numeric vector: names are location codes, values are
+carbon intensities in gCO2e/kWh. These override matching entries
+in the bundled database and add new ones. For example,
+\code{c("FR" = 56, "CUSTOM_DC" = 450)}.
+\item A data.frame with \code{location} and \code{carbonIntensity} columns:
+used as-is (original advanced-user behaviour).
+}}
 
 \item{TDP_cpu}{(default NULL). Advanced users only.
 A dataframe with \code{model}, \code{n_cores} and \code{TDP_per_core}
@@ -133,9 +143,9 @@ the output power draw for mass storage in kWh
 
 Please cite Lannelongue, L., Grealey, J., Inouye, M., Green Algorithms:
 Quantifying the Carbon Footprint of Computation. Adv. Sci. 2021, 2100707.
-https://doi.org/10.1002/advs.202100707
+\doi{10.1002/advs.202100707}
 
-Default value are from https://github.com/GreenAlgorithms/green-algorithms-tool:
+Default value are from https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-calculator:
 \itemize{
 \item PUE: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv
 \item TDP_per_core: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv
@@ -143,7 +153,7 @@ Default value are from https://github.com/GreenAlgorithms/green-algorithms-tool:
 }
 
 Description of the algorithm from the
-\href{https://github.com/GreenAlgorithms/green-algorithms-tool}{green-algorithms}
+\href{https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-calculator}{green-algorithms}
 website:
 
 """
@@ -200,6 +210,16 @@ sapply(locations, function(loc) {
   ga_footprint(runtime_h = 1, location_code = loc)$carbon_footprint_total_gCO2
 })
 
+# Use a custom carbon intensity value (e.g. from Electricity Maps API)
+ga_footprint(runtime_h = 2, carbon_intensity = 42)$carbon_footprint_total_gCO2
+
+# Override specific locations with custom CI values
+ga_footprint(
+  runtime_h = 2,
+  location_code = "FR",
+  carbon_intensity = c("FR" = 56, "CUSTOM_DC" = 450)
+)$carbon_footprint_total_gCO2
+
 # Advanced usage with storage estimation and reference values
 res_ga <- ga_footprint(
   runtime_h = 4,
@@ -209,6 +229,7 @@ res_ga <- ga_footprint(
   add_ref_values = TRUE
 )
 
+library(ggplot2)
 ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(prop_footprint))) +
   geom_col() +
   geom_col(data = data.frame(

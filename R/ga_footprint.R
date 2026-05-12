@@ -1,4 +1,4 @@
-#' Compute footprint in grams of CO2 using [Lannelongue et al. 2021](https://doi.org/10.1002/advs.202100707) algorithm
+#' Compute footprint in grams of CO2 using [Lannelongue et al. 2021](\doi{10.1002/advs.202100707}) algorithm
 #'
 #' @description
 #'
@@ -8,16 +8,16 @@
 #'
 #' Please cite Lannelongue, L., Grealey, J., Inouye, M., Green Algorithms:
 #' Quantifying the Carbon Footprint of Computation. Adv. Sci. 2021, 2100707.
-#' https://doi.org/10.1002/advs.202100707
+#' \doi{10.1002/advs.202100707}
 #'
-#' Default value are from https://github.com/GreenAlgorithms/green-algorithms-tool:
+#' Default value are from https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-calculator:
 #'
 #' - PUE: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv
 #' - TDP_per_core: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv
 #' - power_draw_per_gb: https://onlinelibrary.wiley.com/doi/10.1002/advs.202100707
 #'
 #' Description of the algorithm from the
-#' [green-algorithms](https://github.com/GreenAlgorithms/green-algorithms-tool)
+#' [green-algorithms](https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-calculator)
 #'  website:
 #'
 #' """
@@ -87,11 +87,22 @@
 #' @param mass_storage (int. in GB, default NULL) The size of the mass_storage.
 #'   Only used if add_storage_estimation is set to TRUE. If set to NULL, use
 #'   the `base::gc()` function to estimate storage used.
-#' @param carbon_intensity (default NULL). Advanced users only.
-#'   A dataframe with `location` and `carbonIntensity`
-#'   columns. Set to carbon_intensity_internal if NULL.
-#'   carbon_intensity_internal is set using command line
-#'   csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CI_aggregated.csv")
+#' @param carbon_intensity (default NULL). Custom carbon intensity values.
+#'   Note that only the value for the specified `location_code` will be used.
+#'   Accepts three formats:
+#'   \itemize{
+#'     \item `NULL` (default): use the bundled Green Algorithms database
+#'       (`carbon_intensity_internal`).
+#'     \item A single numeric value: carbon intensity in gCO2e/kWh, used
+#'       directly regardless of `location_code`. Useful when you know your
+#'       local CI from sources like the Electricity Maps API.
+#'     \item A named numeric vector: names are location codes, values are
+#'       carbon intensities in gCO2e/kWh. These override matching entries
+#'       in the bundled database and add new ones. For example,
+#'       `c("FR" = 56, "CUSTOM_DC" = 450)`.
+#'     \item A data.frame with `location` and `carbonIntensity` columns:
+#'       used as-is (original advanced-user behaviour).
+#'   }
 #' @param TDP_cpu (default NULL). Advanced users only.
 #'   A dataframe with `model`, `n_cores` and `TDP_per_core`
 #'   columns. Set to TDP_cpu_internal if NULL.
@@ -157,6 +168,16 @@
 #'   ga_footprint(runtime_h = 1, location_code = loc)$carbon_footprint_total_gCO2
 #' })
 #'
+#' # Use a custom carbon intensity value (e.g. from Electricity Maps API)
+#' ga_footprint(runtime_h = 2, carbon_intensity = 42)$carbon_footprint_total_gCO2
+#'
+#' # Override specific locations with custom CI values
+#' ga_footprint(
+#'   runtime_h = 2,
+#'   location_code = "FR",
+#'   carbon_intensity = c("FR" = 56, "CUSTOM_DC" = 450)
+#' )$carbon_footprint_total_gCO2
+#'
 #' # Advanced usage with storage estimation and reference values
 #' res_ga <- ga_footprint(
 #'   runtime_h = 4,
@@ -206,25 +227,29 @@
 #'   xlab("Carbon footprint (g CO2) in log10") +
 #'   ylab("Modality") +
 #'   theme(legend.position = "none")
-ga_footprint <- function(runtime_h = NULL,
-                         location_code = "WORLD",
-                         PUE = 1.67,
-                         TDP_per_core = 12.0,
-                         n_cores = 1,
-                         cpu_model = "Any",
-                         memory_ram = NULL,
-                         power_draw_per_gb = 0.3725,
-                         PSF = 1,
-                         usage_core = 1,
-                         add_ref_values = TRUE,
-                         add_storage_estimation = FALSE,
-                         mass_storage = NULL,
-                         carbon_intensity = NULL,
-                         TDP_cpu = NULL,
-                         ref_value = NULL) {
+ga_footprint <- function(
+  runtime_h = NULL,
+  location_code = "WORLD",
+  PUE = 1.67,
+  TDP_per_core = 12.0,
+  n_cores = 1,
+  cpu_model = "Any",
+  memory_ram = NULL,
+  power_draw_per_gb = 0.3725,
+  PSF = 1,
+  usage_core = 1,
+  add_ref_values = TRUE,
+  add_storage_estimation = FALSE,
+  mass_storage = NULL,
+  carbon_intensity = NULL,
+  TDP_cpu = NULL,
+  ref_value = NULL
+) {
   if (is.null(runtime_h)) {
-    stop("You must specify a runtime in hours in the parameter runtime_h or
-         the special character 'session' or 'session_runtime'")
+    stop(
+      "You must specify a runtime in hours in the parameter runtime_h or
+         the special character 'session' or 'session_runtime'"
+    )
   }
 
   if (runtime_h == "session") {
@@ -271,17 +296,68 @@ ga_footprint <- function(runtime_h = NULL,
 
   if (is.null(carbon_intensity)) {
     carbon_intensity <- carbon_intensity_internal
+  } else if (is.numeric(carbon_intensity) && length(carbon_intensity) == 1 && is.null(names(carbon_intensity))) {
+    # Single numeric value: use directly as CI, create a minimal data.frame
+    # so downstream code (which indexes by location_code) still works.
+    carbon_intensity <- data.frame(
+      location = location_code,
+      carbonIntensity = carbon_intensity,
+      stringsAsFactors = FALSE
+    )
+  } else if (is.numeric(carbon_intensity) && !is.null(names(carbon_intensity))) {
+    # Named numeric vector: merge with bundled data
+    ci_bundled <- carbon_intensity_internal
+    # Override matching locations
+    for (i in seq_along(carbon_intensity)) {
+      loc <- names(carbon_intensity)[[i]]
+      idx <- which(ci_bundled$location == loc)
+      if (length(idx) > 0) {
+        ci_bundled$carbonIntensity[idx] <- carbon_intensity[[i]]
+      }
+    }
+    # Add new locations with NA for non-essential columns
+    new_locs <- !(names(carbon_intensity) %in% ci_bundled$location)
+    if (any(new_locs)) {
+      new_rows <- data.frame(
+        location = names(carbon_intensity)[new_locs],
+        carbonIntensity = as.numeric(carbon_intensity[new_locs]),
+        stringsAsFactors = FALSE
+      )
+      # Add missing columns as NA to match ci_bundled structure
+      missing_cols <- setdiff(colnames(ci_bundled), colnames(new_rows))
+      for (col in missing_cols) {
+        new_rows[[col]] <- NA
+      }
+      # Reorder columns to match
+      new_rows <- new_rows[, colnames(ci_bundled), drop = FALSE]
+      ci_bundled <- rbind(ci_bundled, new_rows)
+    }
+    carbon_intensity <- ci_bundled
   }
-  CI <- as.numeric(carbon_intensity$carbonIntensity[carbon_intensity$location == location_code])
+  CI <- as.numeric(carbon_intensity$carbonIntensity[
+    carbon_intensity$location == location_code
+  ])
   if (length(CI) == 0) {
     stop(
-      "location_code '", location_code,
+      "location_code '",
+      location_code,
       "' not found in the carbon intensity database."
     )
   }
 
-  power_draw_for_cores <- n_cores * TDP_per_core * usage_core * 0.001 * runtime_h * PUE * PSF
-  power_draw_for_memory <- power_draw_per_gb * memory_ram * 0.001 * runtime_h * PUE * PSF
+  power_draw_for_cores <- n_cores *
+    TDP_per_core *
+    usage_core *
+    0.001 *
+    runtime_h *
+    PUE *
+    PSF
+  power_draw_for_memory <- power_draw_per_gb *
+    memory_ram *
+    0.001 *
+    runtime_h *
+    PUE *
+    PSF
 
   carbon_footprint_cores <- power_draw_for_cores * CI
   carbon_footprint_memory <- power_draw_for_memory * CI
@@ -311,7 +387,9 @@ ga_footprint <- function(runtime_h = NULL,
 
   if (add_ref_values) {
     if (is.null(ref_value)) {
-      ref_value <- ref_value_internal[order(as.numeric(ref_value_internal$value)), ]
+      ref_value <- ref_value_internal[
+        order(as.numeric(ref_value_internal$value)),
+      ]
       rownames(ref_value) <- NULL
     }
     res[["ref_value"]] <- rbind(
@@ -328,10 +406,15 @@ ga_footprint <- function(runtime_h = NULL,
     } else {
       mass_storage <- mass_storage * 0.001
     }
-    res[["power_draw_storage_kWh"]] <- mass_storage * res$PUE * res[["runtime_h"]] # * res$PSF
+    res[["power_draw_storage_kWh"]] <- mass_storage *
+      res$PUE *
+      res[["runtime_h"]] # * res$PSF
     res[["carbon_footprint_storage"]] <- res[["power_draw_storage_kWh"]] * CI
-    res[["energy_needed_kWh"]] <- res[["energy_needed_kWh"]] + res[["power_draw_storage_kWh"]]
-    res[["carbon_footprint_total_gCO2"]] <- res[["carbon_footprint_cores"]] + res[["carbon_footprint_memory"]] + res[["carbon_footprint_storage"]]
+    res[["energy_needed_kWh"]] <- res[["energy_needed_kWh"]] +
+      res[["power_draw_storage_kWh"]]
+    res[["carbon_footprint_total_gCO2"]] <- res[["carbon_footprint_cores"]] +
+      res[["carbon_footprint_memory"]] +
+      res[["carbon_footprint_storage"]]
 
     if (add_ref_values) {
       res[["ref_value"]] <- rbind(
@@ -344,12 +427,16 @@ ga_footprint <- function(runtime_h = NULL,
     }
   }
   if (add_ref_values) {
-    res[["ref_value"]]$prop_footprint <- sapply(as.numeric(res[["ref_value"]]$value), function(x) {
-      x / res$carbon_footprint_total_gCO2
-    })
+    res[["ref_value"]]$prop_footprint <- sapply(
+      as.numeric(res[["ref_value"]]$value),
+      function(x) {
+        x / res$carbon_footprint_total_gCO2
+      }
+    )
 
     # to force ggplot to keep row order
-    res[["ref_value"]]$variable <- factor(res[["ref_value"]]$variable,
+    res[["ref_value"]]$variable <- factor(
+      res[["ref_value"]]$variable,
       levels = res[["ref_value"]]$variable
     )
   }

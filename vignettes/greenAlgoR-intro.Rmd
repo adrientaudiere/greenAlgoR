@@ -7,7 +7,7 @@ vignette: >
   %\VignetteIndexEntry{Getting Started with greenAlgoR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-bibliography: ../pkgdown/assets/bibliography.bib
+bibliography: bibliography.bib
 ---
 
 ```{r, include = FALSE}

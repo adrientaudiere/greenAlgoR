@@ -93,6 +93,7 @@
 #'       add_storage_estimation = TRUE
 #'     )
 #'
+#'   library(ggplot2)
 #'   ggplot(res_gat$ref_value, aes(
 #'     y = reorder(variable, as.numeric(value)),
 #'     x = as.numeric(value), fill = log10(prop_footprint)
@@ -133,12 +134,14 @@
 #'     ylab("Modality")
 #' })
 #'
-ga_targets <- function(names_targets = NULL,
-                       targets_only = TRUE,
-                       complete_only = FALSE,
-                       store = targets::tar_config_get("store"),
-                       tar_meta_raw = NULL,
-                       ...) {
+ga_targets <- function(
+  names_targets = NULL,
+  targets_only = TRUE,
+  complete_only = FALSE,
+  store = targets::tar_config_get("store"),
+  tar_meta_raw = NULL,
+  ...
+) {
   if (is.null(tar_meta_raw)) {
     if (is.null(names_targets)) {
       df_meta <- targets::tar_meta(

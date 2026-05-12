@@ -83,16 +83,16 @@ pipeline_footprint <- ga_targets(
 }
 
 # The next exemple emulate a mini-targets before to ask for tar_meta
-tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
-  tar_script(
+targets::tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
+  targets::tar_script(
     {
       list(
-        tar_target(
+        targets::tar_target(
           name = waiting,
           command = Sys.sleep(2),
           description = "Sleep 2 seconds"
         ),
-        tar_target(x, writeLines(
+        targets::tar_target(x, writeLines(
           targets::tar_option_get("error"),
           "error.txt"
         ))
@@ -101,8 +101,8 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
     ask = FALSE
   )
 
-  tar_make()
-  tm <- tar_meta()
+  targets::tar_make()
+  tm <- targets::tar_meta()
 
   res_gat <-
     ga_targets(
@@ -114,6 +114,7 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
       add_storage_estimation = TRUE
     )
 
+  library(ggplot2)
   ggplot(res_gat$ref_value, aes(
     y = reorder(variable, as.numeric(value)),
     x = as.numeric(value), fill = log10(prop_footprint)

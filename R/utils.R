@@ -102,7 +102,6 @@ session_runtime <- function(compute_mass_storage = TRUE) {
 }
 
 
-
 #' Conditionally round numeric values based on magnitude
 #'
 #' @description
@@ -137,8 +136,16 @@ session_runtime <- function(compute_mass_storage = TRUE) {
 #' footprint_values <- c(0.001234, 1.23456, 123.456, 12345.6)
 #' round_conditionaly(footprint_values)
 round_conditionaly <- function(
-    vec,
-    cond = cbind(c(1.e-5, 5), c(0.001, 3), c(0.01, 3), c(1, 2), c(10, 1), c(100, 0))) {
+  vec,
+  cond = cbind(
+    c(1.e-5, 5),
+    c(0.001, 3),
+    c(0.01, 3),
+    c(1, 2),
+    c(10, 1),
+    c(100, 0)
+  )
+) {
   cond <- cond[, order(cond[1, ], decreasing = TRUE)]
 
   res <- vec
