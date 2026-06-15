@@ -381,7 +381,7 @@ ga_footprint(
 ga_footprint(runtime_h = "session")
 #> $runtime_h
 #>   user.self 
-#> 0.001250556 
+#> 0.001226389 
 #> 
 #> $location_code
 #> [1] "WORLD"
@@ -415,33 +415,33 @@ ga_footprint(runtime_h = "session")
 #> 
 #> $power_draw_for_cores_kWh
 #>    user.self 
-#> 2.506113e-05 
+#> 2.457683e-05 
 #> 
 #> $power_draw_for_memory_kWh
 #>    user.self 
-#> 5.229558e-05 
+#> 5.128498e-05 
 #> 
 #> $energy_needed_kWh
 #>    user.self 
-#> 7.735671e-05 
+#> 7.586181e-05 
 #> 
 #> $carbon_footprint_cores
-#>  user.self 
-#> 0.01190404 
+#> user.self 
+#>  0.011674 
 #> 
 #> $carbon_footprint_memory
-#> user.self 
-#> 0.0248404 
+#>  user.self 
+#> 0.02436037 
 #> 
 #> $carbon_footprint_total_gCO2
 #>  user.self 
-#> 0.03674444 
+#> 0.03603436 
 #> 
 #> $ref_value
 #>                     variable                value
-#> 1                      Total   0.0367444381207932
-#> 2                      Cores 2.50611333333333e-05
-#> 3                     Memory 5.22955784999155e-05
+#> 1                      Total   0.0360343612401826
+#> 2                      Cores 2.45768333333333e-05
+#> 3                     Memory 5.12849798038932e-05
 #> 4                memoryPower               0.3725
 #> 5              google_search                   10
 #> 6  streaming_netflix_perhour                   36
@@ -476,19 +476,19 @@ ga_footprint(runtime_h = "session")
 #> 1    1.000000e+00
 #> 2    6.820388e-04
 #> 3    1.423224e-03
-#> 4    1.013759e+01
-#> 5    2.721500e+02
-#> 6    9.797401e+02
-#> 7    1.115815e+03
-#> 8    4.653766e+03
-#> 9    4.762626e+03
-#> 10   6.830966e+03
-#> 11   2.495616e+04
-#> 12   2.993650e+05
-#> 13   1.360750e+06
-#> 14   2.993650e+06
-#> 15   1.551255e+07
-#> 16   6.286666e+07
+#> 4    1.033736e+01
+#> 5    2.775129e+02
+#> 6    9.990464e+02
+#> 7    1.137803e+03
+#> 8    4.745471e+03
+#> 9    4.856476e+03
+#> 10   6.965574e+03
+#> 11   2.544793e+04
+#> 12   3.052642e+05
+#> 13   1.387564e+06
+#> 14   3.052642e+06
+#> 15   1.581824e+07
+#> 16   6.410548e+07
 #> 
 
 # Compare different locations
