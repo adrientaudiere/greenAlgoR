@@ -4,9 +4,9 @@
 
 The `greenAlgoR` package provides tools to estimate the carbon footprint
 and energy consumption of computational tasks in R. Based on the Green
-Algorithms framework (Lannelongue, Grealey, and Inouye (2021)), this
-package helps researchers and data scientists understand and minimize
-the environmental impact of their computational work.
+Algorithms framework (Lannelongue et al. (2021)), this package helps
+researchers and data scientists understand and minimize the
+environmental impact of their computational work.
 
 ## ✨ Key Features
 
@@ -26,7 +26,7 @@ library(greenAlgoR)
 
 # Calculate footprint for a 2-hour computation
 result <- ga_footprint(runtime_h = 2, location_code = "WORLD")
-result$carbon_footprint_total_gCO2  # CO2 emissions in grams
+result$carbon_footprint_total_gCO2 # CO2 emissions in grams
 
 # For your current R session
 session_footprint <- ga_footprint(runtime_h = "session")
@@ -37,8 +37,8 @@ targets_footprint <- ga_targets()
 
 ## Installation
 
-**greenAlgoR** is not available on CRAN yet. You can install the stable
-development version from GitHub with:
+greenAlgoR is not available on CRAN for the moment. You can install the
+stable development version from GitHub with:
 
 ``` r
 
@@ -49,24 +49,13 @@ if (!require("devtools", quietly = TRUE)) {
 devtools::install_github("adrientaudiere/greenAlgoR")
 ```
 
-You can install the unstable development version from
-[GitHub](https://github.com/) with:
-
-``` r
-
-if (!require("devtools", quietly = TRUE)) {
-  install.packages("devtools")
-}
-devtools::install_github("adrientaudiere/greenAlgoR", ref = "dev")
-```
-
 ## Scientific Foundation
 
 ### The Green Algorithms Framework
 
-This package implements the methodology from Lannelongue, Grealey, and
-Inouye (2021), which provides a standardized approach to quantifying the
-carbon footprint of computational research. The framework considers:
+This package implements the methodology from Lannelongue et al. (2021),
+which provides a standardized approach to quantifying the carbon
+footprint of computational research. The framework considers:
 
 - **Energy consumption**: Based on CPU usage, memory requirements, and
   runtime
@@ -116,7 +105,7 @@ library("greenAlgoR")
 # Calculate footprint for a 2-hour computation
 result <- ga_footprint(
   runtime_h = 2,
-  location_code = "WORLD",  # Global average
+  location_code = "WORLD", # Global average
   n_cores = 4,
   memory_ram = 16
 )
@@ -133,13 +122,13 @@ cat("Energy consumption:", result$energy_needed_kWh, "kWh\n")
 
 # Specify exact CPU model (automatically sets cores and TDP)
 fp_specific <- ga_footprint(
-  runtime_h = 1, 
+  runtime_h = 1,
   cpu_model = "Core i3-10300",
-  location_code = "FR"  # France (low carbon intensity)
+  location_code = "FR" # France (low carbon intensity)
 )
 
 fp_specific$carbon_footprint_total_gCO2
-#> [1] 7.458519
+#> [1] 7.453952
 ```
 
 #### Location Comparison
@@ -154,12 +143,12 @@ footprints <- sapply(locations, function(loc) {
 
 comparison <- data.frame(Location = locations, CO2_grams = footprints)
 print(comparison)
-#>       Location  CO2_grams
-#> WORLD    WORLD 29.4247968
-#> FR          FR  3.1766391
-#> US          US 26.2617860
-#> NO          NO  0.4720357
-#> CN          CN 33.2902858
+#>       Location CO2_grams
+#> WORLD    WORLD 29.382492
+#> FR          FR  3.172072
+#> US          US 26.224028
+#> NO          NO  0.471357
+#> CN          CN 33.242423
 ```
 
 ### Visualization
@@ -170,7 +159,7 @@ print(comparison)
 fp_example <- ga_footprint(runtime_h = 4, n_cores = 4, memory_ram = 16)
 
 # Simple reference comparison
-ref_subset <- fp_example$ref_value[1:5, ]  # Top 5 reference activities
+ref_subset <- fp_example$ref_value[1:5, ] # Top 5 reference activities
 ref_subset$type <- "Reference"
 
 # Add our computation
@@ -181,18 +170,22 @@ our_computation <- data.frame(
   type = "Computation"
 )
 
-plot_data <- rbind(ref_subset[, c("variable", "value", "type")], 
-                   our_computation[, c("variable", "value", "type")])
+plot_data <- rbind(
+  ref_subset[, c("variable", "value", "type")],
+  our_computation[, c("variable", "value", "type")]
+)
 plot_data$value <- as.numeric(plot_data$value)
 
 ggplot(plot_data, aes(x = reorder(variable, value), y = value, fill = type)) +
   geom_col(alpha = 0.8) +
-  scale_fill_manual(values = c("Reference" = "lightblue", 
-                              "Computation" = "darkred")) +
+  scale_fill_manual(values = c(
+    "Reference" = "lightblue",
+    "Computation" = "darkred"
+  )) +
   coord_flip() +
   labs(
-    title = "Carbon Footprint Comparison", 
-    x = "Activity", 
+    title = "Carbon Footprint Comparison",
+    x = "Activity",
     y = "CO2 Emissions (g)",
     fill = "Type"
   ) +
@@ -212,9 +205,9 @@ Calculate the carbon footprint of your current R session:
 # Analyze current R session
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
 cat("Session footprint:", fp_session$carbon_footprint_total_gCO2, "g CO2\n")
-#> Session footprint: 0.01999902 g CO2
+#> Session footprint: 0.01983188 g CO2
 cat("Session runtime:", fp_session$runtime_h, "hours\n")
-#> Session runtime: 0.0006766667 hours
+#> Session runtime: 0.0006719444 hours
 ```
 
 ### Targets Pipeline Integration

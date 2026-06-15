@@ -14,6 +14,7 @@ bibliography: pkgdown/assets/bibliography.bib
 [![CodeFactor](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/badge/main)](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/overview/main) 
 
 ```{r, include = FALSE}
+library(ggplot2)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
