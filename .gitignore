@@ -4,5 +4,6 @@
 .httr-oauth
 .DS_Store
 .quarto
-docs
+/doc/
+inst/doc
 ..Rcheck/
