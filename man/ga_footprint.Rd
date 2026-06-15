@@ -78,6 +78,7 @@ Only used if add_storage_estimation is set to TRUE. If set to NULL, use
 the \code{base::gc()} function to estimate storage used.}
 
 \item{carbon_intensity}{(default NULL). Custom carbon intensity values.
+Note that only the value for the specified \code{location_code} will be used.
 Accepts three formats:
 \itemize{
 \item \code{NULL} (default): use the bundled Green Algorithms database
@@ -229,7 +230,6 @@ res_ga <- ga_footprint(
   add_ref_values = TRUE
 )
 
-library(ggplot2)
 ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(prop_footprint))) +
   geom_col() +
   geom_col(data = data.frame(

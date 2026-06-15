@@ -11,7 +11,7 @@ bibliography: pkgdown/assets/bibliography.bib
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![DOI](https://zenodo.org/badge/888940618.svg)](https://doi.org/10.5281/zenodo.14184331)
 [![codecov](https://codecov.io/gh/adrientaudiere/greenAlgoR/graph/badge.svg?token=NXFRSIKYC0)](https://app.codecov.io/gh/adrientaudiere/greenAlgoR) 
-[![CodeFactor](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/badge/master)](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/overview/master) 
+[![CodeFactor](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/badge/main)](https://www.codefactor.io/repository/github/adrientaudiere/greenalgor/overview/main) 
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(

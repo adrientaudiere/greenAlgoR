@@ -105,6 +105,9 @@ session_runtime <- function(compute_mass_storage = TRUE) {
 #' Conditionally round numeric values based on magnitude
 #'
 #' @description
+#' <a href="https://adrientaudiere.github.io/MiscMetabar/articles/Rules.html#lifecycle">
+#' <img src="https://img.shields.io/badge/lifecycle-experimental-orange" alt="lifecycle-experimental"></a>
+#'
 #' Applies different rounding rules based on the magnitude of values.
 #' Larger values are rounded to fewer decimal places, while smaller values
 #' retain more precision. This is useful for presenting results with
