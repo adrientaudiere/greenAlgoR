@@ -11,7 +11,8 @@ Description: Computes the carbon footprint and ecological impact of computationa
 License: AGPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/adrientaudiere/greenAlgoR, https://adrientaudiere.github.io/greenAlgoR/
+URL: https://github.com/adrientaudiere/greenAlgoR,
+    https://adrientaudiere.github.io/greenAlgoR/
 BugReports: https://github.com/adrientaudiere/greenAlgoR/issues
 Depends:
   R (>= 3.5.0)

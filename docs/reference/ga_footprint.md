@@ -381,7 +381,7 @@ ga_footprint(
 ga_footprint(runtime_h = "session")
 #> $runtime_h
 #>   user.self 
-#> 0.001341111 
+#> 0.001252778 
 #> 
 #> $location_code
 #> [1] "WORLD"
@@ -415,33 +415,33 @@ ga_footprint(runtime_h = "session")
 #> 
 #> $power_draw_for_cores_kWh
 #>    user.self 
-#> 2.687587e-05 
+#> 2.510567e-05 
 #> 
 #> $power_draw_for_memory_kWh
 #>    user.self 
-#> 5.608242e-05 
+#> 5.238851e-05 
 #> 
 #> $energy_needed_kWh
 #>    user.self 
-#> 8.295829e-05 
+#> 7.749417e-05 
 #> 
 #> $carbon_footprint_cores
 #>  user.self 
-#> 0.01276604 
+#> 0.01192519 
 #> 
 #> $carbon_footprint_memory
 #>  user.self 
-#> 0.02663915 
+#> 0.02488454 
 #> 
 #> $carbon_footprint_total_gCO2
 #>  user.self 
-#> 0.03940519 
+#> 0.03680973 
 #> 
 #> $ref_value
 #>                     variable                value
-#> 1                      Total   0.0394051859722767
-#> 2                      Cores 2.68758666666667e-05
-#> 3                     Memory  5.6082419590758e-05
+#> 1                      Total   0.0368097325465965
+#> 2                      Cores 2.51056666666667e-05
+#> 3                     Memory 5.23885071156417e-05
 #> 4                memoryPower               0.3725
 #> 5              google_search                   10
 #> 6  streaming_netflix_perhour                   36
@@ -476,19 +476,19 @@ ga_footprint(runtime_h = "session")
 #> 1    1.000000e+00
 #> 2    6.820388e-04
 #> 3    1.423224e-03
-#> 4    9.453070e+00
-#> 5    2.537737e+02
-#> 6    9.135853e+02
-#> 7    1.040472e+03
-#> 8    4.339530e+03
-#> 9    4.441040e+03
-#> 10   6.369720e+03
-#> 11   2.327105e+04
-#> 12   2.791511e+05
-#> 13   1.268869e+06
-#> 14   2.791511e+06
-#> 15   1.446510e+07
-#> 16   5.862173e+07
+#> 4    1.011961e+01
+#> 5    2.716673e+02
+#> 6    9.780022e+02
+#> 7    1.113836e+03
+#> 8    4.645511e+03
+#> 9    4.754177e+03
+#> 10   6.818849e+03
+#> 11   2.491189e+04
+#> 12   2.988340e+05
+#> 13   1.358336e+06
+#> 14   2.988340e+06
+#> 15   1.548504e+07
+#> 16   6.275514e+07
 #> 
 
 # Compare different locations
