@@ -380,8 +380,8 @@ ga_footprint(
 # Calculate footprint for current R session
 ga_footprint(runtime_h = "session")
 #> $runtime_h
-#>   user.self 
-#> 0.001252778 
+#> user.self 
+#>   0.00124 
 #> 
 #> $location_code
 #> [1] "WORLD"
@@ -414,34 +414,34 @@ ga_footprint(runtime_h = "session")
 #> [1] 1
 #> 
 #> $power_draw_for_cores_kWh
-#>    user.self 
-#> 2.510567e-05 
+#>   user.self 
+#> 2.48496e-05 
 #> 
 #> $power_draw_for_memory_kWh
 #>    user.self 
-#> 5.238851e-05 
+#> 5.185417e-05 
 #> 
 #> $energy_needed_kWh
 #>    user.self 
-#> 7.749417e-05 
+#> 7.670377e-05 
 #> 
 #> $carbon_footprint_cores
 #>  user.self 
-#> 0.01192519 
+#> 0.01180356 
 #> 
 #> $carbon_footprint_memory
 #>  user.self 
-#> 0.02488454 
+#> 0.02463073 
 #> 
 #> $carbon_footprint_total_gCO2
 #>  user.self 
-#> 0.03680973 
+#> 0.03643429 
 #> 
 #> $ref_value
 #>                     variable                value
-#> 1                      Total   0.0368097325465965
-#> 2                      Cores 2.51056666666667e-05
-#> 3                     Memory 5.23885071156417e-05
+#> 1                      Total   0.0364342895982277
+#> 2                      Cores          2.48496e-05
+#> 3                     Memory 5.18541675752161e-05
 #> 4                memoryPower               0.3725
 #> 5              google_search                   10
 #> 6  streaming_netflix_perhour                   36
@@ -476,19 +476,19 @@ ga_footprint(runtime_h = "session")
 #> 1    1.000000e+00
 #> 2    6.820388e-04
 #> 3    1.423224e-03
-#> 4    1.011961e+01
-#> 5    2.716673e+02
-#> 6    9.780022e+02
-#> 7    1.113836e+03
-#> 8    4.645511e+03
-#> 9    4.754177e+03
-#> 10   6.818849e+03
-#> 11   2.491189e+04
-#> 12   2.988340e+05
-#> 13   1.358336e+06
-#> 14   2.988340e+06
-#> 15   1.548504e+07
-#> 16   6.275514e+07
+#> 4    1.022389e+01
+#> 5    2.744667e+02
+#> 6    9.880802e+02
+#> 7    1.125314e+03
+#> 8    4.693381e+03
+#> 9    4.803168e+03
+#> 10   6.889115e+03
+#> 11   2.516860e+04
+#> 12   3.019134e+05
+#> 13   1.372334e+06
+#> 14   3.019134e+06
+#> 15   1.564460e+07
+#> 16   6.340181e+07
 #> 
 
 # Compare different locations

@@ -98,31 +98,31 @@ FALSE if you only need timing information.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">session_info</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cpu_times_users</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> user.self </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       5.5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      5.52 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cpu_times_system</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> user.child </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      2.115 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      2.139 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $time_elapsed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   40.25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  22.314 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cpu_times</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> user.self </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     7.615 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     7.659 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mass_storage_used</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 189.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 189.7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mass_storage_max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 330</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 330.4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get only timing information (faster)</span></span></span>
 <span class="r-in"><span><span class="va">timing_only</span> <span class="op">&lt;-</span> <span class="fu">session_runtime</span><span class="op">(</span>compute_mass_storage <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Session has been running for"</span>, <span class="va">timing_only</span><span class="op">$</span><span class="va">time_elapsed</span>, <span class="st">"seconds\n"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Session has been running for 40.557 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Session has been running for 22.626 seconds</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
