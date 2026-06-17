@@ -288,7 +288,7 @@ ga_footprint(
 #> [1] "Core i5-9600KF"
 #> 
 #> $memory_ram
-#> [1] 67.22321
+#> [1] 67.22322
 #> 
 #> $power_draw_per_gb
 #> [1] 0.3725
@@ -325,9 +325,9 @@ ga_footprint(
 #> 
 #> $ref_value
 #>                     variable              value
-#> 1                      Total   10.2628652164976
+#> 1                      Total   10.2628654778225
 #> 2                      Cores           0.158316
-#> 3                     Memory 0.0418178770767872
+#> 3                     Memory 0.0418178821728256
 #> 4                memoryPower             0.3725
 #> 5              google_search                 10
 #> 6  streaming_netflix_perhour                 36
@@ -363,25 +363,25 @@ ga_footprint(
 #> 2    1.542610e-02
 #> 3    4.074679e-03
 #> 4    3.629591e-02
-#> 5    9.743868e-01
+#> 5    9.743867e-01
 #> 6    3.507792e+00
 #> 7    3.994986e+00
 #> 8    1.666201e+01
 #> 9    1.705177e+01
 #> 10   2.445711e+01
-#> 11   8.935127e+01
+#> 11   8.935126e+01
 #> 12   1.071825e+03
 #> 13   4.871934e+03
 #> 14   1.071825e+04
-#> 15   5.554005e+04
+#> 15   5.554004e+04
 #> 16   2.250833e+05
 #> 
 
 # Calculate footprint for current R session
 ga_footprint(runtime_h = "session")
 #> $runtime_h
-#> user.self 
-#>   0.00124 
+#>   user.self 
+#> 0.001250556 
 #> 
 #> $location_code
 #> [1] "WORLD"
@@ -396,7 +396,7 @@ ga_footprint(runtime_h = "session")
 #> [1] "Any"
 #> 
 #> $memory_ram
-#> [1] 67.22321
+#> [1] 67.22322
 #> 
 #> $power_draw_per_gb
 #> [1] 0.3725
@@ -414,34 +414,34 @@ ga_footprint(runtime_h = "session")
 #> [1] 1
 #> 
 #> $power_draw_for_cores_kWh
-#>   user.self 
-#> 2.48496e-05 
+#>    user.self 
+#> 2.506113e-05 
 #> 
 #> $power_draw_for_memory_kWh
 #>    user.self 
-#> 5.185417e-05 
+#> 5.229558e-05 
 #> 
 #> $energy_needed_kWh
 #>    user.self 
-#> 7.670377e-05 
+#> 7.735672e-05 
 #> 
 #> $carbon_footprint_cores
 #>  user.self 
-#> 0.01180356 
+#> 0.01190404 
 #> 
 #> $carbon_footprint_memory
-#>  user.self 
-#> 0.02463073 
+#> user.self 
+#> 0.0248404 
 #> 
 #> $carbon_footprint_total_gCO2
 #>  user.self 
-#> 0.03643429 
+#> 0.03674444 
 #> 
 #> $ref_value
 #>                     variable                value
-#> 1                      Total   0.0364342895982277
-#> 2                      Cores          2.48496e-05
-#> 3                     Memory 5.18541675752161e-05
+#> 1                      Total   0.0367444411479108
+#> 2                      Cores 2.50611333333333e-05
+#> 3                     Memory 5.22955848727947e-05
 #> 4                memoryPower               0.3725
 #> 5              google_search                   10
 #> 6  streaming_netflix_perhour                   36
@@ -476,19 +476,19 @@ ga_footprint(runtime_h = "session")
 #> 1    1.000000e+00
 #> 2    6.820388e-04
 #> 3    1.423224e-03
-#> 4    1.022389e+01
-#> 5    2.744667e+02
-#> 6    9.880802e+02
-#> 7    1.125314e+03
-#> 8    4.693381e+03
-#> 9    4.803168e+03
-#> 10   6.889115e+03
-#> 11   2.516860e+04
-#> 12   3.019134e+05
-#> 13   1.372334e+06
-#> 14   3.019134e+06
-#> 15   1.564460e+07
-#> 16   6.340181e+07
+#> 4    1.013759e+01
+#> 5    2.721500e+02
+#> 6    9.797400e+02
+#> 7    1.115815e+03
+#> 8    4.653765e+03
+#> 9    4.762625e+03
+#> 10   6.830965e+03
+#> 11   2.495616e+04
+#> 12   2.993650e+05
+#> 13   1.360750e+06
+#> 14   2.993650e+06
+#> 15   1.551255e+07
+#> 16   6.286665e+07
 #> 
 
 # Compare different locations
@@ -496,8 +496,8 @@ locations <- c("WORLD", "FR", "US", "NO")
 sapply(locations, function(loc) {
   ga_footprint(runtime_h = 1, location_code = loc)$carbon_footprint_total_gCO2
 })
-#>     WORLD        FR        US        NO 
-#> 29.382492  3.172072 26.224028  0.471357 
+#>      WORLD         FR         US         NO 
+#> 29.3824940  3.1720722 26.2240306  0.4713571 
 
 # Use a custom carbon intensity value (e.g. from Electricity Maps API)
 ga_footprint(runtime_h = 2, carbon_intensity = 42)$carbon_footprint_total_gCO2
@@ -509,7 +509,7 @@ ga_footprint(
   location_code = "FR",
   carbon_intensity = c("FR" = 56, "CUSTOM_DC" = 450)
 )$carbon_footprint_total_gCO2
-#> [1] 6.928082
+#> [1] 6.928083
 
 # Advanced usage with storage estimation and reference values
 res_ga <- ga_footprint(

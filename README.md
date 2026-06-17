@@ -145,12 +145,12 @@ footprints <- sapply(locations, function(loc) {
 
 comparison <- data.frame(Location = locations, CO2_grams = footprints)
 print(comparison)
-#>       Location CO2_grams
-#> WORLD    WORLD 29.382492
-#> FR          FR  3.172072
-#> US          US 26.224028
-#> NO          NO  0.471357
-#> CN          CN 33.242423
+#>       Location  CO2_grams
+#> WORLD    WORLD 29.3824940
+#> FR          FR  3.1720722
+#> US          US 26.2240306
+#> NO          NO  0.4713571
+#> CN          CN 33.2424259
 ```
 
 ### Visualization
@@ -203,9 +203,9 @@ Calculate the carbon footprint of your current R session:
 # Analyze current R session
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
 cat("Session footprint:", fp_session$carbon_footprint_total_gCO2, "g CO2\n")
-#> Session footprint: 0.01998771 g CO2
+#> Session footprint: 0.01990572 g CO2
 cat("Session runtime:", fp_session$runtime_h, "hours\n")
-#> Session runtime: 0.0006772222 hours
+#> Session runtime: 0.0006744444 hours
 ```
 
 ### Targets Pipeline Integration
