@@ -381,7 +381,7 @@ ga_footprint(
 ga_footprint(runtime_h = "session")
 #> $runtime_h
 #>   user.self 
-#> 0.001250556 
+#> 0.001219722 
 #> 
 #> $location_code
 #> [1] "WORLD"
@@ -415,33 +415,33 @@ ga_footprint(runtime_h = "session")
 #> 
 #> $power_draw_for_cores_kWh
 #>    user.self 
-#> 2.506113e-05 
+#> 2.444323e-05 
 #> 
 #> $power_draw_for_memory_kWh
-#>    user.self 
-#> 5.229558e-05 
+#>   user.self 
+#> 5.10062e-05 
 #> 
 #> $energy_needed_kWh
 #>    user.self 
-#> 7.735672e-05 
+#> 7.544943e-05 
 #> 
 #> $carbon_footprint_cores
 #>  user.self 
-#> 0.01190404 
+#> 0.01161054 
 #> 
 #> $carbon_footprint_memory
-#> user.self 
-#> 0.0248404 
+#>  user.self 
+#> 0.02422795 
 #> 
 #> $carbon_footprint_total_gCO2
 #>  user.self 
-#> 0.03674444 
+#> 0.03583848 
 #> 
 #> $ref_value
 #>                     variable                value
-#> 1                      Total   0.0367444411479108
-#> 2                      Cores 2.50611333333333e-05
-#> 3                     Memory 5.22955848727947e-05
+#> 1                      Total   0.0358384809152546
+#> 2                      Cores 2.44432333333333e-05
+#> 3                     Memory 5.10062001724659e-05
 #> 4                memoryPower               0.3725
 #> 5              google_search                   10
 #> 6  streaming_netflix_perhour                   36
@@ -476,19 +476,19 @@ ga_footprint(runtime_h = "session")
 #> 1    1.000000e+00
 #> 2    6.820388e-04
 #> 3    1.423224e-03
-#> 4    1.013759e+01
-#> 5    2.721500e+02
-#> 6    9.797400e+02
-#> 7    1.115815e+03
-#> 8    4.653765e+03
-#> 9    4.762625e+03
-#> 10   6.830965e+03
-#> 11   2.495616e+04
-#> 12   2.993650e+05
-#> 13   1.360750e+06
-#> 14   2.993650e+06
-#> 15   1.551255e+07
-#> 16   6.286665e+07
+#> 4    1.039386e+01
+#> 5    2.790297e+02
+#> 6    1.004507e+03
+#> 7    1.144022e+03
+#> 8    4.771408e+03
+#> 9    4.883019e+03
+#> 10   7.003645e+03
+#> 11   2.558702e+04
+#> 12   3.069327e+05
+#> 13   1.395148e+06
+#> 14   3.069327e+06
+#> 15   1.590469e+07
+#> 16   6.445586e+07
 #> 
 
 # Compare different locations
