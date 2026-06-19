@@ -54,19 +54,19 @@ session_info <- session_runtime()
 print(session_info)
 #> $cpu_times_users
 #> user.self 
-#>     5.401 
+#>     5.535 
 #> 
 #> $cpu_times_system
 #> user.child 
-#>      2.081 
+#>      2.109 
 #> 
 #> $time_elapsed
 #> elapsed 
-#>  33.864 
+#>  10.415 
 #> 
 #> $cpu_times
 #> user.self 
-#>     7.482 
+#>     7.644 
 #> 
 #> $mass_storage_used
 #> [1] 189.7
@@ -78,5 +78,5 @@ print(session_info)
 # Get only timing information (faster)
 timing_only <- session_runtime(compute_mass_storage = FALSE)
 cat("Session has been running for", timing_only$time_elapsed, "seconds\n")
-#> Session has been running for 34.171 seconds
+#> Session has been running for 10.723 seconds
 ```

@@ -296,7 +296,11 @@ ga_footprint <- function(
 
   if (is.null(carbon_intensity)) {
     carbon_intensity <- carbon_intensity_internal
-  } else if (is.numeric(carbon_intensity) && length(carbon_intensity) == 1 && is.null(names(carbon_intensity))) {
+  } else if (
+    is.numeric(carbon_intensity) &&
+      length(carbon_intensity) == 1 &&
+      is.null(names(carbon_intensity))
+  ) {
     # Single numeric value: use directly as CI, create a minimal data.frame
     # so downstream code (which indexes by location_code) still works.
     carbon_intensity <- data.frame(
@@ -304,7 +308,9 @@ ga_footprint <- function(
       carbonIntensity = carbon_intensity,
       stringsAsFactors = FALSE
     )
-  } else if (is.numeric(carbon_intensity) && !is.null(names(carbon_intensity))) {
+  } else if (
+    is.numeric(carbon_intensity) && !is.null(names(carbon_intensity))
+  ) {
     # Named numeric vector: merge with bundled data
     ci_bundled <- carbon_intensity_internal
     # Override matching locations
