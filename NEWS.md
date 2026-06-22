@@ -1,4 +1,4 @@
-# greenAlgoR (development version)
+# greenAlgoR 0.1.2 (development version)
 
 * `ga_footprint()` gains flexible `carbon_intensity` input: in addition to the existing data.frame format, the parameter now accepts a single numeric value (used directly as gCO2e/kWh regardless of `location_code`) or a named numeric vector (overrides/adds entries to the bundled database). This makes it easy to plug in custom carbon-intensity values from sources like the Electricity Maps API.
 
