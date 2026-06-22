@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Getting Started with greenAlgoR • greenAlgoR</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="Getting Started with greenAlgoR">
@@ -57,14 +57,13 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Getting Started with greenAlgoR</h1>
+      <img src="../logo.svg" class="logo" alt=""><h1>Getting Started with greenAlgoR</h1>
                         <h4 data-toc-skip class="author">Adrien
 Taudière</h4>
             
-            <h4 data-toc-skip class="date">2025-09-24</h4>
+            <h4 data-toc-skip class="date">2026-06-22</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/adrientaudiere/greenAlgoR/blob/master/vignettes/greenAlgoR-intro.Rmd" class="external-link"><code>vignettes/greenAlgoR-intro.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/adrientaudiere/greenAlgoR/blob/main/vignettes/greenAlgoR-intro.Rmd" class="external-link"><code>vignettes/greenAlgoR-intro.Rmd</code></a></small>
       <div class="d-none name"><code>greenAlgoR-intro.Rmd</code></div>
     </div>
 
@@ -75,9 +74,9 @@ Taudière</h4>
 </h2>
 <p>The <code>greenAlgoR</code> package provides tools to estimate the
 carbon footprint and energy consumption of computational tasks in R.
-This package is based on the Green Algorithms framework <span class="citation">(Lannelongue, Grealey, and Inouye 2021)</span>, which
-provides a standardized approach to quantifying the environmental impact
-of computational research.</p>
+This package is based on the Green Algorithms framework <span class="citation">(Lannelongue et al. 2021)</span>, which provides a
+standardized approach to quantifying the environmental impact of
+computational research.</p>
 <p>Understanding the carbon footprint of our computational work is
 increasingly important as we strive to make research more sustainable.
 The <code>greenAlgoR</code> package makes it easy to:</p>
@@ -172,11 +171,11 @@ energy sources:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">comparison_df</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       Location CO2_emissions</span></span>
-<span><span class="co">#&gt; FR          FR     2.5903478</span></span>
-<span><span class="co">#&gt; WORLD    WORLD    23.9940561</span></span>
-<span><span class="co">#&gt; US          US    21.4148213</span></span>
-<span><span class="co">#&gt; CN          CN    27.1461173</span></span>
-<span><span class="co">#&gt; NO          NO     0.3849152</span></span></code></pre></div>
+<span><span class="co">#&gt; FR          FR      2.590151</span></span>
+<span><span class="co">#&gt; WORLD    WORLD     23.992237</span></span>
+<span><span class="co">#&gt; US          US     21.413198</span></span>
+<span><span class="co">#&gt; CN          CN     27.144059</span></span>
+<span><span class="co">#&gt; NO          NO      0.384886</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Visualize the comparison</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">comparison_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">Location</span>, <span class="va">CO2_emissions</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">CO2_emissions</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -190,7 +189,7 @@ energy sources:</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures/location-plot-1.png" alt="Bar plot comparing carbon footprint across different locations for a 1-hour computation with 2 cores." width="100%"></p>
+<p><img src="figures/location-plot-1.png" class="r-plt" alt="Bar plot comparing carbon footprint across different locations for a 1-hour computation with 2 cores." width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="hardware-configuration">Hardware Configuration<a class="anchor" aria-label="anchor" href="#hardware-configuration"></a>
@@ -232,9 +231,9 @@ session:</p>
 <span><span class="va">session_fp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="st">"session"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Current session footprint:"</span>, <span class="va">session_fp</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>, <span class="st">"g CO2\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Current session footprint: 0.01303559 g CO2</span></span>
+<span><span class="co">#&gt; Current session footprint: 0.01322693 g CO2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Session runtime:"</span>, <span class="va">session_fp</span><span class="op">$</span><span class="va">runtime_h</span>, <span class="st">"hours\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Session runtime: 0.0009005556 hours</span></span></code></pre></div>
+<span><span class="co">#&gt; Session runtime: 0.0009138889 hours</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualization-with-reference-values">Visualization with Reference Values<a class="anchor" aria-label="anchor" href="#visualization-with-reference-values"></a>
@@ -290,7 +289,7 @@ context:</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="figures/reference-visualization-1.png" alt="Footprint value compared to references values such as 1 hour of Netflix streaming and a fly from London to Paris." width="100%"></p>
+<p><img src="figures/reference-visualization-1.png" class="r-plt" alt="Footprint value compared to references values such as 1 hour of Netflix streaming and a fly from London to Paris." width="100%"></p>
 </div>
 <div class="section level2">
 <h2 id="best-practices">Best Practices<a class="anchor" aria-label="anchor" href="#best-practices"></a>
@@ -327,7 +326,7 @@ options</li>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-lannelongue_green_2021" class="csl-entry">
 Lannelongue, Loïc, Jason Grealey, and Michael Inouye. 2021. <span>“Green
 <span>Algorithms</span>: <span>Quantifying</span> the
@@ -348,7 +347,7 @@ Lannelongue, Loïc, Jason Grealey, and Michael Inouye. 2021. <span>“Green
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
