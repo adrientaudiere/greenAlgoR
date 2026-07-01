@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- devtools::build_readme() -->
 
 ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
@@ -16,9 +15,9 @@ v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org
 
 The `greenAlgoR` package provides tools to estimate the carbon footprint
 and energy consumption of computational tasks in R. Based on the Green
-Algorithms framework (Lannelongue et al. (2021)), this package helps
-researchers and data scientists understand and minimize the
-environmental impact of their computational work.
+Algorithms framework (Lannelongue, Grealey, and Inouye (2021)), this
+package helps researchers and data scientists understand and minimize
+the environmental impact of their computational work.
 
 ## ✨ Key Features
 
@@ -63,9 +62,9 @@ devtools::install_github("adrientaudiere/greenAlgoR")
 
 ### The Green Algorithms Framework
 
-This package implements the methodology from Lannelongue et al. (2021),
-which provides a standardized approach to quantifying the carbon
-footprint of computational research. The framework considers:
+This package implements the methodology from Lannelongue, Grealey, and
+Inouye (2021), which provides a standardized approach to quantifying the
+carbon footprint of computational research. The framework considers:
 
 - **Energy consumption**: Based on CPU usage, memory requirements, and
   runtime
@@ -203,9 +202,9 @@ Calculate the carbon footprint of your current R session:
 # Analyze current R session
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
 cat("Session footprint:", fp_session$carbon_footprint_total_gCO2, "g CO2\n")
-#> Session footprint: 0.02062718 g CO2
+#> Session footprint: 0.01993852 g CO2
 cat("Session runtime:", fp_session$runtime_h, "hours\n")
-#> Session runtime: 0.0006988889 hours
+#> Session runtime: 0.0006755556 hours
 ```
 
 ### Targets Pipeline Integration
