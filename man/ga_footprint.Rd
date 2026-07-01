@@ -230,6 +230,7 @@ res_ga <- ga_footprint(
   add_ref_values = TRUE
 )
 
+library(ggplot2)
 ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(prop_footprint))) +
   geom_col() +
   geom_col(data = data.frame(
