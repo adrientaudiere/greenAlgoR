@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">greenAlgoR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
                         <h4 data-toc-skip class="author">Adrien
 Taudière</h4>
             
-            <h4 data-toc-skip class="date">2026-06-15</h4>
+            <h4 data-toc-skip class="date">2026-06-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/adrientaudiere/greenAlgoR/blob/HEAD/vignettes/greenAlgoR-intro.Rmd" class="external-link"><code>vignettes/greenAlgoR-intro.Rmd</code></a></small>
       <div class="d-none name"><code>greenAlgoR-intro.Rmd</code></div>
@@ -74,9 +74,9 @@ Taudière</h4>
 </h2>
 <p>The <code>greenAlgoR</code> package provides tools to estimate the
 carbon footprint and energy consumption of computational tasks in R.
-This package is based on the Green Algorithms framework <span class="citation">(Lannelongue et al. 2021)</span>, which provides a
-standardized approach to quantifying the environmental impact of
-computational research.</p>
+This package is based on the Green Algorithms framework <span class="citation">(Lannelongue, Grealey, and Inouye 2021)</span>, which
+provides a standardized approach to quantifying the environmental impact
+of computational research.</p>
 <p>Understanding the carbon footprint of our computational work is
 increasingly important as we strive to make research more sustainable.
 The <code>greenAlgoR</code> package makes it easy to:</p>
@@ -171,11 +171,11 @@ energy sources:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">comparison_df</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       Location CO2_emissions</span></span>
-<span><span class="co">#&gt; FR          FR     4.1997231</span></span>
-<span><span class="co">#&gt; WORLD    WORLD    38.9014916</span></span>
-<span><span class="co">#&gt; US          US    34.7197860</span></span>
-<span><span class="co">#&gt; CN          CN    44.0119191</span></span>
-<span><span class="co">#&gt; NO          NO     0.6240618</span></span></code></pre></div>
+<span><span class="co">#&gt; FR          FR     4.1997234</span></span>
+<span><span class="co">#&gt; WORLD    WORLD    38.9014940</span></span>
+<span><span class="co">#&gt; US          US    34.7197882</span></span>
+<span><span class="co">#&gt; CN          CN    44.0119219</span></span>
+<span><span class="co">#&gt; NO          NO     0.6240619</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Visualize the comparison</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">comparison_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">Location</span>, <span class="va">CO2_emissions</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">CO2_emissions</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -231,9 +231,9 @@ session:</p>
 <span><span class="va">session_fp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="st">"session"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Current session footprint:"</span>, <span class="va">session_fp</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>, <span class="st">"g CO2\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Current session footprint: 0.0247221 g CO2</span></span>
+<span><span class="co">#&gt; Current session footprint: 0.02391409 g CO2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Session runtime:"</span>, <span class="va">session_fp</span><span class="op">$</span><span class="va">runtime_h</span>, <span class="st">"hours\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Session runtime: 0.0008413889 hours</span></span></code></pre></div>
+<span><span class="co">#&gt; Session runtime: 0.0008138889 hours</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualization-with-reference-values">Visualization with Reference Values<a class="anchor" aria-label="anchor" href="#visualization-with-reference-values"></a>

@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">greenAlgoR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
                         <h4 data-toc-skip class="author">Adrien
 Taudière</h4>
             
-            <h4 data-toc-skip class="date">2026-06-15</h4>
+            <h4 data-toc-skip class="date">2026-06-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/adrientaudiere/greenAlgoR/blob/HEAD/vignettes/targets-integration.Rmd" class="external-link"><code>vignettes/targets-integration.Rmd</code></a></small>
       <div class="d-none name"><code>targets-integration.Rmd</code></div>
@@ -174,16 +174,16 @@ based on:</p>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">analysis</span> dispatched</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">analysis</span> completed [1s, 47.53 kB]</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">visualization</span> dispatched</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">visualization</span> completed [581ms, 66 B]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">visualization</span> completed [574ms, 66 B]</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ended pipeline [3.8s, 3 completed, 0 skipped]</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 3</span></span></span>
 <span><span class="co">#&gt;   name          seconds bytes</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> data_prep       2.01  <span style="text-decoration: underline;">15</span>522</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> data_prep       2.00  <span style="text-decoration: underline;">15</span>522</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> analysis        1.01  <span style="text-decoration: underline;">47</span>535</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> visualization   0.581    66</span></span>
-<span><span class="co">#&gt; Pipeline carbon footprint: 0.02621952 g CO2</span></span>
-<span><span class="co">#&gt; Total runtime: 3.608 seconds</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> visualization   0.574    66</span></span>
+<span><span class="co">#&gt; Pipeline carbon footprint: 0.02608145 g CO2</span></span>
+<span><span class="co">#&gt; Total runtime: 3.589 seconds</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -250,16 +250,16 @@ based on:</p>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">large_task</span> dispatched</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">large_task</span> completed [5.1s, 7.68 MB]</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">medium_task</span> dispatched</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">medium_task</span> completed [2s, 1.92 MB]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">medium_task</span> completed [2.1s, 1.92 MB]</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">small_task</span> dispatched</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">small_task</span> completed [503ms, 76.87 kB]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">small_task</span> completed [501ms, 76.87 kB]</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">combined_analysis</span> dispatched</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">combined_analysis</span> completed [1.4s, 49.98 kB]</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ended pipeline [9.5s, 4 completed, 0 skipped]</span></span>
-<span><span class="co">#&gt; Total CO2 emissions: 0.01835448 g</span></span>
-<span><span class="co">#&gt; CPU contribution: 0.01707994 g</span></span>
-<span><span class="co">#&gt; Memory contribution: 0.001272456 g</span></span>
-<span><span class="co">#&gt; Storage contribution: 2.076189e-06 g</span></span></code></pre></div>
+<span><span class="co">#&gt; Total CO2 emissions: 0.01833198 g</span></span>
+<span><span class="co">#&gt; CPU contribution: 0.01705901 g</span></span>
+<span><span class="co">#&gt; Memory contribution: 0.001270896 g</span></span>
+<span><span class="co">#&gt; Storage contribution: 2.073644e-06 g</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="comparing-different-configurations">Comparing Different Configurations<a class="anchor" aria-label="anchor" href="#comparing-different-configurations"></a>
@@ -320,9 +320,9 @@ pipeline’s carbon footprint:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">task3</span> completed [1.5s, 480.03 kB]</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ended pipeline [4.7s, 3 completed, 0 skipped]</span></span>
 <span><span class="co">#&gt;    Config Cores TDP RAM Location CO2_emissions</span></span>
-<span><span class="co">#&gt; 1  Laptop     2  10   8    WORLD   0.022948141</span></span>
-<span><span class="co">#&gt; 2 Desktop     8  15  16       FR   0.013579524</span></span>
-<span><span class="co">#&gt; 3  Server    16  25  64       NO   0.006789859</span></span></code></pre></div>
+<span><span class="co">#&gt; 1  Laptop     2  10   8    WORLD   0.022932950</span></span>
+<span><span class="co">#&gt; 2 Desktop     8  15  16       FR   0.013570535</span></span>
+<span><span class="co">#&gt; 3  Server    16  25  64       NO   0.006785365</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualizing-pipeline-carbon-footprint">Visualizing Pipeline Carbon Footprint<a class="anchor" aria-label="anchor" href="#visualizing-pipeline-carbon-footprint"></a>
@@ -428,7 +428,7 @@ impact:</p>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">preprocessing</span> completed [3s, 38.59 kB]</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">postprocessing</span> dispatched</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">postprocessing</span> completed [2s, 77.94 kB]</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ended pipeline [11.3s, 4 completed, 0 skipped]</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ended pipeline [11.2s, 4 completed, 0 skipped]</span></span></code></pre></div>
 <p><img src="figures/targets-pipeline-visualization-1.png" class="r-plt" alt="Footprint value compared to references values such as 1 hour of Netflix streaming and a fly from London to Paris." width="100%"></p>
 </div>
 <div class="section level2">
@@ -493,14 +493,14 @@ targets:</p>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">memory_intensive</span> dispatched</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">memory_intensive</span> completed [3.3s, 31.13 kB]</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">quick_task</span> dispatched</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">quick_task</span> completed [503ms, 56 B]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">quick_task</span> completed [500ms, 56 B]</span></span>
 <span><span class="co">#&gt; <span style="color: #555555;">+</span> <span style="color: #0000BB;">slow_task</span> dispatched</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">slow_task</span> completed [10.1s, 56 B]</span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ended pipeline [14s, 3 completed, 0 skipped]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">slow_task</span> completed [10s, 56 B]</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> ended pipeline [14.1s, 3 completed, 0 skipped]</span></span>
 <span><span class="co">#&gt;             Target Runtime_sec    Memory_MB CO2_estimate</span></span>
-<span><span class="co">#&gt; 1 memory_intensive       3.317 2.968693e-02  0.019719459</span></span>
-<span><span class="co">#&gt; 2       quick_task       0.503 5.340576e-05  0.002990319</span></span>
-<span><span class="co">#&gt; 3        slow_task      10.050 5.340576e-05  0.059746929</span></span>
+<span><span class="co">#&gt; 1 memory_intensive       3.334 2.968693e-02  0.019820523</span></span>
+<span><span class="co">#&gt; 2       quick_task       0.500 5.340576e-05  0.002972484</span></span>
+<span><span class="co">#&gt; 3        slow_task      10.010 5.340576e-05  0.059509130</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Most carbon-intensive target: slow_task ( 0.06 g CO2 )</span></span></code></pre></div>
 </div>

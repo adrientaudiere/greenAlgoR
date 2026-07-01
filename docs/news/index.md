@@ -1,6 +1,8 @@
 # Changelog
 
-## greenAlgoR (development version)
+## greenAlgoR 0.2.0 (Development version)
+
+## greenAlgoR 0.1.2
 
 - [`ga_footprint()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_footprint.md)
   gains flexible `carbon_intensity` input: in addition to the existing

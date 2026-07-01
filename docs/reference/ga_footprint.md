@@ -381,7 +381,7 @@ ga_footprint(
 ga_footprint(runtime_h = "session")
 #> $runtime_h
 #>   user.self 
-#> 0.001237778 
+#> 0.001965556 
 #> 
 #> $location_code
 #> [1] "WORLD"
@@ -415,33 +415,33 @@ ga_footprint(runtime_h = "session")
 #> 
 #> $power_draw_for_cores_kWh
 #>    user.self 
-#> 2.480507e-05 
+#> 3.938973e-05 
 #> 
 #> $power_draw_for_memory_kWh
 #>    user.self 
-#> 5.176125e-05 
+#> 8.219537e-05 
 #> 
 #> $energy_needed_kWh
 #>    user.self 
-#> 7.656631e-05 
+#> 0.0001215851 
 #> 
 #> $carbon_footprint_cores
 #>  user.self 
-#> 0.01178241 
+#> 0.01871012 
 #> 
 #> $carbon_footprint_memory
-#>  user.self 
-#> 0.02458659 
+#> user.self 
+#> 0.0390428 
 #> 
 #> $carbon_footprint_total_gCO2
-#> user.self 
-#>  0.036369 
+#>  user.self 
+#> 0.05775292 
 #> 
 #> $ref_value
 #>                     variable                value
-#> 1                      Total   0.0363689981686119
-#> 2                      Cores 2.48050666666667e-05
-#> 3                     Memory  5.1761245267253e-05
+#> 1                      Total   0.0577529243808567
+#> 2                      Cores 3.93897333333333e-05
+#> 3                     Memory  8.2195370626365e-05
 #> 4                memoryPower               0.3725
 #> 5              google_search                   10
 #> 6  streaming_netflix_perhour                   36
@@ -476,19 +476,19 @@ ga_footprint(runtime_h = "session")
 #> 1    1.000000e+00
 #> 2    6.820388e-04
 #> 3    1.423224e-03
-#> 4    1.024224e+01
-#> 5    2.749595e+02
-#> 6    9.898540e+02
-#> 7    1.127334e+03
-#> 8    4.701807e+03
-#> 9    4.811791e+03
-#> 10   6.901482e+03
-#> 11   2.521378e+04
-#> 12   3.024554e+05
-#> 13   1.374797e+06
-#> 14   3.024554e+06
-#> 15   1.567269e+07
-#> 16   6.351563e+07
+#> 4    6.449890e+00
+#> 5    1.731514e+02
+#> 6    6.233451e+02
+#> 7    7.099208e+02
+#> 8    2.960889e+03
+#> 9    3.030150e+03
+#> 10   4.346100e+03
+#> 11   1.587798e+04
+#> 12   1.904665e+05
+#> 13   8.657570e+05
+#> 14   1.904665e+06
+#> 15   9.869630e+06
+#> 16   3.999797e+07
 #> 
 
 # Compare different locations
@@ -520,6 +520,7 @@ res_ga <- ga_footprint(
   add_ref_values = TRUE
 )
 
+library(ggplot2)
 ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(prop_footprint))) +
   geom_col() +
   geom_col(data = data.frame(
@@ -560,5 +561,4 @@ ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value), fill = log10(p
   xlab("Carbon footprint (g CO2) in log10") +
   ylab("Modality") +
   theme(legend.position = "none")
-#> Error in ggplot(res_ga$ref_value, aes(y = variable, x = as.numeric(value),     fill = log10(prop_footprint))): could not find function "ggplot"
 ```
