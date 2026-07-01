@@ -16,3 +16,10 @@
 ^citation.cff$
 ^vignettes/articles$
 ^cran-comments\.md$
+^CONTEXT\.md$
+^CLAUDE\.md$
+^\.claude$
+^README\.html$
+^Rplots\.pdf$
+^audits$
+^dev$
