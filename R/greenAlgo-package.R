@@ -61,4 +61,5 @@
 #' @author Adrien Taudière \email{adrien.taudiere@zaclys.net}
 #' @name greenAlgoR-package
 #' @import ggplot2 targets benchmarkme
+#' @importFrom dplyr filter group_by summarise slice_max ungroup
 NULL

@@ -47,7 +47,6 @@ figure and pairs naturally with the carbon-footprint estimates of
 \code{\link{ga_footprint}()}.
 }
 \examples{
-\donttest{
 if (requireNamespace("autometric", quietly = TRUE)) {
   log_file <- tempfile()
   autometric::log_start(path = log_file, seconds = 0.05)
@@ -58,7 +57,6 @@ if (requireNamespace("autometric", quietly = TRUE)) {
   }
   autometric::log_stop()
   ga_autometric_plot(log_file)
-}
 }
 }
 \seealso{

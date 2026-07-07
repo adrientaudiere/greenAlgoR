@@ -18,15 +18,19 @@ Depends:
   R (>= 3.5.0)
 Imports:
   benchmarkme,
+  dplyr,
   targets,
-  ggplot2,
+  ggplot2 (>= 3.5.0),
   utils
 Suggests:
+    autometric,
+    ggnetwork,
     here,
-    RCurl,
-    testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    network,
+    RCurl,
+    rmarkdown,
+    testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 Config/roxygen2/version: 8.0.0

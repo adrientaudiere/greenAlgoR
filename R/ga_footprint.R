@@ -1,4 +1,4 @@
-#' Compute footprint in grams of CO2 using [Lannelongue et al. 2021](\doi{10.1002/advs.202100707}) algorithm
+#' Compute footprint in grams of CO2 using [Lannelongue et al. 2021](https://doi.org/10.1002/advs.202100707) algorithm
 #'
 #' @description
 #'

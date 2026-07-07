@@ -6,6 +6,7 @@
 \usage{
 ga_targets_network(
   store = targets::tar_config_get("store"),
+  script = targets::tar_config_get("script"),
   tar_network_raw = NULL,
   size_by = "seconds",
   color_by = "bytes",
@@ -18,6 +19,11 @@ ga_targets_network(
 \arguments{
 \item{store}{(character, default \code{targets::tar_config_get("store")}) Path to
 the targets data store. See \code{?targets::tar_network()}.}
+
+\item{script}{(character, default \code{targets::tar_config_get("script")}) Path to
+the target script file (e.g. \verb{_targets.R}). Required by
+\code{targets::tar_network()} to build the pipeline graph. See
+\code{?targets::tar_network()}.}
 
 \item{tar_network_raw}{(optional list) A precomputed
 \code{targets::tar_network()} result (a list with \verb{$vertices} and
@@ -64,7 +70,6 @@ The per-target metrics (\code{seconds}, \code{bytes}) are taken directly from
 needed.
 }
 \examples{
-\donttest{
 targets::tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
   targets::tar_script(
     {
@@ -80,7 +85,6 @@ targets::tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
   net <- targets::tar_network(targets_only = TRUE)
   ga_targets_network(tar_network_raw = net)
 })
-}
 }
 \seealso{
 \code{\link{ga_targets}()}, \code{\link{ga_autometric_plot}()}

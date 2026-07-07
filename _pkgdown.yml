@@ -25,8 +25,11 @@ reference:
   contents:
   - ga_footprint
   - ga_targets
+  - ga_targets_meta_plot
   - ga_targets_network
   - ga_autometric_plot
+  - ga_autometric_lastrun
+  - ga_autometric_history
   
 - title: Utility Functions
   desc: Helper functions and data processing
