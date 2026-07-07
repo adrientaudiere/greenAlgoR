@@ -381,7 +381,7 @@ ga_footprint(
 ga_footprint(runtime_h = "session")
 #> $runtime_h
 #>   user.self 
-#> 0.001707778 
+#> 0.001706111 
 #> 
 #> $location_code
 #> [1] "WORLD"
@@ -415,33 +415,33 @@ ga_footprint(runtime_h = "session")
 #> 
 #> $power_draw_for_cores_kWh
 #>    user.self 
-#> 3.422387e-05 
+#> 3.419047e-05 
 #> 
 #> $power_draw_for_memory_kWh
 #>    user.self 
-#> 7.141565e-05 
+#> 7.134595e-05 
 #> 
 #> $energy_needed_kWh
 #>    user.self 
-#> 0.0001056395 
+#> 0.0001055364 
 #> 
 #> $carbon_footprint_cores
 #>  user.self 
-#> 0.01625634 
+#> 0.01624047 
 #> 
 #> $carbon_footprint_memory
 #>  user.self 
-#> 0.03392243 
+#> 0.03388933 
 #> 
 #> $carbon_footprint_total_gCO2
-#>  user.self 
-#> 0.05017877 
+#> user.self 
+#> 0.0501298 
 #> 
 #> $ref_value
 #>                     variable                value
-#> 1                      Total   0.0501787703636952
-#> 2                      Cores 3.42238666666667e-05
-#> 3                     Memory  7.1415649888481e-05
+#> 1                      Total   0.0501297995403083
+#> 2                      Cores 3.41904666666667e-05
+#> 3                     Memory  7.1345953418193e-05
 #> 4                memoryPower               0.3725
 #> 5              google_search                   10
 #> 6  streaming_netflix_perhour                   36
@@ -476,19 +476,19 @@ ga_footprint(runtime_h = "session")
 #> 1    1.000000e+00
 #> 2    6.820388e-04
 #> 3    1.423224e-03
-#> 4    7.423458e+00
-#> 5    1.992875e+02
-#> 6    7.174349e+02
-#> 7    8.170786e+02
-#> 8    3.407816e+03
-#> 9    3.487531e+03
-#> 10   5.002115e+03
-#> 11   1.827466e+04
-#> 12   2.192162e+05
-#> 13   9.964373e+05
-#> 14   2.192162e+06
-#> 15   1.135939e+07
-#> 16   4.603540e+07
+#> 4    7.430710e+00
+#> 5    1.994821e+02
+#> 6    7.181357e+02
+#> 7    8.178768e+02
+#> 8    3.411145e+03
+#> 9    3.490938e+03
+#> 10   5.007002e+03
+#> 11   1.829251e+04
+#> 12   2.194304e+05
+#> 13   9.974107e+05
+#> 14   2.194304e+06
+#> 15   1.137048e+07
+#> 16   4.608038e+07
 #> 
 
 # Compare different locations

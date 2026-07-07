@@ -202,9 +202,9 @@ Calculate the carbon footprint of your current R session:
 # Analyze current R session
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
 cat("Session footprint:", fp_session$carbon_footprint_total_gCO2, "g CO2\n")
-#> Session footprint: 0.01983194 g CO2
+#> Session footprint: 0.01926625 g CO2
 cat("Session runtime:", fp_session$runtime_h, "hours\n")
-#> Session runtime: 0.0006719444 hours
+#> Session runtime: 0.0006527778 hours
 ```
 
 ### Targets Pipeline Integration
