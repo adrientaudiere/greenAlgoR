@@ -4,9 +4,9 @@
 
 The `greenAlgoR` package provides tools to estimate the carbon footprint
 and energy consumption of computational tasks in R. Based on the Green
-Algorithms framework (Lannelongue et al. (2021)), this package helps
-researchers and data scientists understand and minimize the
-environmental impact of their computational work.
+Algorithms framework (Lannelongue, Grealey, and Inouye (2021)), this
+package helps researchers and data scientists understand and minimize
+the environmental impact of their computational work.
 
 ## ✨ Key Features
 
@@ -53,9 +53,9 @@ devtools::install_github("adrientaudiere/greenAlgoR")
 
 ### The Green Algorithms Framework
 
-This package implements the methodology from Lannelongue et al. (2021),
-which provides a standardized approach to quantifying the carbon
-footprint of computational research. The framework considers:
+This package implements the methodology from Lannelongue, Grealey, and
+Inouye (2021), which provides a standardized approach to quantifying the
+carbon footprint of computational research. The framework considers:
 
 - **Energy consumption**: Based on CPU usage, memory requirements, and
   runtime
@@ -205,9 +205,9 @@ Calculate the carbon footprint of your current R session:
 # Analyze current R session
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
 cat("Session footprint:", fp_session$carbon_footprint_total_gCO2, "g CO2\n")
-#> Session footprint: 0.02062718 g CO2
+#> Session footprint: 0.01983194 g CO2
 cat("Session runtime:", fp_session$runtime_h, "hours\n")
-#> Session runtime: 0.0006988889 hours
+#> Session runtime: 0.0006719444 hours
 ```
 
 ### Targets Pipeline Integration
@@ -500,11 +500,34 @@ Core functions for carbon footprint estimation
   :
 
   Compute footprint in grams of CO2 using [Lannelongue et al.
-  2021](https://adrientaudiere.github.io/greenAlgoR/reference/%5Cdoi%7B10.1002/advs.202100707%7D)
-  algorithm
+  2021](https://doi.org/10.1002/advs.202100707) algorithm
 
 - [`ga_targets()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets.md)
   : Calculate carbon footprint for targets pipelines
+
+- [`ga_targets_meta_plot()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets_meta_plot.md)
+  :
+
+  Plot per-target runtime and output size from `targets` metadata
+
+- [`ga_targets_network()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets_network.md)
+  :
+
+  Visualize a `targets` pipeline as a resource-annotated network
+
+- [`ga_autometric_plot()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_autometric_plot.md)
+  :
+
+  Plot resource-usage logs recorded by the `autometric` package
+
+- [`ga_autometric_lastrun()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_autometric_lastrun.md)
+  :
+
+  Plot the last-run duration of every stored target from an `autometric`
+  log
+
+- [`ga_autometric_history()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_autometric_history.md)
+  : Plot the full history of every logged run, including reruns
 
 ## Utility Functions
 

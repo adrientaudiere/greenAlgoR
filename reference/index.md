@@ -8,11 +8,34 @@ Core functions for carbon footprint estimation
   :
 
   Compute footprint in grams of CO2 using [Lannelongue et al.
-  2021](https://adrientaudiere.github.io/greenAlgoR/reference/%5Cdoi%7B10.1002/advs.202100707%7D)
-  algorithm
+  2021](https://doi.org/10.1002/advs.202100707) algorithm
 
 - [`ga_targets()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets.md)
   : Calculate carbon footprint for targets pipelines
+
+- [`ga_targets_meta_plot()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets_meta_plot.md)
+  :
+
+  Plot per-target runtime and output size from `targets` metadata
+
+- [`ga_targets_network()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets_network.md)
+  :
+
+  Visualize a `targets` pipeline as a resource-annotated network
+
+- [`ga_autometric_plot()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_autometric_plot.md)
+  :
+
+  Plot resource-usage logs recorded by the `autometric` package
+
+- [`ga_autometric_lastrun()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_autometric_lastrun.md)
+  :
+
+  Plot the last-run duration of every stored target from an `autometric`
+  log
+
+- [`ga_autometric_history()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_autometric_history.md)
+  : Plot the full history of every logged run, including reruns
 
 ## Utility Functions
 

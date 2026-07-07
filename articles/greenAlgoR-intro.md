@@ -108,11 +108,11 @@ comparison_df <- data.frame(
 
 print(comparison_df)
 #>       Location CO2_emissions
-#> FR          FR      2.590151
-#> WORLD    WORLD     23.992237
-#> US          US     21.413198
-#> CN          CN     27.144059
-#> NO          NO      0.384886
+#> FR          FR     2.5902896
+#> WORLD    WORLD    23.9935175
+#> US          US    21.4143406
+#> CN          CN    27.1455080
+#> NO          NO     0.3849065
 ```
 
 ``` r
@@ -175,9 +175,9 @@ You can easily calculate the carbon footprint of your current R session:
 session_fp <- ga_footprint(runtime_h = "session")
 
 cat("Current session footprint:", session_fp$carbon_footprint_total_gCO2, "g CO2\n")
-#> Current session footprint: 0.01322693 g CO2
+#> Current session footprint: 0.01377894 g CO2
 cat("Session runtime:", session_fp$runtime_h, "hours\n")
-#> Session runtime: 0.0009138889 hours
+#> Session runtime: 0.0009519444 hours
 ```
 
 ## Visualization with Reference Values

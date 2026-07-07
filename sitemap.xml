@@ -1,5 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/404.html</loc></url>
+<url><loc>https://adrientaudiere.github.io/greenAlgoR/CLAUDE.html</loc></url>
+<url><loc>https://adrientaudiere.github.io/greenAlgoR/CONTEXT.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/LICENSE.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/articles/greenAlgoR-intro.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/articles/index.html</loc></url>
@@ -8,8 +10,13 @@
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/index.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/news/index.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/csv_from_url_ga.html</loc></url>
+<url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/ga_autometric_history.html</loc></url>
+<url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/ga_autometric_lastrun.html</loc></url>
+<url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/ga_autometric_plot.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/ga_footprint.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets.html</loc></url>
+<url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets_meta_plot.html</loc></url>
+<url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets_network.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/greenAlgoR-package.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/index.html</loc></url>
 <url><loc>https://adrientaudiere.github.io/greenAlgoR/reference/round_conditionaly.html</loc></url>
