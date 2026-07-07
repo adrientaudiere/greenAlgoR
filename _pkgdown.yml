@@ -6,6 +6,9 @@ template:
     fg: "#003f5f"
     primary: "#b96821"
     secondary: "#B2CD2D"
+    base_font: "Fira Mono, monospace"
+    heading_font: "Fira Sans, sans-serif"
+    code_font: "Fira Code, monospace"
 navbar:
   components:
     articles:
@@ -22,6 +25,8 @@ reference:
   contents:
   - ga_footprint
   - ga_targets
+  - ga_targets_network
+  - ga_autometric_plot
   
 - title: Utility Functions
   desc: Helper functions and data processing
