@@ -185,6 +185,6 @@ targets::tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #> ✔ x completed [1ms, 44 B]
 #> + waiting dispatched
 #> ✔ waiting completed [2s, 44 B]
-#> ✔ ended pipeline [2.2s, 2 completed, 0 skipped]
+#> ✔ ended pipeline [2.1s, 2 completed, 0 skipped]
 
 ```

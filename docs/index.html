@@ -69,7 +69,7 @@
 <p><strong>Calculate the environmental impact of your R computations</strong> 🌱</p>
 <p>The <code>greenAlgoR</code> package provides tools to estimate the carbon footprint and energy consumption of computational tasks in R. Based on the Green Algorithms framework (Lannelongue, Grealey, and Inouye (2021)), this package helps researchers and data scientists understand and minimize the environmental impact of their computational work.</p>
 <div class="section level2">
-<h2 id="sparkles-key-features">✨ Key Features<a class="anchor" aria-label="anchor" href="#sparkles-key-features"></a>
+<h2 id="id_-key-features">✨ Key Features<a class="anchor" aria-label="anchor" href="#id_-key-features"></a>
 </h2>
 <ul>
 <li>🔍 <strong>Calculate CO2 emissions</strong> from R computations based on runtime, CPU, and memory usage</li>
@@ -81,7 +81,7 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="rocket-quick-start">🚀 Quick Start<a class="anchor" aria-label="anchor" href="#rocket-quick-start"></a>
+<h2 id="id_-quick-start">🚀 Quick Start<a class="anchor" aria-label="anchor" href="#id_-quick-start"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/adrientaudiere/greenAlgoR" class="external-link">greenAlgoR</a></span><span class="op">)</span></span>
@@ -132,12 +132,12 @@
 <p>The carbon footprint is calculated by estimating the energy draw of the algorithm and the carbon intensity of producing this energy at a given location:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">carbon footprint</mtext><mo>=</mo><mtext mathvariant="normal">energy needed</mtext><mo>×</mo><mtext mathvariant="normal">carbon intensity</mtext></mrow><annotation encoding="application/x-tex">\text{carbon footprint} = \text{energy needed} \times \text{carbon intensity}</annotation></semantics></math></p>
 <p>Where the energy needed is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">runtime</mtext><mo>×</mo><mo stretchy="false" form="prefix">(</mo><mtext mathvariant="normal">power draw for cores</mtext><mo>×</mo><mtext mathvariant="normal">usage</mtext><mo>+</mo><mtext mathvariant="normal">power draw for memory</mtext><mo stretchy="false" form="postfix">)</mo><mo>×</mo><mtext mathvariant="normal">PUE</mtext><mo>×</mo><mtext mathvariant="normal">PSF</mtext></mrow><annotation encoding="application/x-tex">\text{runtime} \times (\text{power draw for cores} \times \text{usage} + \text{power draw for memory}) \times \text{PUE} \times \text{PSF}</annotation></semantics></math></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="normal">runtime</mtext><mo>×</mo><mrow><mo stretchy="true" form="prefix">(</mo><mtext mathvariant="normal">power draw for cores</mtext><mo>×</mo><mtext mathvariant="normal">usage</mtext><mo>+</mo><mtext mathvariant="normal">power draw for memory</mtext><mo stretchy="true" form="postfix">)</mo></mrow><mo>×</mo><mtext mathvariant="normal">PUE</mtext><mo>×</mo><mtext mathvariant="normal">PSF</mtext></mrow><annotation encoding="application/x-tex">\text{runtime} \times (\text{power draw for cores} \times \text{usage} + \text{power draw for memory}) \times \text{PUE} \times \text{PSF}</annotation></semantics></math></p>
 <p>The key factors are: - <strong>Power draw for cores</strong>: Depends on CPU model and number of cores - <strong>Memory power draw</strong>: Based on available RAM memory - <strong>Usage factor</strong>: Corrects for actual core utilization (default: 100%) - <strong>PUE</strong>: Power Usage Effectiveness for data center efficiency - <strong>PSF</strong>: Pragmatic Scaling Factor for multiple runs - <strong>Carbon intensity</strong>: Location-dependent based on energy sources</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="open_book-examples">📖 Examples<a class="anchor" aria-label="anchor" href="#open_book-examples"></a>
+<h2 id="id_-examples">📖 Examples<a class="anchor" aria-label="anchor" href="#id_-examples"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/adrientaudiere/greenAlgoR" class="external-link">"greenAlgoR"</a></span><span class="op">)</span></span></code></pre></div>
@@ -244,9 +244,9 @@
 <code class="sourceCode R"><span><span class="co"># Analyze current R session</span></span>
 <span><span class="va">fp_session</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="st">"session"</span>, add_storage_estimation <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Session footprint:"</span>, <span class="va">fp_session</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>, <span class="st">"g CO2\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Session footprint: 0.01993852 g CO2</span></span>
+<span><span class="co">#&gt; Session footprint: 0.01983194 g CO2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Session runtime:"</span>, <span class="va">fp_session</span><span class="op">$</span><span class="va">runtime_h</span>, <span class="st">"hours\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Session runtime: 0.0006755556 hours</span></span></code></pre></div>
+<span><span class="co">#&gt; Session runtime: 0.0006719444 hours</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="targets-pipeline-integration">Targets Pipeline Integration<a class="anchor" aria-label="anchor" href="#targets-pipeline-integration"></a>
@@ -263,7 +263,7 @@
 </div>
 </div>
 <div class="section level2">
-<h2 id="books-documentation">📚 Documentation<a class="anchor" aria-label="anchor" href="#books-documentation"></a>
+<h2 id="id_-documentation">📚 Documentation<a class="anchor" aria-label="anchor" href="#id_-documentation"></a>
 </h2>
 <ul>
 <li>
@@ -275,7 +275,7 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="handshake-contributing">🤝 Contributing<a class="anchor" aria-label="anchor" href="#handshake-contributing"></a>
+<h2 id="id_-contributing">🤝 Contributing<a class="anchor" aria-label="anchor" href="#id_-contributing"></a>
 </h2>
 <p>We welcome contributions! Please:</p>
 <ol style="list-style-type: decimal">
@@ -287,7 +287,7 @@
 </ol>
 </div>
 <div class="section level2">
-<h2 id="bulb-best-practices">💡 Best Practices<a class="anchor" aria-label="anchor" href="#bulb-best-practices"></a>
+<h2 id="id_-best-practices">💡 Best Practices<a class="anchor" aria-label="anchor" href="#id_-best-practices"></a>
 </h2>
 <ul>
 <li>
@@ -304,7 +304,7 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="arrows_counterclockwise-roadmap">🔄 Roadmap<a class="anchor" aria-label="anchor" href="#arrows_counterclockwise-roadmap"></a>
+<h2 id="id_-roadmap">🔄 Roadmap<a class="anchor" aria-label="anchor" href="#id_-roadmap"></a>
 </h2>
 <ul class="task-list">
 <li><label><input type="checkbox">Submit to CRAN</label></li>
@@ -313,7 +313,7 @@
 </ul>
 </div>
 <div class="section level2">
-<h2 id="page_facing_up-citation">📄 Citation<a class="anchor" aria-label="anchor" href="#page_facing_up-citation"></a>
+<h2 id="id_-citation">📄 Citation<a class="anchor" aria-label="anchor" href="#id_-citation"></a>
 </h2>
 <p>If you use <code>greenAlgoR</code> in your research, please cite both the package and the underlying methodology:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># For greenAlgoR package</span></span>

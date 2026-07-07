@@ -38,7 +38,17 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="greenalgor-020-development-version">greenAlgoR 0.2.0 (Development version)<a class="anchor" aria-label="anchor" href="#greenalgor-020-development-version"></a></h2>
-</div>
+<ul><li>
+<code><a href="../reference/ga_autometric_history.html">ga_autometric_history()</a></code> draws a Gantt-style timeline of every process run in an <code>autometric</code> log, grouped into pipeline sessions (faceted by the <code>session_gap</code> argument) with a session-relative time axis, so a target rebuilt across several executions appears in several facets, exposing the trial-and-error and re-run cost that last-run views hide.</li>
+<li>
+<code><a href="../reference/ga_autometric_lastrun.html">ga_autometric_lastrun()</a></code> reconstructs the last-run resource impact from an <code>autometric</code> log, keeping only the single longest run of each target still present in the <code>targets</code> store and drawing one duration bar per target colored by mean CPU usage.</li>
+<li>
+<code><a href="../reference/ga_autometric_plot.html">ga_autometric_plot()</a></code> renders the CPU and memory usage recorded by the <code>autometric</code> package as a faceted <code>ggplot2</code> line plot over time, with one facet per metric and lines colored by logging phase, process or name.</li>
+<li>
+<code><a href="../reference/ga_targets_meta_plot.html">ga_targets_meta_plot()</a></code> draws one bar per target from <code><a href="https://docs.ropensci.org/targets/reference/tar_meta.html" class="external-link">targets::tar_meta()</a></code>, mapping runtime to bar length and output size to fill and flagging targets that emitted a warning, summarizing the resource impact of the last pipeline run from its metadata.</li>
+<li>
+<code><a href="../reference/ga_targets_network.html">ga_targets_network()</a></code> visualizes a <code>targets</code> pipeline as a resource-annotated dependency network via <code>ggnetwork</code>, mapping per-target runtime and output size to node size and color and the downstream-target runtime to edge width.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.2" id="greenalgor-012">greenAlgoR 0.1.2<a class="anchor" aria-label="anchor" href="#greenalgor-012"></a></h2>
 <ul><li>
