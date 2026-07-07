@@ -288,7 +288,7 @@ ga_footprint(
 #> [1] "Core i5-9600KF"
 #> 
 #> $memory_ram
-#> [1] 16.77076
+#> [1] 16.76642
 #> 
 #> $power_draw_per_gb
 #> [1] 0.3725
@@ -309,38 +309,38 @@ ga_footprint(
 #> [1] 0.158316
 #> 
 #> $power_draw_for_memory_kWh
-#> [1] 0.01043267
+#> [1] 0.01042997
 #> 
 #> $energy_needed_kWh
-#> [1] 0.1687487
+#> [1] 0.168746
 #> 
 #> $carbon_footprint_cores
 #> [1] 8.118444
 #> 
 #> $carbon_footprint_memory
-#> [1] 0.5349872
+#> [1] 0.534849
 #> 
 #> $carbon_footprint_total_gCO2
-#> [1] 8.653432
+#> [1] 8.653293
 #> 
 #> $ref_value
-#>                     variable              value
-#> 1                      Total   8.65343171641974
-#> 2                      Cores           0.158316
-#> 3                     Memory 0.0104326684169216
-#> 4                memoryPower             0.3725
-#> 5              google_search                 10
-#> 6  streaming_netflix_perhour                 36
-#> 7                train_perkm                 41
-#> 8       flight_economy_perkm                171
-#> 9      passengerCar_EU_perkm                175
-#> 10     passengerCar_US_perkm                251
-#> 11                tree_month                917
-#> 12                  treeYear              11000
-#> 13            flight_PAR-LON              50000
-#> 14            flight_PAR-DUB             110000
-#> 15              flight_NY-SF             570000
-#> 16            flight_NYC-MEL            2310000
+#>                     variable             value
+#> 1                      Total  8.65329347557454
+#> 2                      Cores          0.158316
+#> 3                     Memory 0.010429972612608
+#> 4                memoryPower            0.3725
+#> 5              google_search                10
+#> 6  streaming_netflix_perhour                36
+#> 7                train_perkm                41
+#> 8       flight_economy_perkm               171
+#> 9      passengerCar_EU_perkm               175
+#> 10     passengerCar_US_perkm               251
+#> 11                tree_month               917
+#> 12                  treeYear             11000
+#> 13            flight_PAR-LON             50000
+#> 14            flight_PAR-DUB            110000
+#> 15              flight_NY-SF            570000
+#> 16            flight_NYC-MEL           2310000
 #>                                                                                                                                                                                source
 #> 1                                                                                                                                                                                <NA>
 #> 2                                                                                                                                                                                <NA>
@@ -360,28 +360,28 @@ ga_footprint(
 #> 16                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
 #>    prop_footprint
 #> 1    1.000000e+00
-#> 2    1.829517e-02
-#> 3    1.205611e-03
-#> 4    4.304651e-02
-#> 5    1.155611e+00
-#> 6    4.160199e+00
-#> 7    4.738005e+00
-#> 8    1.976095e+01
-#> 9    2.022319e+01
-#> 10   2.900583e+01
-#> 11   1.059695e+02
-#> 12   1.271172e+03
-#> 13   5.778054e+03
-#> 14   1.271172e+04
-#> 15   6.586982e+04
-#> 16   2.669461e+05
+#> 2    1.829546e-02
+#> 3    1.205318e-03
+#> 4    4.304719e-02
+#> 5    1.155629e+00
+#> 6    4.160266e+00
+#> 7    4.738080e+00
+#> 8    1.976126e+01
+#> 9    2.022351e+01
+#> 10   2.900630e+01
+#> 11   1.059712e+02
+#> 12   1.271192e+03
+#> 13   5.778147e+03
+#> 14   1.271192e+04
+#> 15   6.587087e+04
+#> 16   2.669504e+05
 #> 
 
 # Calculate footprint for current R session
 ga_footprint(runtime_h = "session")
 #> $runtime_h
-#> user.self 
-#> 0.0027225 
+#>   user.self 
+#> 0.002812778 
 #> 
 #> $location_code
 #> [1] "WORLD"
@@ -396,7 +396,7 @@ ga_footprint(runtime_h = "session")
 #> [1] "Any"
 #> 
 #> $memory_ram
-#> [1] 16.77076
+#> [1] 16.76642
 #> 
 #> $power_draw_per_gb
 #> [1] 0.3725
@@ -414,34 +414,34 @@ ga_footprint(runtime_h = "session")
 #> [1] 1
 #> 
 #> $power_draw_for_cores_kWh
-#>   user.self 
-#> 5.45589e-05 
+#>    user.self 
+#> 5.636807e-05 
 #> 
 #> $power_draw_for_memory_kWh
-#>    user.self 
-#> 2.840294e-05 
+#>   user.self 
+#> 2.93372e-05 
 #> 
 #> $energy_needed_kWh
 #>    user.self 
-#> 8.296184e-05 
+#> 8.570526e-05 
 #> 
 #> $carbon_footprint_cores
 #>  user.self 
-#> 0.02591548 
+#> 0.02677483 
 #> 
 #> $carbon_footprint_memory
-#> user.self 
-#> 0.0134914 
+#>  user.self 
+#> 0.01393517 
 #> 
 #> $carbon_footprint_total_gCO2
-#>  user.self 
-#> 0.03940687 
+#> user.self 
+#>   0.04071 
 #> 
 #> $ref_value
 #>                     variable                value
-#> 1                      Total   0.0394068738884078
-#> 2                      Cores          5.45589e-05
-#> 3                     Memory 2.84029397650691e-05
+#> 1                      Total   0.0407099993807646
+#> 2                      Cores 5.63680666666667e-05
+#> 3                     Memory 2.93371951875746e-05
 #> 4                memoryPower               0.3725
 #> 5              google_search                   10
 #> 6  streaming_netflix_perhour                   36
@@ -474,21 +474,21 @@ ga_footprint(runtime_h = "session")
 #> 16                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
 #>    prop_footprint
 #> 1    1.000000e+00
-#> 2    1.384502e-03
-#> 3    7.207610e-04
-#> 4    9.452666e+00
-#> 5    2.537628e+02
-#> 6    9.135462e+02
-#> 7    1.040428e+03
-#> 8    4.339344e+03
-#> 9    4.440850e+03
-#> 10   6.369447e+03
-#> 11   2.327005e+04
-#> 12   2.791391e+05
-#> 13   1.268814e+06
-#> 14   2.791391e+06
-#> 15   1.446448e+07
-#> 16   5.861921e+07
+#> 2    1.384625e-03
+#> 3    7.206386e-04
+#> 4    9.150086e+00
+#> 5    2.456399e+02
+#> 6    8.843036e+02
+#> 7    1.007124e+03
+#> 8    4.200442e+03
+#> 9    4.298698e+03
+#> 10   6.165561e+03
+#> 11   2.252518e+04
+#> 12   2.702039e+05
+#> 13   1.228199e+06
+#> 14   2.702039e+06
+#> 15   1.400147e+07
+#> 16   5.674282e+07
 #> 
 
 # Compare different locations
@@ -497,11 +497,11 @@ sapply(locations, function(loc) {
   ga_footprint(runtime_h = 1, location_code = loc)$carbon_footprint_total_gCO2
 })
 #>      WORLD         FR         US         NO 
-#> 14.4745175  1.5626384 12.9185830  0.2322017 
+#> 14.4732370  1.5625002 12.9174402  0.2321812 
 
 # Use a custom carbon intensity value (e.g. from Electricity Maps API)
 ga_footprint(runtime_h = 2, carbon_intensity = 42)$carbon_footprint_total_gCO2
-#> [1] 2.559704
+#> [1] 2.559478
 
 # Override specific locations with custom CI values
 ga_footprint(
@@ -509,7 +509,7 @@ ga_footprint(
   location_code = "FR",
   carbon_intensity = c("FR" = 56, "CUSTOM_DC" = 450)
 )$carbon_footprint_total_gCO2
-#> [1] 3.412939
+#> [1] 3.412637
 
 # Advanced usage with storage estimation and reference values
 res_ga <- ga_footprint(

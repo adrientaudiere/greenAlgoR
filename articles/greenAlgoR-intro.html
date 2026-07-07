@@ -176,11 +176,11 @@ energy sources:</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">comparison_df</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       Location CO2_emissions</span></span>
-<span><span class="co">#&gt; FR          FR     2.5902896</span></span>
-<span><span class="co">#&gt; WORLD    WORLD    23.9935175</span></span>
-<span><span class="co">#&gt; US          US    21.4143406</span></span>
-<span><span class="co">#&gt; CN          CN    27.1455080</span></span>
-<span><span class="co">#&gt; NO          NO     0.3849065</span></span></code></pre></div>
+<span><span class="co">#&gt; FR          FR      2.590151</span></span>
+<span><span class="co">#&gt; WORLD    WORLD     23.992237</span></span>
+<span><span class="co">#&gt; US          US     21.413198</span></span>
+<span><span class="co">#&gt; CN          CN     27.144059</span></span>
+<span><span class="co">#&gt; NO          NO      0.384886</span></span></code></pre></div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Visualize the comparison</span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">comparison_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">Location</span>, <span class="va">CO2_emissions</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">CO2_emissions</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -236,9 +236,9 @@ session:</p>
 <span><span class="va">session_fp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ga_footprint.html">ga_footprint</a></span><span class="op">(</span>runtime_h <span class="op">=</span> <span class="st">"session"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Current session footprint:"</span>, <span class="va">session_fp</span><span class="op">$</span><span class="va">carbon_footprint_total_gCO2</span>, <span class="st">"g CO2\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Current session footprint: 0.01377894 g CO2</span></span>
+<span><span class="co">#&gt; Current session footprint: 0.01393049 g CO2</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Session runtime:"</span>, <span class="va">session_fp</span><span class="op">$</span><span class="va">runtime_h</span>, <span class="st">"hours\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Session runtime: 0.0009519444 hours</span></span></code></pre></div>
+<span><span class="co">#&gt; Session runtime: 0.0009625 hours</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="visualization-with-reference-values">Visualization with Reference Values<a class="anchor" aria-label="anchor" href="#visualization-with-reference-values"></a>

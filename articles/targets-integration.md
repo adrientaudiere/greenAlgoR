@@ -112,8 +112,8 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN compatibility
 #> 1 data_prep       2.00  15523
 #> 2 analysis        1.00  47538
 #> 3 visualization   0.535    67
-#> Pipeline carbon footprint: 0.02573263 g CO2
-#> Total runtime: 3.541 seconds
+#> Pipeline carbon footprint: 0.0257399 g CO2
+#> Total runtime: 3.542 seconds
 ```
 
 ## Advanced Pipeline Analysis
@@ -187,10 +187,10 @@ tar_dir({
 #> + combined_analysis dispatched
 #> ✔ combined_analysis completed [1.4s, 49.99 kB]
 #> ✔ ended pipeline [9.5s, 4 completed, 0 skipped]
-#> Total CO2 emissions: 0.01833402 g
-#> CPU contribution: 0.01706091 g
-#> Memory contribution: 0.001271038 g
-#> Storage contribution: 2.073876e-06 g
+#> Total CO2 emissions: 0.01822564 g
+#> CPU contribution: 0.01696005 g
+#> Memory contribution: 0.001263524 g
+#> Storage contribution: 2.061615e-06 g
 ```
 
 ## Comparing Different Configurations
@@ -435,9 +435,9 @@ tar_dir({
 #> ✔ quick_task completed [500ms, 57 B]
 #> + slow_task dispatched
 #> ✔ slow_task completed [10s, 57 B]
-#> ✔ ended pipeline [14s, 3 completed, 0 skipped]
+#> ✔ ended pipeline [13.9s, 3 completed, 0 skipped]
 #>             Target Runtime_sec    Memory_MB CO2_estimate
-#> 1 memory_intensive       3.306 2.969074e-02  0.019654064
+#> 1 memory_intensive       3.275 2.969074e-02  0.019469770
 #> 2       quick_task       0.500 5.435944e-05  0.002972484
 #> 3        slow_task      10.010 5.435944e-05  0.059509130
 #> 
