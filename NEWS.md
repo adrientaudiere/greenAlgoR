@@ -1,3 +1,5 @@
+# greenAlgoR 0.3.0 (Development version)
+
 # greenAlgoR 0.2.0* `ga_autometric_history()` draws a Gantt-style timeline of every process run in an `autometric` log, grouped into pipeline sessions (faceted by the `session_gap` argument) with a session-relative time axis, so a target rebuilt across several executions appears in several facets, exposing the trial-and-error and re-run cost that last-run views hide.
 * `ga_autometric_lastrun()` reconstructs the last-run resource impact from an `autometric` log, keeping only the single longest run of each target still present in the `targets` store and drawing one duration bar per target colored by mean CPU usage.
 * `ga_autometric_plot()` renders the CPU and memory usage recorded by the `autometric` package as a faceted `ggplot2` line plot over time, with one facet per metric and lines colored by logging phase, process or name.
