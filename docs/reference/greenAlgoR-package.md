@@ -54,6 +54,7 @@ csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266c
 
 To get started with `greenAlgoR`, try:
 
+
     # Basic usage - estimate footprint of a 12-hour computation
     result <- ga_footprint(runtime_h = 12, location_code = "WORLD")
 

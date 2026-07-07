@@ -4,9 +4,9 @@
 
 The `greenAlgoR` package provides tools to estimate the carbon footprint
 and energy consumption of computational tasks in R. This package is
-based on the Green Algorithms framework (Lannelongue, Grealey, and
-Inouye 2021), which provides a standardized approach to quantifying the
-environmental impact of computational research.
+based on the Green Algorithms framework (Lannelongue et al. 2021), which
+provides a standardized approach to quantifying the environmental impact
+of computational research.
 
 Understanding the carbon footprint of our computational work is
 increasingly important as we strive to make research more sustainable.
@@ -20,6 +20,7 @@ The `greenAlgoR` package makes it easy to:
 ## Installation
 
 ``` r
+
 # Install from GitHub (development version)
 if (!require("devtools", quietly = TRUE)) {
   install.packages("devtools")
@@ -28,6 +29,7 @@ devtools::install_github("adrientaudiere/greenAlgoR")
 ```
 
 ``` r
+
 library(greenAlgoR)
 library(ggplot2)
 ```
@@ -41,6 +43,7 @@ The main function
 calculates the carbon footprint based on several parameters:
 
 ``` r
+
 # Calculate footprint for a 2-hour computation
 result <- ga_footprint(
   runtime_h = 2,
@@ -62,6 +65,7 @@ cat("Energy needed:", result$energy_needed_kWh, "kWh\n")
 The function returns a comprehensive list with detailed breakdown:
 
 ``` r
+
 # View all available information
 names(result)
 #>  [1] "runtime_h"                   "location_code"              
@@ -89,6 +93,7 @@ Carbon intensity varies significantly by location due to different
 energy sources:
 
 ``` r
+
 # Compare carbon footprint across different locations
 locations <- c("FR", "WORLD", "US", "CN", "NO")
 footprints <- sapply(locations, function(loc) {
@@ -111,6 +116,7 @@ print(comparison_df)
 ```
 
 ``` r
+
 # Visualize the comparison
 ggplot(comparison_df, aes(x = reorder(Location, CO2_emissions), y = CO2_emissions)) +
   geom_col(fill = "steelblue", alpha = 0.7) +
@@ -133,6 +139,7 @@ ggplot(comparison_df, aes(x = reorder(Location, CO2_emissions), y = CO2_emission
 Different hardware configurations have varying environmental impacts:
 
 ``` r
+
 # Compare different CPU configurations
 cpu_configs <- data.frame(
   Config = c("Laptop", "Workstation", "Server"),
@@ -163,13 +170,14 @@ print(cpu_configs)
 You can easily calculate the carbon footprint of your current R session:
 
 ``` r
+
 # Get current session footprint
 session_fp <- ga_footprint(runtime_h = "session")
 
 cat("Current session footprint:", session_fp$carbon_footprint_total_gCO2, "g CO2\n")
-#> Current session footprint: 0.02391409 g CO2
+#> Current session footprint: 0.0261341 g CO2
 cat("Session runtime:", session_fp$runtime_h, "hours\n")
-#> Session runtime: 0.0008138889 hours
+#> Session runtime: 0.0008894444 hours
 ```
 
 ## Visualization with Reference Values
@@ -177,6 +185,7 @@ cat("Session runtime:", session_fp$runtime_h, "hours\n")
 The package includes reference values to put your footprint in context:
 
 ``` r
+
 # Calculate footprint with reference values
 result_with_ref <- ga_footprint(
   runtime_h = 2,

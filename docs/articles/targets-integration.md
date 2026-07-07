@@ -17,6 +17,7 @@ This vignette demonstrates how to:
 ## Setup
 
 ``` r
+
 library(greenAlgoR)
 library(targets)
 library(ggplot2)
@@ -36,6 +37,7 @@ carbon footprint based on:
 ### Simple Example
 
 ``` r
+
 # Create a simple targets example
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN compatibility
 
@@ -100,18 +102,18 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN compatibility
 #> + data_prep dispatched
 #> ✔ data_prep completed [2s, 15.52 kB]
 #> + analysis dispatched
-#> ✔ analysis completed [1s, 47.53 kB]
+#> ✔ analysis completed [1s, 47.54 kB]
 #> + visualization dispatched
-#> ✔ visualization completed [574ms, 66 B]
+#> ✔ visualization completed [561ms, 67 B]
 #> ✔ ended pipeline [3.8s, 3 completed, 0 skipped]
 #> # A tibble: 3 × 3
 #>   name          seconds bytes
 #>   <chr>           <dbl> <dbl>
-#> 1 data_prep       2.00  15522
-#> 2 analysis        1.01  47535
-#> 3 visualization   0.574    66
-#> Pipeline carbon footprint: 0.02608145 g CO2
-#> Total runtime: 3.589 seconds
+#> 1 data_prep       2.01  15523
+#> 2 analysis        1.01  47538
+#> 3 visualization   0.561    67
+#> Pipeline carbon footprint: 0.02600878 g CO2
+#> Total runtime: 3.579 seconds
 ```
 
 ## Advanced Pipeline Analysis
@@ -119,6 +121,7 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN compatibility
 For more complex pipelines, you can get detailed insights:
 
 ``` r
+
 tar_dir({
   # Create a more complex pipeline
   tar_script(
@@ -178,16 +181,16 @@ tar_dir({
 #> + large_task dispatched
 #> ✔ large_task completed [5.1s, 7.68 MB]
 #> + medium_task dispatched
-#> ✔ medium_task completed [2.1s, 1.92 MB]
+#> ✔ medium_task completed [2s, 1.92 MB]
 #> + small_task dispatched
-#> ✔ small_task completed [501ms, 76.87 kB]
+#> ✔ small_task completed [502ms, 76.87 kB]
 #> + combined_analysis dispatched
-#> ✔ combined_analysis completed [1.4s, 49.98 kB]
-#> ✔ ended pipeline [9.5s, 4 completed, 0 skipped]
-#> Total CO2 emissions: 0.01833198 g
-#> CPU contribution: 0.01705901 g
-#> Memory contribution: 0.001270896 g
-#> Storage contribution: 2.073644e-06 g
+#> ✔ combined_analysis completed [1.4s, 49.99 kB]
+#> ✔ ended pipeline [9.6s, 4 completed, 0 skipped]
+#> Total CO2 emissions: 0.01839538 g
+#> CPU contribution: 0.017118 g
+#> Memory contribution: 0.001275291 g
+#> Storage contribution: 2.080816e-06 g
 ```
 
 ## Comparing Different Configurations
@@ -196,6 +199,7 @@ You can compare how different hardware configurations affect your
 pipeline’s carbon footprint:
 
 ``` r
+
 tar_dir({
   # Use the same pipeline as above
   tar_script(
@@ -247,11 +251,11 @@ tar_dir({
 #> ✔ task2 completed [2s, 691.03 kB]
 #> + task3 dispatched
 #> ✔ task3 completed [1.5s, 480.03 kB]
-#> ✔ ended pipeline [4.7s, 3 completed, 0 skipped]
+#> ✔ ended pipeline [4.8s, 3 completed, 0 skipped]
 #>    Config Cores TDP RAM Location CO2_emissions
-#> 1  Laptop     2  10   8    WORLD   0.022932950
-#> 2 Desktop     8  15  16       FR   0.013570535
-#> 3  Server    16  25  64       NO   0.006785365
+#> 1  Laptop     2  10   8    WORLD   0.022978522
+#> 2 Desktop     8  15  16       FR   0.013597502
+#> 3  Server    16  25  64       NO   0.006798849
 ```
 
 ## Visualizing Pipeline Carbon Footprint
@@ -260,6 +264,7 @@ Create comprehensive visualizations of your pipeline’s environmental
 impact:
 
 ``` r
+
 tar_dir({
   # Create pipeline and get footprint with reference values
   tar_script(
@@ -353,12 +358,12 @@ tar_dir({
 #> + data_load dispatched
 #> ✔ data_load completed [1s, 38.47 kB]
 #> + modeling dispatched
-#> ✔ modeling completed [5s, 228.68 kB]
+#> ✔ modeling completed [5s, 228.67 kB]
 #> + preprocessing dispatched
 #> ✔ preprocessing completed [3s, 38.59 kB]
 #> + postprocessing dispatched
 #> ✔ postprocessing completed [2s, 77.94 kB]
-#> ✔ ended pipeline [11.2s, 4 completed, 0 skipped]
+#> ✔ ended pipeline [11.3s, 4 completed, 0 skipped]
 ```
 
 ![Footprint value compared to references values such as 1 hour of
@@ -370,6 +375,7 @@ Paris.](figures/targets-pipeline-visualization-1.png)
 For detailed optimization, you might want to analyze individual targets:
 
 ``` r
+
 tar_dir({
   tar_script(
     {
@@ -426,14 +432,14 @@ tar_dir({
 #> + memory_intensive dispatched
 #> ✔ memory_intensive completed [3.3s, 31.13 kB]
 #> + quick_task dispatched
-#> ✔ quick_task completed [500ms, 56 B]
+#> ✔ quick_task completed [503ms, 57 B]
 #> + slow_task dispatched
-#> ✔ slow_task completed [10s, 56 B]
+#> ✔ slow_task completed [10.1s, 57 B]
 #> ✔ ended pipeline [14.1s, 3 completed, 0 skipped]
 #>             Target Runtime_sec    Memory_MB CO2_estimate
-#> 1 memory_intensive       3.334 2.968693e-02  0.019820523
-#> 2       quick_task       0.500 5.340576e-05  0.002972484
-#> 3        slow_task      10.010 5.340576e-05  0.059509130
+#> 1 memory_intensive       3.329 2.969074e-02  0.019790799
+#> 2       quick_task       0.503 5.435944e-05  0.002990319
+#> 3        slow_task      10.050 5.435944e-05  0.059746929
 #> 
 #> Most carbon-intensive target: slow_task ( 0.06 g CO2 )
 ```
@@ -457,6 +463,7 @@ tar_dir({
 Include carbon footprint reporting as part of your standard pipeline:
 
 ``` r
+
 # Add to your _targets.R file
 tar_target(
   pipeline_footprint,

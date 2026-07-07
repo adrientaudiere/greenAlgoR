@@ -2,7 +2,7 @@
 % Please edit documentation in R/ga_footprint.R
 \name{ga_footprint}
 \alias{ga_footprint}
-\title{Compute footprint in grams of CO2 using \href{\doi{10.1002/advs.202100707}}{Lannelongue et al. 2021} algorithm}
+\title{Compute footprint in grams of CO2 using \href{https://doi.org/10.1002/advs.202100707}{Lannelongue et al. 2021} algorithm}
 \usage{
 ga_footprint(
   runtime_h = NULL,
