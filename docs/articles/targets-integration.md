@@ -17,7 +17,6 @@ This vignette demonstrates how to:
 ## Setup
 
 ``` r
-
 library(greenAlgoR)
 library(targets)
 library(ggplot2)
@@ -37,7 +36,6 @@ carbon footprint based on:
 ### Simple Example
 
 ``` r
-
 # Create a simple targets example
 tar_dir({ # tar_dir() runs code from a temp dir for CRAN compatibility
 
@@ -121,7 +119,6 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN compatibility
 For more complex pipelines, you can get detailed insights:
 
 ``` r
-
 tar_dir({
   # Create a more complex pipeline
   tar_script(
@@ -199,7 +196,6 @@ You can compare how different hardware configurations affect your
 pipeline’s carbon footprint:
 
 ``` r
-
 tar_dir({
   # Use the same pipeline as above
   tar_script(
@@ -264,7 +260,6 @@ Create comprehensive visualizations of your pipeline’s environmental
 impact:
 
 ``` r
-
 tar_dir({
   # Create pipeline and get footprint with reference values
   tar_script(
@@ -375,7 +370,6 @@ Paris.](figures/targets-pipeline-visualization-1.png)
 For detailed optimization, you might want to analyze individual targets:
 
 ``` r
-
 tar_dir({
   tar_script(
     {
@@ -463,7 +457,6 @@ tar_dir({
 Include carbon footprint reporting as part of your standard pipeline:
 
 ``` r
-
 # Add to your _targets.R file
 tar_target(
   pipeline_footprint,
