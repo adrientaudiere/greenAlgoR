@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- devtools::build_readme() -->
 
 ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
@@ -16,9 +15,9 @@ v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org
 
 The `greenAlgoR` package provides tools to estimate the carbon footprint
 and energy consumption of computational tasks in R. Based on the Green
-Algorithms framework (Lannelongue et al. (2021)), this package helps
-researchers and data scientists understand and minimize the
-environmental impact of their computational work.
+Algorithms framework (Lannelongue, Grealey, and Inouye (2021)), this
+package helps researchers and data scientists understand and minimize
+the environmental impact of their computational work.
 
 ## ✨ Key Features
 
@@ -63,9 +62,9 @@ devtools::install_github("adrientaudiere/greenAlgoR")
 
 ### The Green Algorithms Framework
 
-This package implements the methodology from Lannelongue et al. (2021),
-which provides a standardized approach to quantifying the carbon
-footprint of computational research. The framework considers:
+This package implements the methodology from Lannelongue, Grealey, and
+Inouye (2021), which provides a standardized approach to quantifying the
+carbon footprint of computational research. The framework considers:
 
 - **Energy consumption**: Based on CPU usage, memory requirements, and
   runtime
@@ -145,12 +144,12 @@ footprints <- sapply(locations, function(loc) {
 
 comparison <- data.frame(Location = locations, CO2_grams = footprints)
 print(comparison)
-#>       Location  CO2_grams
-#> WORLD    WORLD 29.3824940
-#> FR          FR  3.1720722
-#> US          US 26.2240306
-#> NO          NO  0.4713571
-#> CN          CN 33.2424259
+#>       Location CO2_grams
+#> WORLD    WORLD 29.382493
+#> FR          FR  3.172072
+#> US          US 26.224029
+#> NO          NO  0.471357
+#> CN          CN 33.242425
 ```
 
 ### Visualization
@@ -203,9 +202,9 @@ Calculate the carbon footprint of your current R session:
 # Analyze current R session
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
 cat("Session footprint:", fp_session$carbon_footprint_total_gCO2, "g CO2\n")
-#> Session footprint: 0.02080755 g CO2
+#> Session footprint: 0.01980729 g CO2
 cat("Session runtime:", fp_session$runtime_h, "hours\n")
-#> Session runtime: 0.000705 hours
+#> Session runtime: 0.0006711111 hours
 ```
 
 ### Targets Pipeline Integration
