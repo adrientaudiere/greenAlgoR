@@ -1,7 +1,8 @@
-#' Compute footprint in grams of CO2 using [Lannelongue et al. 2021](https://doi.org/10.1002/advs.202100707) algorithm
+#' Compute footprint in grams of CO2 using the Green Algorithms method
 #'
 #' @description
-#'
+#' Implements the Green Algorithms method of Lannelongue et al. (2021)
+#' (\doi{10.1002/advs.202100707}).
 #' <a href="https://adrientaudiere.github.io/greenAlgoR/articles/Rules.html#lifecycle">
 #' <img src="https://img.shields.io/badge/lifecycle-experimental-orange" alt="lifecycle-experimental"></a>
 #'

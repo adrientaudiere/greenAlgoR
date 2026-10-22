@@ -2,7 +2,7 @@
 % Please edit documentation in R/ga_footprint.R
 \name{ga_footprint}
 \alias{ga_footprint}
-\title{Compute footprint in grams of CO2 using \href{https://doi.org/10.1002/advs.202100707}{Lannelongue et al. 2021} algorithm}
+\title{Compute footprint in grams of CO2 using the Green Algorithms method}
 \usage{
 ga_footprint(
   runtime_h = NULL,
@@ -136,11 +136,10 @@ the output power draw for mass storage in kWh
 }
 }
 \description{
-\if{html}{\out{
-<a href="https://adrientaudiere.github.io/greenAlgoR/articles/Rules.html#lifecycle">
-<img src="https://img.shields.io/badge/lifecycle-experimental-orange" alt="lifecycle-experimental"></a>
-}}
-
+Implements the Green Algorithms method of Lannelongue et al. (2021)
+(\doi{10.1002/advs.202100707}).
+\if{html}{\out{<a href="https://adrientaudiere.github.io/greenAlgoR/articles/Rules.html#lifecycle">}}
+\if{html}{\out{<img src="https://img.shields.io/badge/lifecycle-experimental-orange" alt="lifecycle-experimental">}}\if{html}{\out{</a>}}
 
 Please cite Lannelongue, L., Grealey, J., Inouye, M., Green Algorithms:
 Quantifying the Carbon Footprint of Computation. Adv. Sci. 2021, 2100707.

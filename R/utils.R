@@ -17,8 +17,7 @@
 #' @export
 #' @importFrom utils read.csv
 #' @author Adrien Taudière
-#' @examples
-#' \dontrun{
+#' @examplesIf interactive()
 #' # Download carbon intensity data
 #' carbon_intensity <- csv_from_url_ga(
 #'   paste0(
@@ -27,10 +26,8 @@
 #'   )
 #' )
 #' head(carbon_intensity)
-#' }
 csv_from_url_ga <- function(url, remove_first_line = TRUE) {
-  url <- RCurl::getURL(url)
-  df <- read.csv(text = url, header = FALSE)
+  df <- read.csv(url, header = FALSE)
   if (remove_first_line) {
     df <- df[-1, ]
   }

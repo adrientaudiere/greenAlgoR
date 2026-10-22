@@ -27,7 +27,7 @@ project repositories. This function handles the specific format used by
 Green Algorithms data files, which often have headers in specific rows.
 }
 \examples{
-\dontrun{
+\dontshow{if (interactive()) withAutoprint(\{ # examplesIf}
 # Download carbon intensity data
 carbon_intensity <- csv_from_url_ga(
   paste0(
@@ -36,7 +36,7 @@ carbon_intensity <- csv_from_url_ga(
   )
 )
 head(carbon_intensity)
-}
+\dontshow{\}) # examplesIf}
 }
 \author{
 Adrien Taudière
