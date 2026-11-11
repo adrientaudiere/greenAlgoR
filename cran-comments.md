@@ -9,11 +9,14 @@ This is a first submission to CRAN.
 * "New submission", and "Version contains large components (0.3.0.9000)"
   on the development version; the latter disappears with the release
   version 0.3.0.
+* "Possibly misspelled words in DESCRIPTION: Lannelongue, et, al": the
+  surname of the first author of the method reference and "et al.".
 
 ## Test environments
 
 * local Linux (Pop!_OS 24.04), R 4.6.1, `R CMD check --as-cran --run-donttest`
   (2026-10-22, 129 s in total).
+* win-builder R-devel (Windows Server 2022, 2026-10-22): 1 note (above).
 
 ## Examples
 
