@@ -199,6 +199,19 @@ test_that("Single numeric carbon_intensity yields correct footprint formula", {
   expect_equal(res$carbon_footprint_total_gCO2, expected)
 })
 
+test_that("ref_value gives the cores and memory footprints in gCO2", {
+  res <- ga_footprint(runtime_h = 2, memory_ram = 16, location_code = "FR")
+  rv <- res$ref_value
+  expect_equal(
+    as.numeric(rv$value[rv$variable == "Cores"]),
+    res$carbon_footprint_cores
+  )
+  expect_equal(
+    as.numeric(rv$value[rv$variable == "Memory"]),
+    res$carbon_footprint_memory
+  )
+})
+
 test_that("Defaults follow the Green Algorithms calculator v3.1", {
   res <- ga_footprint(runtime_h = 1, memory_ram = 1)
   expect_equal(res$PUE, 1.56)

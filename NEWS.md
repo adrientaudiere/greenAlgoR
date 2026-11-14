@@ -8,6 +8,7 @@
 ## Other changes
 
 * `ga_footprint()` matches `cpu_model` exactly first, then by the longest model name contained in it, so models whose name holds a regular-expression character (`"Xeon Gold 5415+"`) or is the start of another one (`"AMD EPYC 7713"` and `"AMD EPYC 7713P"`) are found.
+* `ga_footprint()` gives the footprints of the cores and of the memory in gCO2e in the `ref_value` table, like the other rows; without `add_storage_estimation`, the "Cores" and "Memory" rows held their energy in kWh.
 * `ga_footprint()` no longer lists the memory power draw (0.3725 W/GB) among the reference values compared to the footprint; the reference values come from `context.csv` of the Green Algorithms data v3.1 (Netflix streaming is now 55 gCO2e per hour, and the yearly per-capita planetary boundary, 985 kgCO2e, is added).
 
 # greenAlgoR 0.2.0

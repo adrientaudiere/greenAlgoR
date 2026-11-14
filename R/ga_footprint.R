@@ -418,8 +418,8 @@ ga_footprint <- function(
     }
     res[["ref_value"]] <- rbind(
       c("Total", res$carbon_footprint_total_gCO2, NA),
-      c("Cores", res$power_draw_for_cores_kWh, NA),
-      c("Memory", res$power_draw_for_memory_kWh, NA),
+      c("Cores", res$carbon_footprint_cores, NA),
+      c("Memory", res$carbon_footprint_memory, NA),
       ref_value
     )
   }
