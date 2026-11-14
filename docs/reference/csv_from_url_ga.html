@@ -17,7 +17,7 @@ Green Algorithms data files, which often have headers in specific rows."><meta p
 
     <a class="navbar-brand me-2" href="../index.html">greenAlgoR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -85,16 +85,17 @@ from the CSV file (often contains metadata rather than column headers).</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># interactive()</span></span></span>
 <span class="r-in"><span><span class="co"># Download carbon intensity data</span></span></span>
-<span class="r-in"><span><span class="va">carbon_intensity</span> <span class="op">&lt;-</span> <span class="fu">csv_from_url_ga</span><span class="op">(</span></span></span>
+<span class="r-in"><span><span class="va">cpus</span> <span class="op">&lt;-</span> <span class="fu">csv_from_url_ga</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    <span class="st">"https://raw.githubusercontent.com/GreenAlgorithms/GA-data"</span>,</span></span>
-<span class="r-in"><span>    <span class="st">"/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CI_aggregated.csv"</span></span></span>
+<span class="r-in"><span>    <span class="st">"https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"v3.1/chips/manual/CPUs-manual.csv"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">carbon_intensity</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cpus</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -106,7 +107,7 @@ from the CSV file (often contains metadata rather than column headers).</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

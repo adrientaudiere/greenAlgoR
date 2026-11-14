@@ -37,11 +37,28 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.0" id="greenalgor-030-development-version">greenAlgoR 0.3.0 (Development version)<a class="anchor" aria-label="anchor" href="#greenalgor-030-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.3.0" id="greenalgor-030">greenAlgoR 0.3.0<a class="anchor" aria-label="anchor" href="#greenalgor-030"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-0-3-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-3-0"></a></h3>
+<ul><li>The internal data follow the Green Algorithms data v3.1, the version of the Green Algorithms calculator v3.1, so footprints change for the same inputs. Carbon intensities are now the life-cycle values of Electricity Maps 2024, whose zone codes replace part of the former location codes: codes such as <code>"US-CA"</code>, <code>"US-FL"</code>, <code>"RU"</code> or <code>"CN-HK"</code> give the error “location_code … not found”; pick an Electricity Maps zone from <code>greenAlgoR:::carbon_intensity_internal$location</code> (e.g. <code>"US-CAL-CISO"</code>) or pass your own value with <code>carbon_intensity</code>. <code>"WORLD"</code> stays at 475 gCO2e/kWh. Some CPU models of the former table are gone (e.g. <code>"Core i5-9600KF"</code>); set <code>TDP_per_core</code> and <code>n_cores</code> for them.</li>
+<li>
+<code><a href="../reference/ga_footprint.html">ga_footprint()</a></code> sets the PUE from the new <code>platform</code> argument, as the calculator v3.1 does: 1 for a <code>"laptop"</code> or a <code>"desktop"</code>, 1.56 for a <code>"local_server"</code> or the <code>"cloud"</code> (unknown data centre; the former default was 1.67 everywhere). The default <code>platform = "auto"</code> detects the machine type from its chassis type (Linux, Windows), its battery (macOS) or the name of a cloud virtual machine (Linux), returns it as <code>platform</code> in the result, and falls back to 1.56 with a message when detection fails. <code>PUE</code>, now <code>NULL</code> by default, still overrides it. <code>platform</code> comes right after <code>location_code</code>, so a <code>PUE</code> given by position must now be named. <code>TDP_per_core</code> defaults to 7.46 W (the “Average” CPU of the calculator, was 12).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="other-changes-0-3-0">Other changes<a class="anchor" aria-label="anchor" href="#other-changes-0-3-0"></a></h3>
+<ul><li>
+<code><a href="../reference/ga_footprint.html">ga_footprint()</a></code> matches <code>cpu_model</code> exactly first, then by the longest model name contained in it, so models whose name holds a regular-expression character (<code>"Xeon Gold 5415+"</code>) or is the start of another one (<code>"AMD EPYC 7713"</code> and <code>"AMD EPYC 7713P"</code>) are found.</li>
+<li>
+<code><a href="../reference/ga_footprint.html">ga_footprint()</a></code> gives the footprints of the cores and of the memory in gCO2e in the <code>ref_value</code> table, like the other rows; without <code>add_storage_estimation</code>, the “Cores” and “Memory” rows held their energy in kWh.</li>
+<li>
+<code><a href="../reference/ga_footprint.html">ga_footprint()</a></code> no longer lists the memory power draw (0.3725 W/GB) among the reference values compared to the footprint; the reference values come from <code>context.csv</code> of the Green Algorithms data v3.1 (Netflix streaming is now 55 gCO2e per hour, and the yearly per-capita planetary boundary, 985 kgCO2e, is added).</li>
+</ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2.0" id="greenalgor-020-ga_autometric_history-draws-a-gantt-style-timeline-of-every-process-run-in-an-autometric-log-grouped-into-pipeline-sessions-faceted-by-the-session_gap-argument-with-a-session-relative-time-axis-so-a-target-rebuilt-across-several-executions-appears-in-several-facets-exposing-the-trial-and-error-and-re-run-cost-that-last-run-views-hide">greenAlgoR 0.2.0* <code>ga_autometric_history()</code> draws a Gantt-style timeline of every process run in an <code>autometric</code> log, grouped into pipeline sessions (faceted by the <code>session_gap</code> argument) with a session-relative time axis, so a target rebuilt across several executions appears in several facets, exposing the trial-and-error and re-run cost that last-run views hide.<a class="anchor" aria-label="anchor" href="#greenalgor-020-ga_autometric_history-draws-a-gantt-style-timeline-of-every-process-run-in-an-autometric-log-grouped-into-pipeline-sessions-faceted-by-the-session_gap-argument-with-a-session-relative-time-axis-so-a-target-rebuilt-across-several-executions-appears-in-several-facets-exposing-the-trial-and-error-and-re-run-cost-that-last-run-views-hide"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.2.0" id="greenalgor-020">greenAlgoR 0.2.0<a class="anchor" aria-label="anchor" href="#greenalgor-020"></a></h2>
 <ul><li>
+<code><a href="../reference/ga_autometric_history.html">ga_autometric_history()</a></code> draws a Gantt-style timeline of every process run in an <code>autometric</code> log, grouped into pipeline sessions (faceted by the <code>session_gap</code> argument) with a session-relative time axis, so a target rebuilt across several executions appears in several facets, exposing the trial-and-error and re-run cost that last-run views hide.</li>
+<li>
 <code><a href="../reference/ga_autometric_lastrun.html">ga_autometric_lastrun()</a></code> reconstructs the last-run resource impact from an <code>autometric</code> log, keeping only the single longest run of each target still present in the <code>targets</code> store and drawing one duration bar per target colored by mean CPU usage.</li>
 <li>
 <code><a href="../reference/ga_autometric_plot.html">ga_autometric_plot()</a></code> renders the CPU and memory usage recorded by the <code>autometric</code> package as a faceted <code>ggplot2</code> line plot over time, with one facet per metric and lines colored by logging phase, process or name.</li>
@@ -54,10 +71,7 @@
 <h2 class="pkg-version" data-toc-text="0.1.2" id="greenalgor-012">greenAlgoR 0.1.2<a class="anchor" aria-label="anchor" href="#greenalgor-012"></a></h2>
 <ul><li>
 <code><a href="../reference/ga_footprint.html">ga_footprint()</a></code> gains flexible <code>carbon_intensity</code> input: in addition to the existing data.frame format, the parameter now accepts a single numeric value (used directly as gCO2e/kWh regardless of <code>location_code</code>) or a named numeric vector (overrides/adds entries to the bundled database). This makes it easy to plug in custom carbon-intensity values from sources like the Electricity Maps API.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1.2" id="greenalgor-012-1">greenAlgoR 0.1.2<a class="anchor" aria-label="anchor" href="#greenalgor-012-1"></a></h2>
-<ul><li>Improve documentation</li>
+<li>Improve documentation</li>
 <li>Create two vignettes: “Introduction to greenAlgoR” and “Targets integration”</li>
 <li>Correct url to v3 of greenalgorithm and update internal data in sysdata.rda</li>
 </ul></div>
