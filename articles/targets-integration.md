@@ -104,16 +104,16 @@ tar_dir({ # tar_dir() runs code from a temp dir for CRAN compatibility
 #> + analysis dispatched
 #> ✔ analysis completed [1s, 47.54 kB]
 #> + visualization dispatched
-#> ✔ visualization completed [535ms, 67 B]
+#> ✔ visualization completed [525ms, 67 B]
 #> ✔ ended pipeline [3.7s, 3 completed, 0 skipped]
 #> # A tibble: 3 × 3
 #>   name          seconds bytes
 #>   <chr>           <dbl> <dbl>
 #> 1 data_prep       2.00  15523
-#> 2 analysis        1.00  47538
-#> 3 visualization   0.535    67
-#> Pipeline carbon footprint: 0.0257399 g CO2
-#> Total runtime: 3.542 seconds
+#> 2 analysis        1.00  47541
+#> 3 visualization   0.525    67
+#> Pipeline carbon footprint: 0.02397657 g CO2
+#> Total runtime: 3.532 seconds
 ```
 
 ## Advanced Pipeline Analysis
@@ -185,12 +185,12 @@ tar_dir({
 #> + small_task dispatched
 #> ✔ small_task completed [501ms, 76.87 kB]
 #> + combined_analysis dispatched
-#> ✔ combined_analysis completed [1.4s, 49.99 kB]
-#> ✔ ended pipeline [9.5s, 4 completed, 0 skipped]
-#> Total CO2 emissions: 0.01822564 g
-#> CPU contribution: 0.01696005 g
-#> Memory contribution: 0.001263524 g
-#> Storage contribution: 2.061615e-06 g
+#> ✔ combined_analysis completed [1.3s, 49.99 kB]
+#> ✔ ended pipeline [9.3s, 4 completed, 0 skipped]
+#> Total CO2 emissions: 0.01100005 g
+#> CPU contribution: 0.01023621 g
+#> Memory contribution: 0.0007625974 g
+#> Storage contribution: 1.244284e-06 g
 ```
 
 ## Comparing Different Configurations
@@ -253,9 +253,9 @@ tar_dir({
 #> ✔ task3 completed [1.5s, 480.03 kB]
 #> ✔ ended pipeline [4.7s, 3 completed, 0 skipped]
 #>    Config Cores TDP RAM Location CO2_emissions
-#> 1  Laptop     2  10   8    WORLD    0.02286206
-#> 2 Desktop     8  15  16       FR    0.01352859
-#> 3  Server    16  25  64       NO    0.00676439
+#> 1  Laptop     2  10   8    WORLD   0.021346716
+#> 2 Desktop     8  15  16       FR   0.008237328
+#> 3  Server    16  25  64       NO   0.027593270
 ```
 
 ## Visualizing Pipeline Carbon Footprint
@@ -358,11 +358,11 @@ tar_dir({
 #> + data_load dispatched
 #> ✔ data_load completed [1s, 38.47 kB]
 #> + modeling dispatched
-#> ✔ modeling completed [5s, 228.67 kB]
+#> ✔ modeling completed [5s, 228.61 kB]
 #> + preprocessing dispatched
 #> ✔ preprocessing completed [3s, 38.59 kB]
 #> + postprocessing dispatched
-#> ✔ postprocessing completed [2s, 77.94 kB]
+#> ✔ postprocessing completed [2s, 77.93 kB]
 #> ✔ ended pipeline [11.2s, 4 completed, 0 skipped]
 ```
 
@@ -430,18 +430,18 @@ tar_dir({
   )
 })
 #> + memory_intensive dispatched
-#> ✔ memory_intensive completed [3.3s, 31.13 kB]
+#> ✔ memory_intensive completed [3.2s, 31.13 kB]
 #> + quick_task dispatched
-#> ✔ quick_task completed [500ms, 57 B]
+#> ✔ quick_task completed [501ms, 57 B]
 #> + slow_task dispatched
 #> ✔ slow_task completed [10s, 57 B]
 #> ✔ ended pipeline [13.9s, 3 completed, 0 skipped]
 #>             Target Runtime_sec    Memory_MB CO2_estimate
-#> 1 memory_intensive       3.275 2.969074e-02  0.019469770
-#> 2       quick_task       0.500 5.435944e-05  0.002972484
-#> 3        slow_task      10.010 5.435944e-05  0.059509130
+#> 1 memory_intensive       3.226 2.969074e-02  0.011885928
+#> 2       quick_task       0.501 5.435944e-05  0.001845893
+#> 3        slow_task      10.010 5.435944e-05  0.036881011
 #> 
-#> Most carbon-intensive target: slow_task ( 0.06 g CO2 )
+#> Most carbon-intensive target: slow_task ( 0.037 g CO2 )
 ```
 
 ## Best Practices for Sustainable Pipelines

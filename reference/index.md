@@ -5,10 +5,7 @@
 Core functions for carbon footprint estimation
 
 - [`ga_footprint()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_footprint.md)
-  :
-
-  Compute footprint in grams of CO2 using [Lannelongue et al.
-  2021](https://doi.org/10.1002/advs.202100707) algorithm
+  : Compute footprint in grams of CO2 using the Green Algorithms method
 
 - [`ga_targets()`](https://adrientaudiere.github.io/greenAlgoR/reference/ga_targets.md)
   : Calculate carbon footprint for targets pipelines

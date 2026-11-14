@@ -1,5 +1,7 @@
-# Compute footprint in grams of CO2 using [Lannelongue et al. 2021](https://doi.org/10.1002/advs.202100707) algorithm
+# Compute footprint in grams of CO2 using the Green Algorithms method
 
+Implements the Green Algorithms method of Lannelongue et al. (2021)
+([doi:10.1002/advs.202100707](https://doi.org/10.1002/advs.202100707) ).
 [![lifecycle-experimental](https://img.shields.io/badge/lifecycle-experimental-orange)](https://adrientaudiere.github.io/greenAlgoR/articles/Rules.html#lifecycle)
 
 Please cite Lannelongue, L., Grealey, J., Inouye, M., Green Algorithms:
@@ -7,17 +9,18 @@ Quantifying the Carbon Footprint of Computation. Adv. Sci. 2021,
 2100707.
 [doi:10.1002/advs.202100707](https://doi.org/10.1002/advs.202100707)
 
-Default value are from
-https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-calculator:
+Default values are those of the Green Algorithms calculator v3.1
+(https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-calculator),
+from the Green Algorithms data v3.1:
 
 - PUE:
-  https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv
+  https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/data-centres/default-PUE_2024.csv
 
-- TDP_per_core:
-  https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv
+- TDP_per_core: the "Average" CPU of
+  https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/chips/manual/CPUs-manual.csv
 
 - power_draw_per_gb:
-  https://onlinelibrary.wiley.com/doi/10.1002/advs.202100707
+  https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/hardware-impacts.csv
 
 Description of the algorithm from the
 [green-algorithms](https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-calculator)
@@ -58,8 +61,9 @@ independent of the location.
 ga_footprint(
   runtime_h = NULL,
   location_code = "WORLD",
-  PUE = 1.67,
-  TDP_per_core = 12,
+  platform = "auto",
+  PUE = NULL,
+  TDP_per_core = 7.46,
   n_cores = 1,
   cpu_model = "Any",
   memory_ram = NULL,
@@ -87,23 +91,34 @@ ga_footprint(
 - location_code:
 
   Character string specifying geographical location for carbon
-  intensity. Available options include country codes (e.g., "FR", "US",
-  "CN") or "WORLD" for global average. See the Green Algorithms database
-  for complete list of supported locations.
+  intensity: an Electricity Maps zone code (e.g. "FR", "US", "CN",
+  "NO-NO1", "US-NW-PGE") or "WORLD" for the world average. The list is
+  in the `location` column of `carbon_intensity_internal`.
+
+- platform:
+
+  Type of machine the computation runs on: `"auto"` (default),
+  `"laptop"`, `"desktop"`, `"local_server"` or `"cloud"`. It sets the
+  PUE as the Green Algorithms calculator does when `PUE` is `NULL`: 1
+  for a laptop or a desktop computer (no data centre), 1.56 for a local
+  server or the cloud. `"auto"` detects the type from the chassis type
+  of the machine (Linux, Windows), its battery (macOS) or the name of a
+  cloud virtual machine (Linux); when detection fails, the platform is
+  `"unknown"`, the PUE is 1.56 and a message says so.
 
 - PUE:
 
-  Power Usage Effectiveness (numeric, default 1.67). Measures data
-  center efficiency - how much extra energy is needed for cooling,
-  lighting, etc. Use 1.05 for personal computers, 1.2-1.7 for data
-  centers. See
-  <https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv>
+  Power Usage Effectiveness (numeric, default `NULL`: set from
+  `platform`). Measures data centre efficiency - how much extra energy
+  is needed for cooling, lighting, etc. 1.56 is the value the Green
+  Algorithms calculator uses for an unknown data centre, see
+  <https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/data-centres/default-PUE_2024.csv>
 
 - TDP_per_core:
 
-  Thermal Design Power per core in Watts (numeric, default 12). CPU
-  power consumption per core. Find values at
-  <https://www.techpowerup.com/cpu-specs/> or
+  Thermal Design Power per core in Watts (numeric, default 7.46, the
+  "Average" CPU of the Green Algorithms data). CPU power consumption per
+  core. Find values at <https://www.techpowerup.com/cpu-specs/> or
   <https://calculator.green-algorithms.org/>. Overridden by `cpu_model`
   parameter.
 
@@ -114,9 +129,11 @@ ga_footprint(
 
 - cpu_model:
 
-  Character string specifying exact CPU model. Must match entries in the
-  Green Algorithms database. When specified, automatically sets
-  `TDP_per_core` and `n_cores`. Use "Any" for generic calculation.
+  Character string specifying the CPU model, as written in the `model`
+  column of `TDP_cpu_internal`, or a longer name that contains it (the
+  longest model name found in it is used). When specified, automatically
+  sets `TDP_per_core` and `n_cores`. Use "Any" to use `TDP_per_core` and
+  `n_cores` instead.
 
 - memory_ram:
 
@@ -186,15 +203,17 @@ ga_footprint(
 
   (default NULL). Advanced users only. A dataframe with `model`,
   `n_cores` and `TDP_per_core` columns. Set to TDP_cpu_internal if NULL.
-  TDP_cpu_internal is set using command line
-  csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv")
+  TDP_cpu_internal is built from the file chips/manual/CPUs-manual.csv
+  of the Green Algorithms data v3.1 (see
+  [greenAlgoR-package](https://adrientaudiere.github.io/greenAlgoR/reference/greenAlgoR-package.md)).
 
 - ref_value:
 
   (default NULL). Advanced users only. A dataframe with `variable` and
   `value` columns. Set to ref_value_internal if NULL. ref_value_internal
-  is set using command line
-  csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/referenceValues.csv")
+  is built from the file context.csv of the Green Algorithms data v3.1
+  (see
+  [greenAlgoR-package](https://adrientaudiere.github.io/greenAlgoR/reference/greenAlgoR-package.md)).
 
 ## Value
 
@@ -222,9 +241,11 @@ A list of values
 - `carbon_intensity`: the input carbon intensity (depend on location
   code)
 
-- `PUE`: the input PUE
+- `platform`: the platform type used (detected if `platform = "auto"`)
 
-- `PSF`: the input PUE
+- `PUE`: the PUE used (set from `platform` if `PUE` is `NULL`)
+
+- `PSF`: the input PSF
 
 - `power_draw_for_cores_kWh`: the output power draw for cores in kWh
 
@@ -264,12 +285,12 @@ result <- ga_footprint(
   location_code = "WORLD"
 )
 result$carbon_footprint_total_gCO2
-#> [1] 104.6455
+#> [1] 97.75272
 
 # Using specific CPU model (automatically sets cores and TDP)
 ga_footprint(
   runtime_h = 1,
-  cpu_model = "Core i5-9600KF",
+  cpu_model = "Core i5-13400",
   location_code = "FR"
 )
 #> $runtime_h
@@ -279,16 +300,16 @@ ga_footprint(
 #> [1] "FR"
 #> 
 #> $TDP_per_core
-#> [1] 15.8
+#> [1] 6.5
 #> 
 #> $n_cores
-#> [1] 6
+#> [1] 10
 #> 
 #> $cpu_model
-#> [1] "Core i5-9600KF"
+#> [1] "Core i5-13400"
 #> 
 #> $memory_ram
-#> [1] 16.76642
+#> [1] 16.75944
 #> 
 #> $power_draw_per_gb
 #> [1] 0.3725
@@ -297,97 +318,100 @@ ga_footprint(
 #> [1] 1
 #> 
 #> $carbon_intensity
-#> [1] 51.28
+#> [1] 33.44
+#> 
+#> $platform
+#> [1] "cloud"
 #> 
 #> $PUE
-#> [1] 1.67
+#> [1] 1.56
 #> 
 #> $PSF
 #> [1] 1
 #> 
 #> $power_draw_for_cores_kWh
-#> [1] 0.158316
+#> [1] 0.1014
 #> 
 #> $power_draw_for_memory_kWh
-#> [1] 0.01042997
+#> [1] 0.00973891
 #> 
 #> $energy_needed_kWh
-#> [1] 0.168746
+#> [1] 0.1111389
 #> 
 #> $carbon_footprint_cores
-#> [1] 8.118444
+#> [1] 3.390816
 #> 
 #> $carbon_footprint_memory
-#> [1] 0.534849
+#> [1] 0.3256692
 #> 
 #> $carbon_footprint_total_gCO2
-#> [1] 8.653293
+#> [1] 3.716485
 #> 
 #> $ref_value
-#>                     variable             value
-#> 1                      Total  8.65329347557454
-#> 2                      Cores          0.158316
-#> 3                     Memory 0.010429972612608
-#> 4                memoryPower            0.3725
-#> 5              google_search                10
-#> 6  streaming_netflix_perhour                36
-#> 7                train_perkm                41
-#> 8       flight_economy_perkm               171
-#> 9      passengerCar_EU_perkm               175
-#> 10     passengerCar_US_perkm               251
-#> 11                tree_month               917
-#> 12                  treeYear             11000
-#> 13            flight_PAR-LON             50000
-#> 14            flight_PAR-DUB            110000
-#> 15              flight_NY-SF            570000
-#> 16            flight_NYC-MEL           2310000
-#>                                                                                                                                                                                source
-#> 1                                                                                                                                                                                <NA>
-#> 2                                                                                                                                                                                <NA>
-#> 3                                                                                                                                                                                <NA>
-#> 4                         in W/GB from http://dl.acm.org/citation.cfm?doid=3076113.3076117 and https://www.tomshardware.com/uk/reviews/intel-core-i7-5960x-haswell-e-cpu,3918-13.html
-#> 5                                                                                                                           gCO2 from http://www.janavirgin.com/CO2/CO2GLE_about.html
-#> 6                                                                 gCO2 from https://www.carbonbrief.org/factcheck-what-is-the-carbon-footprint-of-streaming-video-on-netflix (update)
-#> 7                                                   in gCO2/km, but more like 5-37g, from https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020
-#> 8                                                in gCO2/km, but more like 139-244g, from https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020
-#> 9  in gCO2/km from http://www.sciencedirect.com/science/article/pii/S1352231018307295 and https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2019
-#> 10                                                                               in gCO2/km from https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle
-#> 11                                                                                                                                                       gCO2 same source as treeYear
-#> 12                                                                                          in gCO2/tree/year from http://www.sciencedirect.com/science/article/pii/S0269749101002640
-#> 13                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
-#> 14                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
-#> 15                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
-#> 16                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
+#>                     variable            value
+#> 1                      Total 3.71648515749249
+#> 2                      Cores         3.390816
+#> 3                     Memory 0.32566915749249
+#> 4              google_search               10
+#> 5                train_perkm               41
+#> 6  streaming_netflix_perhour               55
+#> 7       flight_economy_perkm              171
+#> 8      passengerCar_EU_perkm              175
+#> 9      passengerCar_US_perkm              251
+#> 10                tree_month              917
+#> 11                  treeYear            11000
+#> 12            flight_PAR-LON            50000
+#> 13            flight_PAR-DUB           110000
+#> 14              flight_NY-SF           570000
+#> 15         PB_GWP_per_capita           985000
+#> 16            flight_NYC-MEL          2310000
+#>                                                                                                                                                                                               source
+#> 1                                                                                                                                                                                               <NA>
+#> 2                                                                                                                                                                                               <NA>
+#> 3                                                                                                                                                                                               <NA>
+#> 4                                                                                                                                          gCO2 from http://www.janavirgin.com/CO2/CO2GLE_about.html
+#> 5                                                                  in gCO2/km, but more like 5-37g, from https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020
+#> 6                                                                                                          gCO2 from https://www.carbontrust.com/resources/carbon-impact-of-video-streaming (update)
+#> 7                                                               in gCO2/km, but more like 139-244g, from https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020
+#> 8                 in gCO2/km from http://www.sciencedirect.com/science/article/pii/S1352231018307295 and https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2019
+#> 9                                                                                               in gCO2/km from https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle
+#> 10                                                                                                                                                                      gCO2 same source as treeYear
+#> 11                                                                                                         in gCO2/tree/year from http://www.sciencedirect.com/science/article/pii/S0269749101002640
+#> 12                                                                                                                           gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
+#> 13                                                                                                                           gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
+#> 14                                                                                                                           gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
+#> 15 gCO2e/year/person from Sala et al. (2020) "Environmental sustanability of European production and consumption assessed against panetary boundaries" https://doi.org/10.1016/j.jenvman.2020.110686
+#> 16                                                                                                                           gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
 #>    prop_footprint
 #> 1    1.000000e+00
-#> 2    1.829546e-02
-#> 3    1.205318e-03
-#> 4    4.304719e-02
-#> 5    1.155629e+00
-#> 6    4.160266e+00
-#> 7    4.738080e+00
-#> 8    1.976126e+01
-#> 9    2.022351e+01
-#> 10   2.900630e+01
-#> 11   1.059712e+02
-#> 12   1.271192e+03
-#> 13   5.778147e+03
-#> 14   1.271192e+04
-#> 15   6.587087e+04
-#> 16   2.669504e+05
+#> 2    9.123717e-01
+#> 3    8.762827e-02
+#> 4    2.690714e+00
+#> 5    1.103193e+01
+#> 6    1.479893e+01
+#> 7    4.601122e+01
+#> 8    4.708750e+01
+#> 9    6.753693e+01
+#> 10   2.467385e+02
+#> 11   2.959786e+03
+#> 12   1.345357e+04
+#> 13   2.959786e+04
+#> 14   1.533707e+05
+#> 15   2.650354e+05
+#> 16   6.215550e+05
 #> 
 
 # Calculate footprint for current R session
 ga_footprint(runtime_h = "session")
 #> $runtime_h
 #>   user.self 
-#> 0.002812778 
+#> 0.002165556 
 #> 
 #> $location_code
 #> [1] "WORLD"
 #> 
 #> $TDP_per_core
-#> [1] 12
+#> [1] 7.46
 #> 
 #> $n_cores
 #> [1] 1
@@ -396,7 +420,7 @@ ga_footprint(runtime_h = "session")
 #> [1] "Any"
 #> 
 #> $memory_ram
-#> [1] 16.76642
+#> [1] 16.75944
 #> 
 #> $power_draw_per_gb
 #> [1] 0.3725
@@ -407,88 +431,91 @@ ga_footprint(runtime_h = "session")
 #> $carbon_intensity
 #> [1] 475
 #> 
+#> $platform
+#> [1] "cloud"
+#> 
 #> $PUE
-#> [1] 1.67
+#> [1] 1.56
 #> 
 #> $PSF
 #> [1] 1
 #> 
 #> $power_draw_for_cores_kWh
 #>    user.self 
-#> 5.636807e-05 
+#> 2.520187e-05 
 #> 
 #> $power_draw_for_memory_kWh
-#>   user.self 
-#> 2.93372e-05 
+#>    user.self 
+#> 2.109015e-05 
 #> 
 #> $energy_needed_kWh
 #>    user.self 
-#> 8.570526e-05 
+#> 4.629202e-05 
 #> 
 #> $carbon_footprint_cores
 #>  user.self 
-#> 0.02677483 
+#> 0.01197089 
 #> 
 #> $carbon_footprint_memory
 #>  user.self 
-#> 0.01393517 
+#> 0.01001782 
 #> 
 #> $carbon_footprint_total_gCO2
-#> user.self 
-#>   0.04071 
+#>  user.self 
+#> 0.02198871 
 #> 
 #> $ref_value
-#>                     variable                value
-#> 1                      Total   0.0407099993807646
-#> 2                      Cores 5.63680666666667e-05
-#> 3                     Memory 2.93371951875746e-05
-#> 4                memoryPower               0.3725
-#> 5              google_search                   10
-#> 6  streaming_netflix_perhour                   36
-#> 7                train_perkm                   41
-#> 8       flight_economy_perkm                  171
-#> 9      passengerCar_EU_perkm                  175
-#> 10     passengerCar_US_perkm                  251
-#> 11                tree_month                  917
-#> 12                  treeYear                11000
-#> 13            flight_PAR-LON                50000
-#> 14            flight_PAR-DUB               110000
-#> 15              flight_NY-SF               570000
-#> 16            flight_NYC-MEL              2310000
-#>                                                                                                                                                                                source
-#> 1                                                                                                                                                                                <NA>
-#> 2                                                                                                                                                                                <NA>
-#> 3                                                                                                                                                                                <NA>
-#> 4                         in W/GB from http://dl.acm.org/citation.cfm?doid=3076113.3076117 and https://www.tomshardware.com/uk/reviews/intel-core-i7-5960x-haswell-e-cpu,3918-13.html
-#> 5                                                                                                                           gCO2 from http://www.janavirgin.com/CO2/CO2GLE_about.html
-#> 6                                                                 gCO2 from https://www.carbonbrief.org/factcheck-what-is-the-carbon-footprint-of-streaming-video-on-netflix (update)
-#> 7                                                   in gCO2/km, but more like 5-37g, from https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020
-#> 8                                                in gCO2/km, but more like 139-244g, from https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020
-#> 9  in gCO2/km from http://www.sciencedirect.com/science/article/pii/S1352231018307295 and https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2019
-#> 10                                                                               in gCO2/km from https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle
-#> 11                                                                                                                                                       gCO2 same source as treeYear
-#> 12                                                                                          in gCO2/tree/year from http://www.sciencedirect.com/science/article/pii/S0269749101002640
-#> 13                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
-#> 14                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
-#> 15                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
-#> 16                                                                                                            gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
+#>                     variable              value
+#> 1                      Total 0.0219887097128924
+#> 2                      Cores 0.0119708879333333
+#> 3                     Memory 0.0100178217795591
+#> 4              google_search                 10
+#> 5                train_perkm                 41
+#> 6  streaming_netflix_perhour                 55
+#> 7       flight_economy_perkm                171
+#> 8      passengerCar_EU_perkm                175
+#> 9      passengerCar_US_perkm                251
+#> 10                tree_month                917
+#> 11                  treeYear              11000
+#> 12            flight_PAR-LON              50000
+#> 13            flight_PAR-DUB             110000
+#> 14              flight_NY-SF             570000
+#> 15         PB_GWP_per_capita             985000
+#> 16            flight_NYC-MEL            2310000
+#>                                                                                                                                                                                               source
+#> 1                                                                                                                                                                                               <NA>
+#> 2                                                                                                                                                                                               <NA>
+#> 3                                                                                                                                                                                               <NA>
+#> 4                                                                                                                                          gCO2 from http://www.janavirgin.com/CO2/CO2GLE_about.html
+#> 5                                                                  in gCO2/km, but more like 5-37g, from https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020
+#> 6                                                                                                          gCO2 from https://www.carbontrust.com/resources/carbon-impact-of-video-streaming (update)
+#> 7                                                               in gCO2/km, but more like 139-244g, from https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020
+#> 8                 in gCO2/km from http://www.sciencedirect.com/science/article/pii/S1352231018307295 and https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2019
+#> 9                                                                                               in gCO2/km from https://www.epa.gov/greenvehicles/greenhouse-gas-emissions-typical-passenger-vehicle
+#> 10                                                                                                                                                                      gCO2 same source as treeYear
+#> 11                                                                                                         in gCO2/tree/year from http://www.sciencedirect.com/science/article/pii/S0269749101002640
+#> 12                                                                                                                           gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
+#> 13                                                                                                                           gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
+#> 14                                                                                                                           gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
+#> 15 gCO2e/year/person from Sala et al. (2020) "Environmental sustanability of European production and consumption assessed against panetary boundaries" https://doi.org/10.1016/j.jenvman.2020.110686
+#> 16                                                                                                                           gCO2e from https://calculator.carbonfootprint.com/calculator.aspx?tab=3
 #>    prop_footprint
 #> 1    1.000000e+00
-#> 2    1.384625e-03
-#> 3    7.206386e-04
-#> 4    9.150086e+00
-#> 5    2.456399e+02
-#> 6    8.843036e+02
-#> 7    1.007124e+03
-#> 8    4.200442e+03
-#> 9    4.298698e+03
-#> 10   6.165561e+03
-#> 11   2.252518e+04
-#> 12   2.702039e+05
-#> 13   1.228199e+06
-#> 14   2.702039e+06
-#> 15   1.400147e+07
-#> 16   5.674282e+07
+#> 2    5.444107e-01
+#> 3    4.555893e-01
+#> 4    4.547788e+02
+#> 5    1.864593e+03
+#> 6    2.501284e+03
+#> 7    7.776718e+03
+#> 8    7.958630e+03
+#> 9    1.141495e+04
+#> 10   4.170322e+04
+#> 11   5.002567e+05
+#> 12   2.273894e+06
+#> 13   5.002567e+06
+#> 14   2.592239e+07
+#> 15   4.479572e+07
+#> 16   1.050539e+08
 #> 
 
 # Compare different locations
@@ -497,11 +524,11 @@ sapply(locations, function(loc) {
   ga_footprint(runtime_h = 1, location_code = loc)$carbon_footprint_total_gCO2
 })
 #>      WORLD         FR         US         NO 
-#> 14.4732370  1.5625002 12.9174402  0.2321812 
+#> 10.1538424  0.7148305  8.5548794  0.7116240 
 
 # Use a custom carbon intensity value (e.g. from Electricity Maps API)
 ga_footprint(runtime_h = 2, carbon_intensity = 42)$carbon_footprint_total_gCO2
-#> [1] 2.559478
+#> [1] 1.795627
 
 # Override specific locations with custom CI values
 ga_footprint(
@@ -509,7 +536,7 @@ ga_footprint(
   location_code = "FR",
   carbon_intensity = c("FR" = 56, "CUSTOM_DC" = 450)
 )$carbon_footprint_total_gCO2
-#> [1] 3.412637
+#> [1] 2.394169
 
 # Advanced usage with storage estimation and reference values
 res_ga <- ga_footprint(

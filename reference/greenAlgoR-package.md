@@ -13,17 +13,22 @@ the environmental impact of their work.
 The package includes some internal datasets to work outline. You can
 access them directly after loading the package (TDP_cpu_internal,
 carbon_intensity_internal and ref_value_internal). You can also replace
-default data by overwritting them. By default, data are loaded using
-functions:
+default data by overwritting them. They come from the Green Algorithms
+data v3.1, the version used by the Green Algorithms calculator v3.1
+(<https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data>,
+commit 0a1d169):
 
-TDP_cpu_internal \<-
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv")
+- `TDP_cpu_internal`: `v3.1/chips/manual/CPUs-manual.csv`, with
+  `TDP_per_core` computed as `TDP / n_cores`.
 
-carbon_intensity_internal \<-
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CI_aggregated.csv")
+- `carbon_intensity_internal`: the life-cycle carbon intensities of
+  Electricity Maps 2024
+  (`v3.1/carbon-intensity/electricitymap/CI-electricitymap-yearly_2024-with-continents.csv`),
+  plus a `"WORLD"` row at 475 gCO2e/kWh, the world average the
+  calculator uses as its default.
 
-ref_value_internal \<-
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/referenceValues.csv")
+- `ref_value_internal`: `v3.1/context.csv`, without `PB_ADP_per_capita`,
+  which is not in gCO2e.
 
 ## Main Functions
 

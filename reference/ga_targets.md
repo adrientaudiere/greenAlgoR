@@ -90,26 +90,7 @@ Adrien Taudière
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
-# Basic usage in a targets project directory
-pipeline_footprint <- ga_targets()
-
-# With specific hardware configuration
-pipeline_footprint <- ga_targets(
-  location_code = "FR",
-  n_cores = 4,
-  memory_ram = 16,
-  PUE = 1.2
-)
-
-# Analyze specific targets only
-pipeline_footprint <- ga_targets(
-  names_targets = c("data_prep", "model_fit", "results"),
-  add_storage_estimation = TRUE
-)
-} # }
-
-# The next exemple emulate a mini-targets before to ask for tar_meta
+# Run a mini targets pipeline, then compute its footprint from tar_meta()
 targets::tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
   targets::tar_script(
     {
@@ -185,6 +166,6 @@ targets::tar_dir({ # tar_dir() runs code from a temp dir for CRAN.
 #> ✔ x completed [0ms, 44 B]
 #> + waiting dispatched
 #> ✔ waiting completed [2s, 44 B]
-#> ✔ ended pipeline [2.2s, 2 completed, 0 skipped]
+#> ✔ ended pipeline [2.1s, 2 completed, 0 skipped]
 
 ```

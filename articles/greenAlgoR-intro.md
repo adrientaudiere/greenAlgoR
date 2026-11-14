@@ -55,9 +55,9 @@ result <- ga_footprint(
 
 # View key results
 cat("Carbon footprint:", result$carbon_footprint_total_gCO2, "g CO2\n")
-#> Carbon footprint: 104.6455 g CO2
+#> Carbon footprint: 97.75272 g CO2
 cat("Energy needed:", result$energy_needed_kWh, "kWh\n")
-#> Energy needed: 0.2203064 kWh
+#> Energy needed: 0.2057952 kWh
 ```
 
 ### Understanding the Results
@@ -72,19 +72,20 @@ names(result)
 #>  [3] "TDP_per_core"                "n_cores"                    
 #>  [5] "cpu_model"                   "memory_ram"                 
 #>  [7] "power_draw_per_gb"           "usage core"                 
-#>  [9] "carbon_intensity"            "PUE"                        
-#> [11] "PSF"                         "power_draw_for_cores_kWh"   
-#> [13] "power_draw_for_memory_kWh"   "energy_needed_kWh"          
-#> [15] "carbon_footprint_cores"      "carbon_footprint_memory"    
-#> [17] "carbon_footprint_total_gCO2" "ref_value"
+#>  [9] "carbon_intensity"            "platform"                   
+#> [11] "PUE"                         "PSF"                        
+#> [13] "power_draw_for_cores_kWh"    "power_draw_for_memory_kWh"  
+#> [15] "energy_needed_kWh"           "carbon_footprint_cores"     
+#> [17] "carbon_footprint_memory"     "carbon_footprint_total_gCO2"
+#> [19] "ref_value"
 
 # Key components of carbon footprint
 cat("CPU contribution:", result$carbon_footprint_cores, "g CO2\n")
-#> CPU contribution: 95.19 g CO2
+#> CPU contribution: 88.92 g CO2
 cat("Memory contribution:", result$carbon_footprint_memory, "g CO2\n")
-#> Memory contribution: 9.45554 g CO2
+#> Memory contribution: 8.83272 g CO2
 cat("Total footprint:", result$carbon_footprint_total_gCO2, "g CO2\n")
-#> Total footprint: 104.6455 g CO2
+#> Total footprint: 97.75272 g CO2
 ```
 
 ## Location-Specific Carbon Intensity
@@ -108,11 +109,11 @@ comparison_df <- data.frame(
 
 print(comparison_df)
 #>       Location CO2_emissions
-#> FR          FR      2.590151
-#> WORLD    WORLD     23.992237
-#> US          US     21.413198
-#> CN          CN     27.144059
-#> NO          NO      0.384886
+#> FR          FR      1.103992
+#> WORLD    WORLD     15.681702
+#> US          US     13.212247
+#> CN          CN     17.611707
+#> NO          NO      1.099040
 ```
 
 ``` r
@@ -160,9 +161,9 @@ cpu_configs$Footprint <- mapply(function(cores, tdp, mem) {
 
 print(cpu_configs)
 #>        Config Cores TDP_per_core Memory Footprint
-#> 1      Laptop     4           10      8  34.09389
-#> 2 Workstation     8           15     32 104.64554
-#> 3      Server    16           25     64 336.21108
+#> 1      Laptop     4           10      8  31.84818
+#> 2 Workstation     8           15     32  97.75272
+#> 3      Server    16           25     64 314.06544
 ```
 
 ## Current R Session Footprint
@@ -175,9 +176,9 @@ You can easily calculate the carbon footprint of your current R session:
 session_fp <- ga_footprint(runtime_h = "session")
 
 cat("Current session footprint:", session_fp$carbon_footprint_total_gCO2, "g CO2\n")
-#> Current session footprint: 0.01393049 g CO2
+#> Current session footprint: 0.007801536 g CO2
 cat("Session runtime:", session_fp$runtime_h, "hours\n")
-#> Session runtime: 0.0009625 hours
+#> Session runtime: 0.0007683333 hours
 ```
 
 ## Visualization with Reference Values
