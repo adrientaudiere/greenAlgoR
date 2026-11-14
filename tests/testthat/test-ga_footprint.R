@@ -6,7 +6,7 @@ test_that("12h of my config works and cpu model overwrite n_cores and TDP_per_co
     cpu_model = "Core i5-13400",
     memory_ram = 67.4
   )
-  expect_equal(length(res_12_my_config), 18)
+  expect_equal(length(res_12_my_config), 19)
   expect_equal(
     res_12_my_config$carbon_footprint_total_gCO2,
     36.157936,
@@ -44,7 +44,7 @@ test_that("12h of my config whitout cpu_model works", {
     PUE = 1,
     memory_ram = 67.4
   )
-  expect_equal(length(res_12_my_config2), 18)
+  expect_equal(length(res_12_my_config2), 19)
   expect_equal(
     res_12_my_config2$carbon_footprint_total_gCO2,
     48.11608,
@@ -61,7 +61,7 @@ test_that("12h of my config in WORLD", {
     PUE = 1,
     memory_ram = 67.4
   )
-  expect_equal(length(res_12_my_config3), 18)
+  expect_equal(length(res_12_my_config3), 19)
   expect_equal(
     res_12_my_config3$carbon_footprint_total_gCO2,
     683.46705,
@@ -78,7 +78,7 @@ test_that("12h of my config works PUE 0.5", {
     cpu_model = "Core i5-13400",
     memory_ram = 67.4
   )
-  expect_equal(length(res_12_my_config_pue0.5), 18)
+  expect_equal(length(res_12_my_config_pue0.5), 19)
   expect_equal(
     res_12_my_config_pue0.5$carbon_footprint_total_gCO2,
     18.078968,
@@ -91,10 +91,11 @@ test_that("12h of my config works PSF 22", {
     runtime_h = 12,
     location_code = "FR",
     PSF = 22,
+    platform = "local_server",
     cpu_model = "Core i5-13400",
     memory_ram = 67.4
   )
-  expect_equal(length(res_12_my_config_psf22), 18)
+  expect_equal(length(res_12_my_config_psf22), 19)
   expect_equal(
     res_12_my_config_psf22$carbon_footprint_total_gCO2,
     1240.9404,
@@ -114,7 +115,7 @@ test_that("2h of a custom weird config", {
     PSF = 22,
     memory_ram = 67.4
   )
-  expect_equal(length(res_12_weird_config), 19)
+  expect_equal(length(res_12_weird_config), 20)
   expect_equal(
     res_12_weird_config$carbon_footprint_total_gCO2,
     88.41,
@@ -140,7 +141,7 @@ test_that("2h of a custom weird config 2", {
     PSF = 22,
     memory_ram = 67.4
   )
-  expect_equal(length(res_12_weird_config2), 20)
+  expect_equal(length(res_12_weird_config2), 21)
   expect_equal(
     res_12_weird_config2$carbon_footprint_total_gCO2,
     22.48315,
@@ -161,7 +162,7 @@ test_that("12h of my config works", {
     runtime_h = 12,
     n_cores = 2
   )
-  expect_equal(length(res_12h), 18)
+  expect_equal(length(res_12h), 19)
 })
 
 test_that("Single numeric carbon_intensity is used directly", {
@@ -213,10 +214,50 @@ test_that("ref_value gives the cores and memory footprints in gCO2", {
 })
 
 test_that("Defaults follow the Green Algorithms calculator v3.1", {
-  res <- ga_footprint(runtime_h = 1, memory_ram = 1)
+  res <- ga_footprint(runtime_h = 1, memory_ram = 1, platform = "cloud")
   expect_equal(res$PUE, 1.56)
   expect_equal(res$TDP_per_core, 7.46)
   expect_equal(res$carbon_intensity, 475)
+})
+
+test_that("platform sets the PUE unless PUE is given", {
+  fp <- function(...) ga_footprint(runtime_h = 1, memory_ram = 1, ...)
+  expect_equal(fp(platform = "laptop")$PUE, 1)
+  expect_equal(fp(platform = "desktop")$PUE, 1)
+  expect_equal(fp(platform = "local_server")$PUE, 1.56)
+  expect_equal(fp(platform = "laptop", PUE = 1.3)$PUE, 1.3)
+  expect_error(fp(platform = "phone"))
+  auto <- fp()
+  expect_true(auto$platform %in% c(names(platform_pue), "unknown"))
+})
+
+test_that("an undetected platform gives PUE 1.56 and a message", {
+  old <- the$platform
+  the$platform <- "unknown"
+  expect_message(
+    res <- ga_footprint(runtime_h = 1, memory_ram = 1),
+    "could not be detected"
+  )
+  the$platform <- old
+  expect_equal(res$PUE, 1.56)
+})
+
+test_that("chassis types and DMI names map to platforms", {
+  expect_equal(platform_from_chassis("9"), "laptop")
+  expect_equal(platform_from_chassis("3"), "desktop")
+  expect_equal(platform_from_chassis("23"), "local_server")
+  expect_true(is.na(platform_from_chassis("1")))
+  expect_true(is.na(platform_from_chassis(character(0))))
+
+  dmi <- tempfile("dmi")
+  dir.create(dmi)
+  writeLines("Amazon EC2", file.path(dmi, "sys_vendor"))
+  writeLines("1", file.path(dmi, "chassis_type"))
+  expect_equal(platform_linux(dmi), "cloud")
+  writeLines("LENOVO", file.path(dmi, "sys_vendor"))
+  writeLines("10", file.path(dmi, "chassis_type"))
+  expect_equal(platform_linux(dmi), "laptop")
+  expect_true(is.na(platform_linux(file.path(dmi, "missing"))))
 })
 
 test_that("cpu_model is matched exactly, then by the longest contained name", {

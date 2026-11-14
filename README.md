@@ -91,8 +91,11 @@ The key factors are: - **Power draw for cores**: Depends on CPU model
 and number of cores - **Memory power draw**: Based on available RAM
 memory - **Usage factor**: Corrects for actual core utilization
 (default: 100%) - **PUE**: Power Usage Effectiveness for data center
-efficiency - **PSF**: Pragmatic Scaling Factor for multiple runs -
-**Carbon intensity**: Location-dependent based on energy sources
+efficiency: 1 on a laptop or a desktop computer, 1.56 on a server or in
+the cloud. `ga_footprint()` detects the type of machine
+(`platform = "auto"`); set `platform` or `PUE` to change it - **PSF**:
+Pragmatic Scaling Factor for multiple runs - **Carbon intensity**:
+Location-dependent based on energy sources
 
 ## 📖 Examples
 
@@ -114,9 +117,9 @@ result <- ga_footprint(
 )
 
 cat("Carbon footprint:", result$carbon_footprint_total_gCO2, "g CO2\n")
-#> Carbon footprint: 53.0556 g CO2
+#> Carbon footprint: 34.01 g CO2
 cat("Energy consumption:", result$energy_needed_kWh, "kWh\n")
-#> Energy consumption: 0.111696 kWh
+#> Energy consumption: 0.0716 kWh
 ```
 
 #### Using CPU Model
@@ -130,7 +133,7 @@ fp_specific <- ga_footprint(
 )
 
 fp_specific$carbon_footprint_total_gCO2
-#> [1] 4.697096
+#> [1] 3.010959
 ```
 
 #### Location Comparison
@@ -145,11 +148,11 @@ footprints <- sapply(locations, function(loc) {
 comparison <- data.frame(Location = locations, CO2_grams = footprints)
 print(comparison)
 #>       Location CO2_grams
-#> WORLD    WORLD 24.082979
-#> FR          FR  1.695442
-#> US          US 20.290544
-#> NO          NO  1.687837
-#> CN          CN 27.046960
+#> WORLD    WORLD 15.437807
+#> FR          FR  1.086822
+#> US          US 13.006759
+#> NO          NO  1.081947
+#> CN          CN 17.337795
 ```
 
 ### Visualization
@@ -202,9 +205,9 @@ Calculate the carbon footprint of your current R session:
 # Analyze current R session
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
 cat("Session footprint:", fp_session$carbon_footprint_total_gCO2, "g CO2\n")
-#> Session footprint: 0.01591553 g CO2
+#> Session footprint: 0.01046522 g CO2
 cat("Session runtime:", fp_session$runtime_h, "hours\n")
-#> Session runtime: 0.0006575 hours
+#> Session runtime: 0.0006744444 hours
 ```
 
 ### Targets Pipeline Integration

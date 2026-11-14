@@ -92,7 +92,7 @@ The key factors are:
 - **Power draw for cores**: Depends on CPU model and number of cores
 - **Memory power draw**: Based on available RAM memory
 - **Usage factor**: Corrects for actual core utilization (default: 100%)
-- **PUE**: Power Usage Effectiveness for data center efficiency
+- **PUE**: Power Usage Effectiveness for data center efficiency: 1 on a laptop or a desktop computer, 1.56 on a server or in the cloud. `ga_footprint()` detects the type of machine (`platform = "auto"`); set `platform` or `PUE` to change it
 - **PSF**: Pragmatic Scaling Factor for multiple runs
 - **Carbon intensity**: Location-dependent based on energy sources
 

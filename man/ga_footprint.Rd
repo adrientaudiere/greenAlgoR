@@ -7,7 +7,8 @@
 ga_footprint(
   runtime_h = NULL,
   location_code = "WORLD",
-  PUE = 1.56,
+  platform = "auto",
+  PUE = NULL,
   TDP_per_core = 7.46,
   n_cores = 1,
   cpu_model = "Any",
@@ -33,10 +34,19 @@ carbon intensity: an Electricity Maps zone code (e.g. "FR", "US", "CN",
 "NO-NO1", "US-NW-PGE") or "WORLD" for the world average. The list is in
 the \code{location} column of \code{carbon_intensity_internal}.}
 
-\item{PUE}{Power Usage Effectiveness (numeric, default 1.56, the value the
-Green Algorithms calculator uses for an unknown data centre). Measures data
-centre efficiency - how much extra energy is needed for cooling, lighting,
-etc. Use 1 for a personal computer, as the calculator does. See
+\item{platform}{Type of machine the computation runs on: \code{"auto"}
+(default), \code{"laptop"}, \code{"desktop"}, \code{"local_server"} or \code{"cloud"}. It
+sets the PUE as the Green Algorithms calculator does when \code{PUE} is
+\code{NULL}: 1 for a laptop or a desktop computer (no data centre), 1.56 for a
+local server or the cloud. \code{"auto"} detects the type from the chassis
+type of the machine (Linux, Windows), its battery (macOS) or the name of
+a cloud virtual machine (Linux); when detection fails, the platform is
+\code{"unknown"}, the PUE is 1.56 and a message says so.}
+
+\item{PUE}{Power Usage Effectiveness (numeric, default \code{NULL}: set from
+\code{platform}). Measures data centre efficiency - how much extra energy is
+needed for cooling, lighting, etc. 1.56 is the value the Green Algorithms
+calculator uses for an unknown data centre, see
 \url{https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/data-centres/default-PUE_2024.csv}}
 
 \item{TDP_per_core}{Thermal Design Power per core in Watts (numeric, default
@@ -124,8 +134,9 @@ the n_cores for this cpu)
 \item \code{power_draw_per_gb}: the input power draw per GB
 \item \code{usage_core}: the input usage core
 \item \code{carbon_intensity}: the input carbon intensity (depend on location code)
-\item \code{PUE}: the input PUE
-\item \code{PSF}: the input PUE
+\item \code{platform}: the platform type used (detected if \code{platform = "auto"})
+\item \code{PUE}: the PUE used (set from \code{platform} if \code{PUE} is \code{NULL})
+\item \code{PSF}: the input PSF
 \item \code{power_draw_for_cores_kWh}: the output power draw for cores in kWh
 \item \code{power_draw_for_memory_kWh}: the output power draw for RAM memory in kWh
 \item \code{energy_needed_kWh}: the output energy needed in kWh

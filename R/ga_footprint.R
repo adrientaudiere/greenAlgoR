@@ -57,10 +57,18 @@
 #'   carbon intensity: an Electricity Maps zone code (e.g. "FR", "US", "CN",
 #'   "NO-NO1", "US-NW-PGE") or "WORLD" for the world average. The list is in
 #'   the `location` column of `carbon_intensity_internal`.
-#' @param PUE Power Usage Effectiveness (numeric, default 1.56, the value the
-#'   Green Algorithms calculator uses for an unknown data centre). Measures data
-#'   centre efficiency - how much extra energy is needed for cooling, lighting,
-#'   etc. Use 1 for a personal computer, as the calculator does. See
+#' @param platform Type of machine the computation runs on: `"auto"`
+#'   (default), `"laptop"`, `"desktop"`, `"local_server"` or `"cloud"`. It
+#'   sets the PUE as the Green Algorithms calculator does when `PUE` is
+#'   `NULL`: 1 for a laptop or a desktop computer (no data centre), 1.56 for a
+#'   local server or the cloud. `"auto"` detects the type from the chassis
+#'   type of the machine (Linux, Windows), its battery (macOS) or the name of
+#'   a cloud virtual machine (Linux); when detection fails, the platform is
+#'   `"unknown"`, the PUE is 1.56 and a message says so.
+#' @param PUE Power Usage Effectiveness (numeric, default `NULL`: set from
+#'   `platform`). Measures data centre efficiency - how much extra energy is
+#'   needed for cooling, lighting, etc. 1.56 is the value the Green Algorithms
+#'   calculator uses for an unknown data centre, see
 #'   \url{https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/data-centres/default-PUE_2024.csv}
 #' @param TDP_per_core Thermal Design Power per core in Watts (numeric, default
 #'   7.46, the "Average" CPU of the Green Algorithms data).
@@ -133,8 +141,9 @@
 #'  - `power_draw_per_gb`: the input power draw per GB
 #'  - `usage_core`: the input usage core
 #'  - `carbon_intensity`: the input carbon intensity (depend on location code)
-#'  - `PUE`: the input PUE
-#'  - `PSF`: the input PUE
+#'  - `platform`: the platform type used (detected if `platform = "auto"`)
+#'  - `PUE`: the PUE used (set from `platform` if `PUE` is `NULL`)
+#'  - `PSF`: the input PSF
 #'  - `power_draw_for_cores_kWh`: the output power draw for cores in kWh
 #'  - `power_draw_for_memory_kWh`: the output power draw for RAM memory in kWh
 #'  - `energy_needed_kWh`: the output energy needed in kWh
@@ -238,7 +247,8 @@
 ga_footprint <- function(
   runtime_h = NULL,
   location_code = "WORLD",
-  PUE = 1.56,
+  platform = "auto",
+  PUE = NULL,
   TDP_per_core = 7.46,
   n_cores = 1,
   cpu_model = "Any",
@@ -258,6 +268,25 @@ ga_footprint <- function(
       "You must specify a runtime in hours in the parameter runtime_h or
          the special character 'session' or 'session_runtime'"
     )
+  }
+
+  platform <- match.arg(
+    platform,
+    c("auto", "laptop", "desktop", "local_server", "cloud")
+  )
+  if (platform == "auto") {
+    platform <- detect_platform()
+  }
+  if (is.null(PUE)) {
+    if (platform == "unknown") {
+      message(
+        "The type of machine could not be detected: PUE = 1.56 (local server ",
+        "or cloud). Set `platform` or `PUE` to change it."
+      )
+      PUE <- 1.56
+    } else {
+      PUE <- platform_pue[[platform]]
+    }
   }
 
   if (runtime_h == "session") {
@@ -399,6 +428,7 @@ ga_footprint <- function(
     "power_draw_per_gb" = power_draw_per_gb,
     "usage core" = usage_core,
     "carbon_intensity" = CI,
+    "platform" = platform,
     "PUE" = PUE,
     "PSF" = PSF,
     "power_draw_for_cores_kWh" = power_draw_for_cores,

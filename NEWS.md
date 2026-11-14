@@ -3,7 +3,7 @@
 ## Breaking changes
 
 * The internal data follow the Green Algorithms data v3.1, the version of the Green Algorithms calculator v3.1, so footprints change for the same inputs. Carbon intensities are now the life-cycle values of Electricity Maps 2024, whose zone codes replace part of the former location codes: codes such as `"US-CA"`, `"US-FL"`, `"RU"` or `"CN-HK"` give the error "location_code ... not found"; pick an Electricity Maps zone from `greenAlgoR:::carbon_intensity_internal$location` (e.g. `"US-CAL-CISO"`) or pass your own value with `carbon_intensity`. `"WORLD"` stays at 475 gCO2e/kWh. Some CPU models of the former table are gone (e.g. `"Core i5-9600KF"`); set `TDP_per_core` and `n_cores` for them.
-* `ga_footprint()` uses the defaults of the calculator v3.1: `PUE = 1.56` (unknown data centre, was 1.67) and `TDP_per_core = 7.46` (the "Average" CPU, was 12). Use `PUE = 1` for a personal computer, as the calculator does.
+* `ga_footprint()` sets the PUE from the new `platform` argument, as the calculator v3.1 does: 1 for a `"laptop"` or a `"desktop"`, 1.56 for a `"local_server"` or the `"cloud"` (unknown data centre; the former default was 1.67 everywhere). The default `platform = "auto"` detects the machine type from its chassis type (Linux, Windows), its battery (macOS) or the name of a cloud virtual machine (Linux), returns it as `platform` in the result, and falls back to 1.56 with a message when detection fails. `PUE`, now `NULL` by default, still overrides it. `platform` comes right after `location_code`, so a `PUE` given by position must now be named. `TDP_per_core` defaults to 7.46 W (the "Average" CPU of the calculator, was 12).
 
 ## Other changes
 
