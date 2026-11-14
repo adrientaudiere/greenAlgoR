@@ -7,8 +7,8 @@
 ga_footprint(
   runtime_h = NULL,
   location_code = "WORLD",
-  PUE = 1.67,
-  TDP_per_core = 12,
+  PUE = 1.56,
+  TDP_per_core = 7.46,
   n_cores = 1,
   cpu_model = "Any",
   memory_ram = NULL,
@@ -29,25 +29,29 @@ explicit runtime, or "session" to automatically calculate based on
 current R session time using \code{proc.time()}.}
 
 \item{location_code}{Character string specifying geographical location for
-carbon intensity. Available options include country codes (e.g., "FR", "US", "CN")
-or "WORLD" for global average. See the Green Algorithms database for
-complete list of supported locations.}
+carbon intensity: an Electricity Maps zone code (e.g. "FR", "US", "CN",
+"NO-NO1", "US-NW-PGE") or "WORLD" for the world average. The list is in
+the \code{location} column of \code{carbon_intensity_internal}.}
 
-\item{PUE}{Power Usage Effectiveness (numeric, default 1.67). Measures data center
-efficiency - how much extra energy is needed for cooling, lighting, etc.
-Use 1.05 for personal computers, 1.2-1.7 for data centers. See
-\url{https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv}}
+\item{PUE}{Power Usage Effectiveness (numeric, default 1.56, the value the
+Green Algorithms calculator uses for an unknown data centre). Measures data
+centre efficiency - how much extra energy is needed for cooling, lighting,
+etc. Use 1 for a personal computer, as the calculator does. See
+\url{https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/data-centres/default-PUE_2024.csv}}
 
-\item{TDP_per_core}{Thermal Design Power per core in Watts (numeric, default 12).
+\item{TDP_per_core}{Thermal Design Power per core in Watts (numeric, default
+7.46, the "Average" CPU of the Green Algorithms data).
 CPU power consumption per core. Find values at \url{https://www.techpowerup.com/cpu-specs/}
 or \url{https://calculator.green-algorithms.org/}. Overridden by \code{cpu_model} parameter.}
 
 \item{n_cores}{Number of CPU cores (integer, default 1).
 Overridden by \code{cpu_model} parameter.}
 
-\item{cpu_model}{Character string specifying exact CPU model. Must match entries
-in the Green Algorithms database. When specified, automatically sets
-\code{TDP_per_core} and \code{n_cores}. Use "Any" for generic calculation.}
+\item{cpu_model}{Character string specifying the CPU model, as written in
+the \code{model} column of \code{TDP_cpu_internal}, or a longer name that contains
+it (the longest model name found in it is used). When specified,
+automatically sets \code{TDP_per_core} and \code{n_cores}. Use "Any" to
+use \code{TDP_per_core} and \code{n_cores} instead.}
 
 \item{memory_ram}{RAM memory in GB (numeric). If NULL, attempts to detect
 automatically using \code{benchmarkme::get_ram()}.}
@@ -97,14 +101,14 @@ used as-is (original advanced-user behaviour).
 \item{TDP_cpu}{(default NULL). Advanced users only.
 A dataframe with \code{model}, \code{n_cores} and \code{TDP_per_core}
 columns. Set to TDP_cpu_internal if NULL.
-TDP_cpu_internal is set using command line
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv")}
+TDP_cpu_internal is built from the file chips/manual/CPUs-manual.csv of
+the Green Algorithms data v3.1 (see \link{greenAlgoR-package}).}
 
 \item{ref_value}{(default NULL). Advanced users only.
 A dataframe with \code{variable} and \code{value}
 columns. Set to ref_value_internal if NULL.
-ref_value_internal is set using command line
-csv_from_url_ga("https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/referenceValues.csv")}
+ref_value_internal is built from the file context.csv of the Green
+Algorithms data v3.1 (see \link{greenAlgoR-package}).}
 }
 \value{
 A list of values
@@ -145,11 +149,13 @@ Please cite Lannelongue, L., Grealey, J., Inouye, M., Green Algorithms:
 Quantifying the Carbon Footprint of Computation. Adv. Sci. 2021, 2100707.
 \doi{10.1002/advs.202100707}
 
-Default value are from https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-calculator:
+Default values are those of the Green Algorithms calculator v3.1
+(https://github.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-calculator),
+from the Green Algorithms data v3.1:
 \itemize{
-\item PUE: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/default_PUE.csv
-\item TDP_per_core: https://raw.githubusercontent.com/GreenAlgorithms/GA-data/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CPUs.csv
-\item power_draw_per_gb: https://onlinelibrary.wiley.com/doi/10.1002/advs.202100707
+\item PUE: https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/data-centres/default-PUE_2024.csv
+\item TDP_per_core: the "Average" CPU of https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/chips/manual/CPUs-manual.csv
+\item power_draw_per_gb: https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/v3.1/hardware-impacts.csv
 }
 
 Description of the algorithm from the
@@ -197,7 +203,7 @@ result$carbon_footprint_total_gCO2
 # Using specific CPU model (automatically sets cores and TDP)
 ga_footprint(
   runtime_h = 1,
-  cpu_model = "Core i5-9600KF",
+  cpu_model = "Core i5-13400",
   location_code = "FR"
 )
 

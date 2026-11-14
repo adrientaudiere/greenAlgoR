@@ -125,7 +125,7 @@ cat("Energy consumption:", result$energy_needed_kWh, "kWh\n")
 # Specify exact CPU model (automatically sets cores and TDP)
 fp_specific <- ga_footprint(
   runtime_h = 1,
-  cpu_model = "Core i3-10300",
+  cpu_model = "Core i5-13400",
   location_code = "FR" # France (low carbon intensity)
 )
 
@@ -286,7 +286,7 @@ The package supports carbon intensity data for many countries and regions. Commo
 - `"CN"` - China
 - `"FR"` - France 
 
-See the Green Algorithms database for the complete list.
+The data are the life-cycle carbon intensities of Electricity Maps 2024 (Green Algorithms data v3.1); `greenAlgoR:::carbon_intensity_internal$location` lists every code.
 
 ## Common Issues
 

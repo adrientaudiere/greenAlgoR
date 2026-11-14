@@ -15,7 +15,7 @@ This is a first submission to CRAN.
 ## Test environments
 
 * local Linux (Pop!_OS 24.04), R 4.6.1, `R CMD check --as-cran --run-donttest`
-  (2026-10-22, 129 s in total).
+  (2026-11-14): 1 note (above).
 * win-builder R-devel (Windows Server 2022, 2026-10-22): 1 note (above).
 
 ## Examples

@@ -114,9 +114,9 @@ result <- ga_footprint(
 )
 
 cat("Carbon footprint:", result$carbon_footprint_total_gCO2, "g CO2\n")
-#> Carbon footprint: 85.60754 g CO2
+#> Carbon footprint: 53.0556 g CO2
 cat("Energy consumption:", result$energy_needed_kWh, "kWh\n")
-#> Energy consumption: 0.1802264 kWh
+#> Energy consumption: 0.111696 kWh
 ```
 
 #### Using CPU Model
@@ -125,12 +125,12 @@ cat("Energy consumption:", result$energy_needed_kWh, "kWh\n")
 # Specify exact CPU model (automatically sets cores and TDP)
 fp_specific <- ga_footprint(
   runtime_h = 1,
-  cpu_model = "Core i3-10300",
+  cpu_model = "Core i5-13400",
   location_code = "FR" # France (low carbon intensity)
 )
 
 fp_specific$carbon_footprint_total_gCO2
-#> [1] 7.453952
+#> [1] 4.697096
 ```
 
 #### Location Comparison
@@ -145,11 +145,11 @@ footprints <- sapply(locations, function(loc) {
 comparison <- data.frame(Location = locations, CO2_grams = footprints)
 print(comparison)
 #>       Location CO2_grams
-#> WORLD    WORLD 29.382493
-#> FR          FR  3.172072
-#> US          US 26.224029
-#> NO          NO  0.471357
-#> CN          CN 33.242425
+#> WORLD    WORLD 24.082979
+#> FR          FR  1.695442
+#> US          US 20.290544
+#> NO          NO  1.687837
+#> CN          CN 27.046960
 ```
 
 ### Visualization
@@ -202,9 +202,9 @@ Calculate the carbon footprint of your current R session:
 # Analyze current R session
 fp_session <- ga_footprint(runtime_h = "session", add_storage_estimation = TRUE)
 cat("Session footprint:", fp_session$carbon_footprint_total_gCO2, "g CO2\n")
-#> Session footprint: 0.01980729 g CO2
+#> Session footprint: 0.01591553 g CO2
 cat("Session runtime:", fp_session$runtime_h, "hours\n")
-#> Session runtime: 0.0006711111 hours
+#> Session runtime: 0.0006575 hours
 ```
 
 ### Targets Pipeline Integration
@@ -298,7 +298,9 @@ regions. Common location codes include: - `"WORLD"` - Global average -
 `"US"` - United States - `"GB"` - United Kingdom - `"DE"` - Germany -
 `"CN"` - China - `"FR"` - France
 
-See the Green Algorithms database for the complete list.
+The data are the life-cycle carbon intensities of Electricity Maps 2024
+(Green Algorithms data v3.1);
+`greenAlgoR:::carbon_intensity_internal$location` lists every code.
 
 ## Common Issues
 

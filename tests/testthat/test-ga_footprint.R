@@ -3,16 +3,16 @@ test_that("12h of my config works and cpu model overwrite n_cores and TDP_per_co
     runtime_h = 12,
     location_code = "FR",
     PUE = 1,
-    cpu_model = "Core i5-9600KF",
+    cpu_model = "Core i5-13400",
     memory_ram = 67.4
   )
   expect_equal(length(res_12_my_config), 18)
   expect_equal(
     res_12_my_config$carbon_footprint_total_gCO2,
-    73.776386,
+    36.157936,
     tolerance = 1e-3
   )
-  expect_equal(res_12_my_config$energy_needed_kWh, 1.438697, tolerance = 1e-3)
+  expect_equal(res_12_my_config$energy_needed_kWh, 1.081278, tolerance = 1e-3)
 
   res_12_my_config_bis <- ga_footprint(
     runtime_h = 12,
@@ -20,7 +20,7 @@ test_that("12h of my config works and cpu model overwrite n_cores and TDP_per_co
     TDP_per_core = 15.8,
     location_code = "FR",
     PUE = 1,
-    cpu_model = "Core i5-9600KF",
+    cpu_model = "Core i5-13400",
     memory_ram = 67.4
   )
 
@@ -47,10 +47,10 @@ test_that("12h of my config whitout cpu_model works", {
   expect_equal(length(res_12_my_config2), 18)
   expect_equal(
     res_12_my_config2$carbon_footprint_total_gCO2,
-    73.776386,
+    48.11608,
     tolerance = 1e-3
   )
-  expect_equal(res_12_my_config2$energy_needed_kWh, 1.438697, tolerance = 1e-3)
+  expect_equal(res_12_my_config2$energy_needed_kWh, 1.438878, tolerance = 1e-3)
 })
 
 test_that("12h of my config in WORLD", {
@@ -64,10 +64,10 @@ test_that("12h of my config in WORLD", {
   expect_equal(length(res_12_my_config3), 18)
   expect_equal(
     res_12_my_config3$carbon_footprint_total_gCO2,
-    683.3811,
+    683.46705,
     tolerance = 1e-3
   )
-  expect_equal(res_12_my_config3$energy_needed_kWh, 1.438697, tolerance = 1e-3)
+  expect_equal(res_12_my_config3$energy_needed_kWh, 1.438878, tolerance = 1e-3)
 })
 
 test_that("12h of my config works PUE 0.5", {
@@ -75,13 +75,13 @@ test_that("12h of my config works PUE 0.5", {
     runtime_h = 12,
     location_code = "FR",
     PUE = 0.5,
-    cpu_model = "Core i5-9600KF",
+    cpu_model = "Core i5-13400",
     memory_ram = 67.4
   )
   expect_equal(length(res_12_my_config_pue0.5), 18)
   expect_equal(
     res_12_my_config_pue0.5$carbon_footprint_total_gCO2,
-    36.88819,
+    18.078968,
     tolerance = 1e-3
   )
 })
@@ -91,13 +91,13 @@ test_that("12h of my config works PSF 22", {
     runtime_h = 12,
     location_code = "FR",
     PSF = 22,
-    cpu_model = "Core i5-9600KF",
+    cpu_model = "Core i5-13400",
     memory_ram = 67.4
   )
   expect_equal(length(res_12_my_config_psf22), 18)
   expect_equal(
     res_12_my_config_psf22$carbon_footprint_total_gCO2,
-    2710.544,
+    1240.9404,
     tolerance = 1e-3
   )
 })
@@ -117,7 +117,7 @@ test_that("2h of a custom weird config", {
   expect_equal(length(res_12_weird_config), 19)
   expect_equal(
     res_12_weird_config$carbon_footprint_total_gCO2,
-    135.5764,
+    88.41,
     tolerance = 1
   )
   expect_equal(
@@ -143,12 +143,12 @@ test_that("2h of a custom weird config 2", {
   expect_equal(length(res_12_weird_config2), 20)
   expect_equal(
     res_12_weird_config2$carbon_footprint_total_gCO2,
-    34.46074,
+    22.48315,
     tolerance = 1e-3
   )
   expect_equal(
     res_12_weird_config2$energy_needed_kWh,
-    0.6720113,
+    0.672343,
     tolerance = 1e-3
   )
 })
@@ -197,4 +197,21 @@ test_that("Single numeric carbon_intensity yields correct footprint formula", {
   res <- ga_footprint(runtime_h = 2, carbon_intensity = 42)
   expected <- res$energy_needed_kWh * 42
   expect_equal(res$carbon_footprint_total_gCO2, expected)
+})
+
+test_that("Defaults follow the Green Algorithms calculator v3.1", {
+  res <- ga_footprint(runtime_h = 1, memory_ram = 1)
+  expect_equal(res$PUE, 1.56)
+  expect_equal(res$TDP_per_core, 7.46)
+  expect_equal(res$carbon_intensity, 475)
+})
+
+test_that("cpu_model is matched exactly, then by the longest contained name", {
+  fp <- function(model) {
+    ga_footprint(runtime_h = 1, memory_ram = 1, cpu_model = model)
+  }
+  expect_equal(fp("Xeon Gold 5415+")$TDP_per_core, 150 / 8)
+  expect_equal(fp("AMD EPYC 7713")$n_cores, 64)
+  expect_equal(fp("13th Gen Intel Core i9-13900KS")$TDP_per_core, 150 / 24)
+  expect_error(fp("No such CPU"), "don't match any cpu model")
 })

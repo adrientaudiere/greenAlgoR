@@ -19,13 +19,14 @@
 #' @author Adrien Taudière
 #' @examplesIf interactive()
 #' # Download carbon intensity data
-#' carbon_intensity <- csv_from_url_ga(
+#' cpus <- csv_from_url_ga(
 #'   paste0(
-#'     "https://raw.githubusercontent.com/GreenAlgorithms/GA-data",
-#'     "/5266caba6601dae0ffc93af8971e758f55292e08/v3.0/CI_aggregated.csv"
+#'     "https://raw.githubusercontent.com/Cambridge-Sustainable-Computing-Lab/",
+#'     "Green-Algorithms-data/0a1d169b22af38e020fadc5c61409030a8d086ca/",
+#'     "v3.1/chips/manual/CPUs-manual.csv"
 #'   )
 #' )
-#' head(carbon_intensity)
+#' head(cpus)
 csv_from_url_ga <- function(url, remove_first_line = TRUE) {
   df <- read.csv(url, header = FALSE)
   if (remove_first_line) {
